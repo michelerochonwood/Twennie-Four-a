@@ -26,7 +26,7 @@
     "vercel-build": "echo 'Vercel does not require a build step for Express apps'"
   },
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   }
 }
 
