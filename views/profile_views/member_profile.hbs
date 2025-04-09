@@ -1,0 +1,69 @@
+<div class="profile-main">
+
+
+  <!-- Profile Sidebar (Centered at the Top) -->
+  <aside class="profile-sidebar">
+    <img src="{{member.profileImage}}" alt="{{member.name}}'s Profile Picture" class="profile-image">
+    <h2 class="profile-name">{{member.name}}</h2>
+    <p class="profile-title">{{member.professionalTitle}}</p>
+    <a href="/profile/member/{{member.memberId}}/edit" class="profile-edit-btn">edit profile</a>
+  </aside>
+
+  <!-- Profile Tabs (Now Centered Below Sidebar) -->
+  <div class="profile-tabs-container">
+    <button class="profile-tab active" data-tab="biography">
+      <span class="tab-title">my biography</span>
+      <div class="tab-arrow"></div>
+    </button>
+    <button class="profile-tab" data-tab="goals">
+      <span class="tab-title">my goals</span>
+      <div class="tab-arrow"></div>
+    </button>
+    <button class="profile-tab" data-tab="topics">
+      <span class="tab-title">my topics + interests</span>
+      <div class="tab-arrow"></div>
+    </button>
+    <button class="profile-tab" data-tab="library_units">
+      <span class="tab-title">my library units</span>
+      <div class="tab-arrow"></div>
+    </button>
+    <button class="profile-tab" data-tab="prompt_sets">
+      <span class="tab-title">completed prompt sets</span>
+      <div class="tab-arrow"></div>
+    </button>
+    <button class="profile-tab" data-tab="badges">
+      <span class="tab-title">earned badges</span>
+      <div class="tab-arrow"></div>
+    </button>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="profile-content">
+    <div class="profile-tab-content active" id="biography">
+      {{> profilepartials/member_biography profile=profile}} 
+    </div>
+
+    <div class="profile-tab-content" id="goals">
+      {{> profilepartials/member_goals profile=profile}}
+    </div>
+
+    <div class="profile-tab-content" id="topics">
+      {{> profilepartials/member_topics profile=profile}}
+    </div>
+
+    <div class="profile-tab-content" id="library_units">
+      {{> profilepartials/member_library_units profile=profile}}
+    </div>
+
+    <div class="profile-tab-content" id="prompt_sets">
+      {{> profilepartials/member_prompt_sets profile=profile}}
+    </div>
+
+    <div class="profile-tab-content" id="badges">
+      {{> profilepartials/member_badges profile=profile}}
+    </div>
+  </div>
+
+</div>
+
+

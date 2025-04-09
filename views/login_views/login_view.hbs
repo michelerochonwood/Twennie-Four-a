@@ -1,0 +1,120 @@
+<div class="login-container">
+  <h1 class="login-title">login</h1>
+  
+  {{#if error}}
+    <div class="login-alert login-alert-error">{{error}}</div>
+  {{/if}}
+  
+  {{#if message}}
+    <div class="login-alert login-alert-success">{{message}}</div>
+  {{/if}}
+
+  <form id="login-form" class="login-form" action="/auth/login" method="POST">
+    {{#if csrfToken}}
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    {{/if}}
+
+    <div class="login-field">
+      <label for="email" class="login-label">Email</label>
+      <input type="email" id="email" name="email" class="login-input" required>
+    </div>
+
+    <div class="login-field">
+      <label for="password" class="login-label">Password</label>
+      <input type="password" id="password" name="password" class="login-input" required>
+    </div>
+
+    <div class="login-field">
+      <label class="login-label">Membership Type</label>
+      <p>Help Twennie find you in our database. Choose your membership type from the options below.</p>
+
+      <div class="membership-options">
+        <!-- Individual Member -->
+        <label class="membership-option">
+          <input type="radio" name="membershipType" value="member" required hidden>
+          <div class="membership-icon">
+            <!-- SVG Placeholder -->
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97.99 90.62">
+  <defs>
+    <style>.cls-1 { fill: #4e50a2; }</style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <circle class="cls-1" cx="49" cy="29.14" r="29.14"/>
+    <path class="cls-1" d="M0,90.62s3.99-22.09,28.2-25.85h49.58s19.27,4.93,20.21,25.85H0Z"/>
+  </g>
+</svg>
+          </div>
+          <span class="membership-label">I am an individual member</span>
+        </label>
+
+        <!-- Group Leader -->
+        <label class="membership-option">
+          <input type="radio" name="membershipType" value="leader" required hidden>
+          <div class="membership-icon">
+            <!-- SVG Placeholder -->
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190.52 141.97">
+  <defs>
+    <style>
+      .cls-41 { fill: #7b7fad; }
+      .cls-42 { fill: #4e50a2; }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <circle class="cls-41" cx="152.61" cy="43.22" r="22.55"/>
+    <path class="cls-41" d="M114.71,90.79s3.09-17.09,21.82-20h38.36s14.91,3.82,15.64,20h-75.82Z"/>
+    <circle class="cls-41" cx="92.95" cy="17.57" r="17.57"/>
+    <path class="cls-41" d="M63.4,54.64s2.41-13.32,17-15.59h29.9s11.62,2.98,12.19,15.59h-59.09Z"/>
+    <circle class="cls-41" cx="36.97" cy="44.39" r="21.99"/>
+    <path class="cls-41" d="M0,90.79s3.01-16.67,21.28-19.51h37.41s14.54,3.72,15.25,19.51H0Z"/>
+    <circle class="cls-42" cx="96.92" cy="80.49" r="29.14"/>
+    <path class="cls-42" d="M47.92,141.97s3.99-22.09,28.2-25.85h49.58s19.27,4.93,20.21,25.85H47.92Z"/>
+  </g>
+</svg>
+          </div>
+          <span class="membership-label">I am a group leader</span>
+        </label>
+
+        <!-- Twennie Group Member -->
+        <label class="membership-option">
+          <input type="radio" name="membershipType" value="group_member" required hidden>
+          <div class="membership-icon">
+            <!-- SVG Placeholder -->
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 245.42 105.68">
+  <defs>
+    <style>.cls-1 { fill: #4e50a2; }</style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <circle class="cls-1" cx="49" cy="34.44" r="29.14"/>
+    <path class="cls-1" d="M0,95.92s3.99-22.09,28.2-25.85h49.58s19.27,4.93,20.21,25.85H0Z"/>
+    <circle class="cls-1" cx="196.42" cy="29.14" r="29.14"/>
+    <path class="cls-1" d="M147.43,90.62s3.99-22.09,28.2-25.85h49.58s19.27,4.93,20.21,25.85h-97.99Z"/>
+    <circle class="cls-1" cx="122.2" cy="44.19" r="29.14"/>
+    <path class="cls-1" d="M73.2,105.68s3.99-22.09,28.2-25.85h49.58s19.27,4.93,20.21,25.85h-97.99Z"/>
+  </g>
+</svg>
+          </div>
+          <span class="membership-label">I am a member of a group</span>
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="login-button">login</button>
+
+    <div class="login-links">
+      <a href="/membership_form" class="login-link">Not a member? Become one!</a>
+      <a href="/forgot-password" class="login-link">Forgot password?</a>
+    </div>
+  </form>
+
+  <!-- Google Authentication Button -->
+<div class="google-login-container" style="margin-bottom: 200px;">
+
+  <a href="/auth/google" class="google-login-button">
+    <img src="/images/google.svg" alt="Google Logo" class="google-logo" >
+    <span class="google-login-text" >sign in with Google</span>
+  </a>
+</div>
+
+</div>
+
+

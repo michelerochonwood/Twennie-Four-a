@@ -1,0 +1,78 @@
+<div class="profile-form-container">
+  
+  <h2 class="profile-form-title">edit group profile</h2>
+
+  <form action="/profile/group/{{profile.leaderId}}/update" method="POST" class="profile-form">
+    {{!-- CSRF Token --}}
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    <!-- Group Image -->
+    <div class="form-field">
+      <label for="profileImage">Group Image URL</label>
+      <input type="text" id="profileImage" name="profileImage" value="{{profile.profileImage}}">
+    </div>
+
+    <!-- Group Name -->
+    <div class="form-field">
+      <label for="groupName">Group Name</label>
+      <input type="text" id="groupName" name="groupName" value="{{profile.groupName}}" required>
+    </div>
+
+    <!-- Organization -->
+    <div class="form-field">
+      <label for="organization">Organization</label>
+      <input type="text" id="organization" name="organization" value="{{profile.organization}}" required>
+    </div>
+
+
+<!-- Biography -->
+<div class="form-field">
+  <label for="biography">Group Biography</label>
+  <textarea id="biography" name="biography">{{profile.biography}}</textarea>
+</div>
+
+<!-- Goals -->
+<div class="form-field">
+  <label for="goals">Group Goals</label>
+  <textarea id="goals" name="goals">{{profile.goals}}</textarea>
+</div>
+
+    <!-- Topics -->
+    <p class="group-topic-instructions">Select the three topics that best represent your group.</p>
+
+    <div class="form-field">
+      <label for="topic1">Topic 1</label>
+      <select id="topic1" name="topics[topic1]" required>
+        {{#each allTopics}}
+          <option value="{{this}}" {{#if (eq this ../profile.topics.topic1)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="topic2">Topic 2</label>
+      <select id="topic2" name="topics[topic2]" required>
+        {{#each allTopics}}
+          <option value="{{this}}" {{#if (eq this ../profile.topics.topic2)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="topic3">Topic 3</label>
+      <select id="topic3" name="topics[topic3]" required>
+        {{#each allTopics}}
+          <option value="{{this}}" {{#if (eq this ../profile.topics.topic3)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <!-- Submit and Save Buttons -->
+    <div class="form-buttons">
+      <button type="submit" class="form-button submit-button">save changes</button>
+    </div>
+  </form>
+
+</div>
+
+

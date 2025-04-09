@@ -1,0 +1,129 @@
+<div class="single_article-container">
+  <!-- Main Section -->
+  <div class="single_article-main">
+    <h1 class="single_article-main-title">{{article_title}}</h1>
+    <p class="single_article-short-summary"><strong>{{short_summary}}</strong></p>
+    <p class="single_article-long-summary">{{full_summary}}</p>
+
+<div class="single_article-toggle" onclick="toggleArticleContent(this)" 
+     data-authorized="{{isAuthorizedToViewFullContent}}">
+      <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
+        <defs>
+          <style>
+            .cls-1 {
+              fill: #4e50a2;
+            }
+          </style>
+        </defs>
+        <g id="Layer_1-2" data-name="Layer 1">
+          <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Hidden Article Content (Initially Collapsed) -->
+    <div class="single_article-content hidden">
+      {{{formatContent article_content}}}
+
+      <!-- Tag This Unit -->
+      <div class="single_unit-tag-container">
+        <form id="tagForm" onsubmit="tagUnit(event)">
+          <input type="hidden" name="_csrf" value="{{csrfToken}}">
+          <input type="hidden" id="unitId" value="{{_id}}">
+          <input type="hidden" id="unitType" value="article">
+          <a href="#" onclick="tagUnit(event)" class="tag-this-unit-link">
+            tag this unit
+            <svg class="tag-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.48 36.66">
+              <path class="cls-1" d="M38.77,21.12L16.05.56C15.65.19,15.13,0,14.59,0L2.12.16c-1.18.01-2.12.97-2.12,2.15v11.2c0,.63.28,1.24.77,1.64l24.95,21c.9.76,2.24.65,3.01-.24l10.23-11.8c.77-.88.69-2.22-.18-3ZM6.28,8.87c-1.57,0-2.84-1.27-2.84-2.84s1.27-2.84,2.84-2.84,2.84,1.27,2.84,2.84-1.27,2.84-2.84,2.84Z"/>
+            </svg>
+          </a>
+        </form>
+      </div>
+
+      <!-- Notes Form (If User is a Group Member or Leader) -->
+      {{#if isGroupMemberOrLeader}}
+        <div class="single_article-notes-container">
+          <h3 class="single_article-notes-title">record notes</h3>
+          <p class="single_article-notes-instructions">
+            Record notes on this article. Consider how it relates to your work and how it might change your approach. These notes will be part of your Twennie learning record.
+          </p>
+
+          <form action="/notes/submit" method="POST" class="single_article-notes-form">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <input type="hidden" name="unitId" value="{{_id}}">
+            <input type="hidden" name="unitType" value="{{unitType}}">
+            <input type="hidden" name="main_topic" value="{{main_topic}}">
+            <input type="hidden" name="secondary_topic" value="{{sub_topic}}">
+
+            <textarea name="note_content" class="single_article-notes-textarea" rows="5" maxlength="1000" 
+                      placeholder="Write your notes here..."></textarea>
+
+            <button type="submit" class="single_article-notes-submit">submit notes</button>
+          </form>
+        </div>
+      {{/if}}
+    </div> <!-- Closing .single_article-content -->
+
+  </div> <!-- Closing .single_article-main -->
+
+  <!-- Sidebar -->
+  <aside class="single_article-sidebar">
+    <div class="single_article-image-container">
+      <img src="{{article_image}}" alt="Article Image" class="single_article-image">
+    </div>
+    <p class="single_article-title-sidebar">{{article_title}}</p>
+
+    <!-- Toggle Arrow for Expanding Sidebar Details -->
+    <div class="single_article-sidebar-toggle" onclick="toggleSidebarContent(this)">
+      <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
+        <defs>
+          <style>
+            .cls-1 {
+              fill: #4e50a2;
+            }
+          </style>
+        </defs>
+        <g id="Layer_1-2" data-name="Layer 1">
+          <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Hidden Sidebar Details (Initially Collapsed) -->
+    <div class="single_article-sidebar-content hidden">
+      <div class="single_article-author">
+        <img src="{{author.image}}" alt="Author Image" class="single_article-author-image">
+        <p class="single_article-author-name">Author: {{author.name}}</p>
+      </div>
+      <div class="single_article-details">
+        <p class="single_article-unit-type">Article</p>
+        <p class="single_article-main-topic">Main Topic: {{main_topic}}</p>
+        <p class="single_article-subtitle">Sub Topic(s): {{sub_topic}}</p>
+        <p class="single_article-secondary-topics">{{#each secondary_topics}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
+        {{#if isOwner}}
+          <a href="/unitform/edit_article/{{_id}}" class="single_article-edit-btn">edit this unit</a>
+        {{/if}}
+      </div>
+    </div>
+  </aside>
+</div> <!-- Closing .single_article-container -->
+
+<!-- Inline JavaScript for Toggles -->
+<script>
+function toggleArticleContent(element) {
+  const isAuthorized = element.dataset.authorized === "true";
+  const content = element.nextElementSibling;
+
+  if (isAuthorized) {
+    content.classList.toggle('hidden');
+  } else {
+    alert("You don't have access to view the full content of this unit.");
+  }
+}
+
+function toggleSidebarContent(element) {
+  let sidebarContent = element.nextElementSibling;
+  sidebarContent.classList.toggle('hidden');
+}
+</script>
+

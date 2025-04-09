@@ -1,0 +1,70 @@
+<div class="profile-main">
+  
+  <!-- Profile Grid (Sidebar + Tabs) -->
+  {{!-- <div class="profile-grid"> --}}
+
+    <!-- Sidebar: Name, Image, Title, and Edit Button -->
+    <aside class="profile-sidebar">
+      <img src="{{groupMember.profileImage}}" alt="{{groupMember.name}}'s Profile Picture" class="profile-image">
+      <h2 class="profile-name">{{groupMember.name}}</h2>
+      <p class="profile-title">{{groupMember.professionalTitle}}</p>
+      <a href="/profile/groupmember/{{groupMember.groupMemberId}}/edit" class="profile-edit-btn">edit profile</a>
+    </aside>
+
+    <!-- Profile Content -->
+    <div class="profile-content">
+
+      <!-- Profile Tabs -->
+      <div class="profile-tabs-container">
+        <button class="profile-tab active" data-tab="biography">
+          <span class="tab-title">my biography</span>
+          <div class="tab-arrow"></div>
+        </button>
+        <button class="profile-tab" data-tab="goals">
+          <span class="tab-title">my goals</span>
+          <div class="tab-arrow"></div>
+        </button>
+        <button class="profile-tab" data-tab="topics">
+          <span class="tab-title">my topics + interests</span>
+          <div class="tab-arrow"></div>
+        </button>
+        <button class="profile-tab" data-tab="library_units">
+          <span class="tab-title">my library units</span>
+          <div class="tab-arrow"></div>
+        </button>
+        <button class="profile-tab" data-tab="badges">
+          <span class="tab-title">earned badges</span>
+          <div class="tab-arrow"></div>
+        </button>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="profile-tab-content active" id="biography">
+        {{> profilepartials/groupmember_biography groupMember=groupMember}}
+      </div>
+
+      <div class="profile-tab-content" id="goals"> 
+        {{> profilepartials/groupmember_goals groupMember=groupMember}}
+      </div>
+
+      <div class="profile-tab-content" id="topics">
+        {{> profilepartials/groupmember_topics groupMember=groupMember}}
+      </div>
+
+      <div class="profile-tab-content" id="library_units">
+        {{> profilepartials/groupmember_library_units groupMember=groupMember}}
+      </div>
+
+      <div class="profile-tab-content" id="badges">
+        {{> profilepartials/groupmember_badges groupMember=groupMember}}
+      </div>
+
+    </div> <!-- End Profile Content -->
+
+  {{!-- </div>  --}}
+  <!-- End Profile Grid -->
+
+</div> <!-- End Profile Main -->
+
+
+

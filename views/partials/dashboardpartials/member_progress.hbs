@@ -1,0 +1,27 @@
+{{#if currentPromptSets.length}}
+<div class="member-progress-container">
+    <h2 class="member-progress-current-title">current prompt sets</h2>
+    
+    <div class="member-progress-current">
+        {{#each currentPromptSets}}
+        <div class="member-progress-grid">
+            <h2 class="member-progress-title">{{this.promptSetTitle}}</h2>
+
+
+            <!-- Dynamically load the correct progress SVG -->
+            <img 
+                src="/promptprogress/promptprogress{{increment @index}}-{{this.promptIndex}}.svg"
+                alt="Progress Pie Chart" 
+                class="member-progress-svg"
+                data-progress="{{this.promptIndex}}"
+            >
+
+            <p class="member-progress-target">you have completed {{this.promptIndex}} prompts in this set</p>
+        </div>
+        {{/each}}
+    </div>
+<div class="groupmember-progress-completed">
+    <h2 class="groupmember-progress-completed-title">Your completed prompt sets and earned badges can be viewed in your profile.</h2>
+    <a href="/profile/member/{{Member._id}}" class="member-profile-btn" style="margin-right: 35%">my profile</a>
+</div> <!-- ✅ Closing div for .groupmember-progress-completed -->
+{{/if}}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{!-- Dynamic Page Title --}}
+    <title>{{#if title}}{{title}} - Twennie Dashboard{{else}}Twennie Dashboard{{/if}}</title>
+    {{!-- Linking Global Navigation Styles. --}}
+    <link rel="stylesheet" href="/css/navigation.css">
+    <!-- Dashboard Styles -->
+    <link rel="stylesheet" href="/css/dashboardstyles.css">
+    {{!-- JavaScript for Mobile Navigation, defer to allow HTML content to render before executing JS. --}}
+    <script src="/javascript/mobile-nav.js" defer></script>
+    <!-- Import the ionicons external library so I can pull in their SVG icon data and use them in my document, thanks to iconicons: https://ionic.io/ionicons -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body class="dashboard-body">
+    {{> mainpartials/header}}
+    
+    <main class="main-content">
+        {{#if error}}
+            <div class="dashboard-alert error">{{error}}</div>
+        {{/if}}
+        
+        {{#if message}}
+            <div class="dashboard-alert success">{{message}}</div>
+        {{/if}}
+
+        {{{body}}}
+
+
+    </main>
+    <script src="/javascript/animation/progresspies.js"></script>
+    <script src="/javascript/dashboard_cont.js"></script>
+    <script src="/javascript/prompts/unregister.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/javascript/dashboard/dashboard_tabs.js"></script>
+    <script src="/javascript/dashboard/topicdashboard.js"></script>
+
+{{> mainpartials/footer}}
+
+</body>
+</html>

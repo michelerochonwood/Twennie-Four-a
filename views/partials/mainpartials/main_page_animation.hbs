@@ -1,0 +1,91 @@
+<div class="what-is-twennie-container">
+  <div class="what-is-twennie-grid">
+    
+    <!-- Left Grid Area (Text Content) -->
+    <div class="what-is-twennie-left">
+      <h2>
+        <a href="/what_is_twennie" class="what-is-twennie-title">what is Twennie?</a>
+      </h2>
+
+      <a href="/avail_memberships" class="what-is-twennie-button-link">
+        <button class="what-is-twennie-button">become a member</button>
+      </a>
+
+      <h4 class="who-uses-twennie-animation">
+        where <span class="dynamic-text-container">
+          <span class="dynamic-words">technical professionals</span>
+        </span> learn collaboratively.
+      </h4>
+    </div>
+
+    <!-- Right Grid Area (Image & Quote Rotation) -->
+    <div class="what-is-twennie-right">
+      <div class="testimonial-overlay" id="testimonial-text">
+        Twennie has allowed my team to build a culture of learning. We learn in smaller increments every day, continually developing new skills and knowledge as we work.
+      </div>
+      <img src="/images/lady.svg" alt="Illustration of a woman" class="what-is-twennie-image" id="testimonial-image">
+    </div>
+
+  </div>
+
+  <!-- Full-width background animation container -->
+  <div class="wave-background-container">
+    <div class="animated-background"></div>
+  </div>
+</div>
+
+<!-- JavaScript THIS HANDLES THE PORTRAIT IMAGES IN THE FIRST SECTION OF THE HOMEPAGE -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const images = [
+    {
+      src: "/images/lady.svg",
+      quote: "Twennie has allowed my team to build a culture of learning. We learn in small increments every day, continually developing new skills as we work."
+    },
+    {
+      src: "/images/fellow.svg",
+      quote: "I've seen a noticeable change in my group. They work together more effectively. They argue less. They support each other. I've even caught them having fun together, all because of Twennie."
+    },
+    {
+      src: "/images/lady2.svg",
+      quote: "I love that we no longer have to send people away for days at a time for training. Twennie lets them learn right here, a little at a time, every day."
+    }
+  ];
+
+  let currentIndex = 0;
+  const testimonialImage = document.getElementById("testimonial-image");
+  const testimonialText = document.getElementById("testimonial-text");
+
+  function changeTestimonial() {
+    // Fade out both image and text
+    testimonialImage.classList.add("fade-out");
+    testimonialText.classList.add("fade-out");
+
+    setTimeout(() => {
+      // Move to the next index
+      currentIndex = (currentIndex + 1) % images.length;
+
+      // Update image and quote
+      testimonialImage.src = images[currentIndex].src;
+      testimonialText.textContent = images[currentIndex].quote;
+
+      // Reset opacity smoothly
+      setTimeout(() => {
+        testimonialImage.classList.remove("fade-out");
+        testimonialText.classList.remove("fade-out");
+      }, 100);
+    }, 1000); // Matches CSS transition duration
+  }
+
+  // Rotate every 5 seconds
+  setInterval(changeTestimonial, 8000);
+});
+
+
+
+</script>
+
+
+
+
+

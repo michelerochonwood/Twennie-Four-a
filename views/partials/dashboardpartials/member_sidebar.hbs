@@ -1,0 +1,26 @@
+<aside class="dashboard-sidebar member-sidebar">
+    <div class="member-profile-section">
+        <!-- Profile Image Section -->
+        <div class="member-profile-image-container">
+            {{#if member.profileImage}}
+                <img src="{{member.profileImage}}" alt="Profile photo" class="member-profile-image">
+            {{else}}
+                <img src="/images/default-avatar.png" alt="Default avatar" class="member-profile-image">
+            {{/if}}
+        </div>
+        
+        <!-- Profile Info Section -->
+        <div class="member-profile-info">
+            <h2 class="member-profile-name">{{member.name}}</h2>
+            <p class="member-profile-title">{{#if member.professionalTitle}}{{member.professionalTitle}}{{else}}No title available{{/if}}</p>
+<a href="/profile/member/{{member._id}}" class="member-profile-btn">my profile</a>
+
+        </div>
+        
+
+    </div>
+</aside>
+
+
+
+
