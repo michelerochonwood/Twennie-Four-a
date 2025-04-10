@@ -26,22 +26,22 @@ const hbs = create({
         allowProtoPropertiesByDefault: true,
         allowProtoMethodsByDefault: true,
     },
-    helpers: { // Correctly defined helpers property
+    helpers: {
         replace: (string, find, replace) => {
-            if (typeof string !== 'string') return '';
-            return string.split(find).join(replace);
+          if (typeof string !== 'string') return '';
+          return string.split(find).join(replace);
         },
         formatContent: (content) => {
-            return content ? content.replace(/\n/g, '<br>') : '';
+          return content ? content.replace(/\n/g, '<br>') : '';
         },
         ifEquals: (a, b, options) => {
-            return a === b ? options.fn(this) : options.inverse(this);
+          return a === b ? options.fn(this) : options.inverse(this);
         },
         toLowerCase: (str) => {
-            return typeof str === 'string' ? str.toLowerCase() : '';
+          return typeof str === 'string' ? str.toLowerCase() : '';
         },
         formatDate: (date) => {
-            return date ? moment(date).format('MMMM D, YYYY') : '';
+          return date ? moment(date).format('MMMM D, YYYY') : '';
         },
         eq: (v1, v2) => v1 === v2,
         ne: (v1, v2) => v1 !== v2,
@@ -49,44 +49,40 @@ const hbs = create({
         or: (v1, v2) => v1 || v2,
         includes: (array, value) => Array.isArray(array) && array.includes(value),
         ifIncludes: (array, value, options) => {
-            if (Array.isArray(array) && array.includes(value)) {
-                return options.fn(this);
-            }
-            return options.inverse(this);
+          if (Array.isArray(array) && array.includes(value)) {
+            return options.fn(this);
+          }
+          return options.inverse(this);
         },
         range: (start, end) => {
-            const result = [];
-            for (let i = start; i < end; i++) {
-                result.push(i);
-            }
-            return result;
+          const result = [];
+          for (let i = start; i < end; i++) {
+            result.push(i);
+          }
+          return result;
         },
         concat: (str1, str2) => `${str1}${str2}`,
         lt: (a, b) => a < b,
         getUnitTypeIcon: (unitType) => {
-            const icons = {
-                article: '/icons/article.svg',
-                video: '/icons/video.svg',
-                interview: '/icons/interview.svg',
-                promptset: '/icons/promptset.svg',
-                exercise: '/icons/exercise.svg',
-                template: '/icons/template.svg',
-            };
-            return icons[unitType] || '/icons/default.svg'; // Default icon if no match
+          const icons = {
+            article: '/icons/article.svg',
+            video: '/icons/video.svg',
+            interview: '/icons/interview.svg',
+            promptset: '/icons/promptset.svg',
+            exercise: '/icons/exercise.svg',
+            template: '/icons/template.svg',
+          };
+          return icons[unitType] || '/icons/default.svg';
         },
         capitalize: (str) => {
-            if (typeof str !== 'string') return '';
-            return str.charAt(0).toUpperCase() + str.slice(1);
+          if (typeof str !== 'string') return '';
+          return str.charAt(0).toUpperCase() + str.slice(1);
         },
-
-        json: function(context) {
-            return JSON.stringify(context, null, 2);
-        },
-        increment: function(value) {
-            return parseInt(value) + 1;
-        }
-    }
-});
+        json: (context) => JSON.stringify(context, null, 2),
+        increment: (value) => parseInt(value) + 1,
+        timestamp: () => Date.now()
+      }
+    });
 
 
 // Debug registered partials

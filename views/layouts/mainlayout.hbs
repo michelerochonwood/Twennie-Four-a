@@ -1,48 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Page title -->
-    <title>{{title}}</title>
-    {{!-- Linking Global Navigation Styles. --}}
-    <link rel="stylesheet" href="/css/navigation.css">
-    <!-- Main styles -->
-    <link rel="stylesheet" href="/css/mainstyles.css"> 
-    {{!-- JavaScript for Mobile Navigation, defer to allow HTML content to render before executing JS. --}}
-    <script src="/javascript/mobile-nav.js" defer></script>
-    <!-- Import the ionicons external library so I can pull in their SVG icon data and use them in my document, thanks to iconicons: https://ionic.io/ionicons -->
-    <script src="/javascript/mobile-single-topic-nav.js" defer></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Page title -->
+  <title>{{title}}</title>
+
+  <!-- Global Navigation Styles -->
+  <link rel="stylesheet" href="/css/navigation.css?v={{timestamp}}">
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="/css/mainstyles.css?v={{timestamp}}">
+
+  <!-- Mobile Navigation Scripts -->
+  <script src="/javascript/mobile-nav.js?v={{timestamp}}" defer></script>
+  <script src="/javascript/mobile-single-topic-nav.js?v={{timestamp}}" defer></script>
+
+  <!-- Ionicons -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
-<body class="main-body"> <!-- Main body class for styling -->
 
-    <!-- Header with the mainheader partial -->
-    {{> mainpartials/header}}
+<body class="main-body">
 
-    <!-- Main content area -->
-    <main class="main-content">
-      {{{body}}} <!-- Main dynamic content will render here -->
-    </main>
+  {{> mainpartials/header}}
 
-    <!-- Include the home page animation script -->
+  <main class="main-content">
+    {{{body}}}
+  </main>
 
+  <!-- Home Page Animation Scripts -->
+  <script src="/javascript/animation/who-uses-twennie.js?v={{timestamp}}"></script>
+  <script src="/javascript/animation/wheel-animation.js?v={{timestamp}}"></script>
+  <script src="/javascript/animation/home-page-latest.js?v={{timestamp}}"></script>
+  <script src="/javascript/animation/what-is-collab.js?v={{timestamp}}"></script>
+  <script src="/javascript/animation/whatistwennie.js?v={{timestamp}}"></script>
+  <script src="/javascript/animation/learning1.js?v={{timestamp}}"></script>
+  <script src="/javascript/animation/learning2.js?v={{timestamp}}"></script>
+  <script src="/javascript/animation/learning3.js?v={{timestamp}}"></script>
+  <script src="/javascript/tagging/tagging.js?v={{timestamp}}"></script>
+  <script src="/javascript/animation/homepagewave.js?v={{timestamp}}"></script>
+  <script src="/javascript/topics/topic_tabs.js?v={{timestamp}}"></script>
 
-<script src="/javascript/animation/who-uses-twennie.js"></script>
-<script src="/javascript/animation/wheel-animation.js"></script>
-<script src="/javascript/animation/home-page-latest.js"></script>
-<script src="/javascript/animation/what-is-collab.js"></script>
-<script src="/javascript/animation/whatistwennie.js"></script>
-<script src="/javascript/animation/learning1.js"></script>
-<script src="/javascript/animation/learning2.js"></script>
-<script src="/javascript/animation/learning3.js"></script>
-<script src="/javascript/tagging/tagging.js"></script>
-<script src="/javascript/animation/homepagewave.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/javascript/topics/topic_tabs.js"></script>
-    <footer>
-      {{> mainpartials/footer}}
-    </footer>
+  <!-- External Library (No versioning needed) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <footer>
+    {{> mainpartials/footer}}
+  </footer>
 </body>
 </html>

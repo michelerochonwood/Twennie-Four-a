@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title> <!-- Page title -->
-    {{!-- Linking Global Navigation Styles. --}}
-    <link rel="stylesheet" href="/css/navigation.css">
-    <!-- Main Unit Form styles -->
-    <link rel="stylesheet" href="/css/unitformstyles.css">
-    {{!-- JavaScript for Mobile Navigation, defer to allow HTML content to render before executing JS. --}}
-    <script src="/javascript/mobile-nav.js" defer></script>
-    <!-- Import the ionicons external library so I can pull in their SVG icon data and use them in my document, thanks to iconicons: https://ionic.io/ionicons -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Page title -->
+  <title>{{title}}</title>
+
+  <!-- Global Navigation Styles -->
+  <link rel="stylesheet" href="/css/navigation.css?v={{timestamp}}">
+
+  <!-- Unit Form Styles -->
+  <link rel="stylesheet" href="/css/unitformstyles.css?v={{timestamp}}">
+
+  <!-- Mobile Navigation Script -->
+  <script src="/javascript/mobile-nav.js?v={{timestamp}}" defer></script>
+
+  <!-- Ionicons CDN -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
+
 <body>
 
-    <!-- Header with the mainheader partial -->
-    {{> mainpartials/header}}
+  <!-- Header with the mainheader partial -->
+  {{> mainpartials/header}}
 
-    <!-- Main content area -->
-
-      {{{body}}} <!-- Main dynamic content will render here -->
-
-
-    <!-- Include the home page animation script -->
-
+  <!-- Main content area -->
+  {{{body}}}
 
 </body>
 </html>
