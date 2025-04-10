@@ -253,61 +253,58 @@ const editMemberProfile = async (req, res) => {
 // ✅ Update Member Profile & Redirect
 const updateMemberProfile = async (req, res) => {
     try {
-        console.log("🔄 Updating Member Profile...");
-        console.log("Request Body:", req.body);
-
-        let updateFields = {
-            name: req.body.name,
-            professionalTitle: req.body.professionalTitle,
-            organization: req.body.organization || "No Organization Provided",
-            biography: req.body.biography || "",
-            goals: req.body.goals || "",
-            topics: {
-                topic1: req.body["topics[topic1]"] || req.body.topics?.topic1 || "Default Topic 1",
-                topic2: req.body["topics[topic2]"] || req.body.topics?.topic2 || "Default Topic 2",
-                topic3: req.body["topics[topic3]"] || req.body.topics?.topic3 || "Default Topic 3"
-            },
-            profileImage: req.body.profileImage || "/images/default-avatar.png"
-        };
-
-        console.log("📝 Fields to Update:", updateFields);
-
-        // ✅ Ensure MemberProfile is updated
-        const profile = await MemberProfile.findOneAndUpdate(
-            { memberId: req.params.id },
-            { $set: updateFields },
-            { new: true }
-        );
-
-        if (!profile) {
-            console.error("❌ Profile not found in `memberprofiles`.");
-            return res.status(404).send("Profile not found.");
+      const profile = await MemberProfile.findOne({ memberId: req.params.id });
+  
+      if (!profile || !checkProfileOwnership(req, profile.memberId)) {
+        return res.status(403).send("Unauthorized");
+      }
+  
+      let updatedFields = {
+        name: req.body.name,
+        professionalTitle: req.body.professionalTitle,
+        organization: req.body.organization,
+        biography: req.body.biography,
+        goals: req.body.goals,
+        topics: {
+          topic1: req.body.topics?.topic1,
+          topic2: req.body.topics?.topic2,
+          topic3: req.body.topics?.topic3
         }
-
-        // ✅ Ensure Member collection is updated (Fixes `ReferenceError`)
-        const memberUpdate = await Member.findOneAndUpdate(
-            { _id: req.params.id },
-            { $set: { topics: updateFields.topics } },
-            { new: true }
-        );
-
-        if (!memberUpdate) {
-            console.error("❌ Member not found in `members`.");
-            return res.status(404).send("Member not found.");
-        }
-
-        console.log("✅ Member Profile & Topics Updated Successfully:", profile, memberUpdate);
-
-        return res.redirect(`/profile/member/${req.params.id}`);
-    } catch (error) {
-        console.error("❌ Error updating member profile & topics:", error);
-        res.status(500).render("profile_views/memberprofileForm", {
-            layout: "profilelayout",
-            profile: req.body,
-            errorMessage: "An error occurred while saving your profile. Please try again."
+      };
+  
+      // If a new image was uploaded, upload to Cloudinary
+      if (req.file) {
+        const buffer = req.file.buffer;
+        const base64 = buffer.toString("base64");
+        const dataUri = `data:${req.file.mimetype};base64,${base64}`;
+  
+        const result = await cloudinary.uploader.upload(dataUri, {
+          folder: "twennie_profiles"
         });
+  
+        updatedFields.profileImage = result.secure_url;
+      }
+  
+      // ✅ Update member profile
+      const updatedProfile = await MemberProfile.findByIdAndUpdate(profile._id, updatedFields, { new: true });
+  
+      // ✅ Sync topics to Member collection
+      await Member.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: { topics: updatedFields.topics } }
+      );
+  
+      res.redirect(`/profile/member/${req.params.id}`);
+    } catch (error) {
+      console.error("❌ Error updating member profile:", error);
+      res.status(500).render("profile_views/memberprofileForm", {
+        layout: "profilelayout",
+        profile: req.body,
+        errorMessage: "An error occurred while saving your profile. Please try again."
+      });
     }
-};
+  };
+  
 
 
 // =========================
@@ -423,61 +420,84 @@ const viewLeaderProfile = async (req, res) => {
 
 const updateLeaderProfile = async (req, res) => {
     try {
-        console.log("🔄 Updating Leader Profile...");
-        console.log("Request Body:", req.body);
-
-        let updateFields = {
-            name: req.body.name,
-            professionalTitle: req.body.professionalTitle,
-            biography: req.body.biography || "",
-            goals: req.body.goals || "",
-            groupLeadershipGoals: req.body.groupLeadershipGoals || "",
-            topics: {
-                topic1: req.body["topics[topic1]"] || req.body.topics?.topic1 || "Default Topic 1",
-                topic2: req.body["topics[topic2]"] || req.body.topics?.topic2 || "Default Topic 2",
-                topic3: req.body["topics[topic3]"] || req.body.topics?.topic3 || "Default Topic 3"
-            },
-            profileImage: req.body.profileImage || "/images/default-avatar.png"
-        };
-
-        console.log("📝 Fields to Update:", updateFields);
-
-        // ✅ Ensure LeaderProfile is updated
-        const profile = await LeaderProfile.findOneAndUpdate(
-            { leaderId: req.params.id },
-            { $set: updateFields },
-            { new: true }
-        );
-
-        if (!profile) {
-            console.error("❌ Profile not found in `leaderprofiles`.");
-            return res.status(404).send("Profile not found.");
+      console.log("🔄 Updating Leader Profile...");
+      console.log("Request Body:", req.body);
+  
+      const profile = await LeaderProfile.findOne({ leaderId: req.params.id });
+  
+      if (!profile || !checkProfileOwnership(req, profile.leaderId)) {
+        return res.status(403).send("Unauthorized");
+      }
+  
+      const updateFields = {
+        name: req.body.name,
+        professionalTitle: req.body.professionalTitle,
+        biography: req.body.biography || "",
+        goals: req.body.goals || "",
+        groupLeadershipGoals: req.body.groupLeadershipGoals || "",
+        topics: {
+          topic1: req.body.topics?.topic1,
+          topic2: req.body.topics?.topic2,
+          topic3: req.body.topics?.topic3
         }
-
-        // ✅ Ensure Leader collection is updated
-        const leaderUpdate = await Leader.findOneAndUpdate(
-            { _id: req.params.id },
-            { $set: { name: updateFields.name, professionalTitle: updateFields.professionalTitle, topics: updateFields.topics } },
-            { new: true }
-        );
-
-        if (!leaderUpdate) {
-            console.error("❌ Leader not found in `leaders`.");
-            return res.status(404).send("Leader not found.");
-        }
-
-        console.log("✅ Leader Profile & Topics Updated Successfully:", profile, leaderUpdate);
-
-        return res.redirect(`/profile/leader/${req.params.id}`);
-    } catch (error) {
-        console.error("❌ Error updating leader profile & topics:", error);
-        res.status(500).render("profile_views/leaderprofileForm", {
-            layout: "profilelayout",
-            profile: req.body,
-            errorMessage: "An error occurred while saving your profile. Please try again."
+      };
+  
+      // ✅ Upload image to Cloudinary if one was submitted
+      if (req.file) {
+        const buffer = req.file.buffer;
+        const base64 = buffer.toString("base64");
+        const dataUri = `data:${req.file.mimetype};base64,${base64}`;
+  
+        const result = await cloudinary.uploader.upload(dataUri, {
+          folder: "twennie_profiles"
         });
+  
+        updateFields.profileImage = result.secure_url;
+      }
+  
+      // ✅ Update LeaderProfile
+      const updatedProfile = await LeaderProfile.findByIdAndUpdate(
+        profile._id,
+        updateFields,
+        { new: true }
+      );
+  
+      if (!updatedProfile) {
+        console.error("❌ Profile not found in `leaderprofiles`.");
+        return res.status(404).send("Profile not found.");
+      }
+  
+      // ✅ Sync core fields with Leader model
+      const updatedLeader = await Leader.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $set: {
+            name: updateFields.name,
+            professionalTitle: updateFields.professionalTitle,
+            topics: updateFields.topics
+          }
+        },
+        { new: true }
+      );
+  
+      if (!updatedLeader) {
+        console.error("❌ Leader not found in `leaders`.");
+        return res.status(404).send("Leader not found.");
+      }
+  
+      console.log("✅ Leader Profile & Topics Updated Successfully:", updatedProfile, updatedLeader);
+  
+      res.redirect(`/profile/leader/${req.params.id}`);
+    } catch (error) {
+      console.error("❌ Error updating leader profile & topics:", error);
+      res.status(500).render("profile_views/leaderprofileForm", {
+        layout: "profilelayout",
+        profile: req.body,
+        errorMessage: "An error occurred while saving your profile. Please try again."
+      });
     }
-};
+  };
+  
 
 const editLeaderProfile = async (req, res) => {
     try {
@@ -667,48 +687,64 @@ const editGroupMemberProfile = async (req, res) => {
 
 const updateGroupMemberProfile = async (req, res) => {
     try {
-        console.log("🔄 Updating Group Member Profile...");
-        console.log("Request Body:", req.body);
-
-        let updateFields = {
-            name: req.body.name,
-            professionalTitle: req.body.professionalTitle,
-            biography: req.body.biography || "",
-            goals: req.body.goals || "",
-            topics: {
-                topic1: req.body["topics[topic1]"] || req.body.topics?.topic1 || "Default Topic 1",
-                topic2: req.body["topics[topic2]"] || req.body.topics?.topic2 || "Default Topic 2",
-                topic3: req.body["topics[topic3]"] || req.body.topics?.topic3 || "Default Topic 3"
-            },
-            profileImage: req.body.profileImage || "/images/default-avatar.png"
-        };
-
-        console.log("📝 Fields to Update:", updateFields);
-
-        // ✅ Ensure GroupMemberProfile is updated
-        const profile = await GroupMemberProfile.findOneAndUpdate(
-            { groupMemberId: req.params.id },
-            { $set: updateFields },
-            { new: true }
-        );
-
-        if (!profile) {
-            console.error("❌ Profile not found in `groupmemberprofiles`.");
-            return res.status(404).send("Profile not found.");
+      console.log("🔄 Updating Group Member Profile...");
+      console.log("Request Body:", req.body);
+  
+      const profile = await GroupMemberProfile.findOne({ groupMemberId: req.params.id });
+  
+      if (!profile || !checkProfileOwnership(req, profile.groupMemberId)) {
+        return res.status(403).send("Unauthorized");
+      }
+  
+      const updateFields = {
+        name: req.body.name,
+        professionalTitle: req.body.professionalTitle,
+        biography: req.body.biography || "",
+        goals: req.body.goals || "",
+        topics: {
+          topic1: req.body.topics?.topic1,
+          topic2: req.body.topics?.topic2,
+          topic3: req.body.topics?.topic3
         }
-
-        console.log("✅ Group Member Profile Updated Successfully:", profile);
-
-        return res.redirect(`/profile/groupmember/${req.params.id}`);
-    } catch (error) {
-        console.error("❌ Error updating group member profile:", error);
-        res.status(500).render("profile_views/groupmemberprofileForm", {
-            layout: "profilelayout",
-            profile: req.body,
-            errorMessage: "An error occurred while saving your profile. Please try again."
+      };
+  
+      // ✅ Upload to Cloudinary if file was provided
+      if (req.file) {
+        const buffer = req.file.buffer;
+        const base64 = buffer.toString("base64");
+        const dataUri = `data:${req.file.mimetype};base64,${base64}`;
+  
+        const result = await cloudinary.uploader.upload(dataUri, {
+          folder: "twennie_profiles"
         });
+  
+        updateFields.profileImage = result.secure_url;
+      }
+  
+      const updatedProfile = await GroupMemberProfile.findByIdAndUpdate(
+        profile._id,
+        updateFields,
+        { new: true }
+      );
+  
+      if (!updatedProfile) {
+        console.error("❌ Profile not found in `groupmemberprofiles`.");
+        return res.status(404).send("Profile not found.");
+      }
+  
+      console.log("✅ Group Member Profile Updated Successfully:", updatedProfile);
+  
+      res.redirect(`/profile/groupmember/${req.params.id}`);
+    } catch (error) {
+      console.error("❌ Error updating group member profile:", error);
+      res.status(500).render("profile_views/groupmemberprofileForm", {
+        layout: "profilelayout",
+        profile: req.body,
+        errorMessage: "An error occurred while saving your profile. Please try again."
+      });
     }
-};
+  };
+  
 
 
 // =========================
@@ -917,70 +953,92 @@ const editGroupProfile = async (req, res) => {
 
 const updateGroupProfile = async (req, res) => {
     try {
-        console.log("🔄 Updating Group Profile...");
-        console.log("Request Body:", req.body);
-
-        let updateFields = {
-            groupName: req.body.groupName,
-            organization: req.body.organization || "No Organization Provided",
-            biography: req.body.biography || "No biography available.",
-            goals: req.body.goals || "No goals set.",
-            topics: {
-                topic1: req.body["topics[topic1]"] || req.body.topics?.topic1 || "Default Topic 1",
-                topic2: req.body["topics[topic2]"] || req.body.topics?.topic2 || "Default Topic 2",
-                topic3: req.body["topics[topic3]"] || req.body.topics?.topic3 || "Default Topic 3"
-            },
-            profileImage: req.body.profileImage || "/images/defaultgroupavatar.jpg"
-        };
-
-        console.log("📝 Fields to Update:", updateFields);
-
-        // ✅ Ensure Leader (Group) is updated
-        const leaderUpdate = await Leader.findOneAndUpdate(
-            { _id: req.params.id },
-            { $set: updateFields },
-            { new: true }
-        );
-
-        if (!leaderUpdate) {
-            console.error("❌ Group not found in `leaders`.");
-            return res.status(404).send("Group not found.");
+      console.log("🔄 Updating Group Profile...");
+      console.log("Request Body:", req.body);
+  
+      const leader = await Leader.findById(req.params.id);
+      if (!leader || !checkProfileOwnership(req, leader._id)) {
+        return res.status(403).send("Unauthorized");
+      }
+  
+      const updateFields = {
+        groupName: req.body.groupName,
+        organization: req.body.organization || "No Organization Provided",
+        biography: req.body.biography || "No biography available.",
+        goals: req.body.goals || "No goals set.",
+        topics: {
+          topic1: req.body.topics?.topic1,
+          topic2: req.body.topics?.topic2,
+          topic3: req.body.topics?.topic3
         }
-
-        // ✅ Ensure GroupProfile is updated
-        const groupProfileUpdate = await GroupProfile.findOneAndUpdate(
-            { groupId: req.params.id },
-            { 
-                $set: {
-                    groupName: updateFields.groupName,
-                    organization: updateFields.organization,
-                    biography: updateFields.biography,
-                    groupGoals: updateFields.goals,
-                    groupTopics: updateFields.topics,
-                    groupImage: updateFields.profileImage
-                }
-            },
-            { new: true }
-        );
-
-        if (!groupProfileUpdate) {
-            console.error("❌ Group profile not found in `groupprofiles`.");
-            return res.status(404).send("Group profile not found.");
-        }
-
-        console.log("✅ Group Profile & GroupProfile Updated Successfully:", leaderUpdate, groupProfileUpdate);
-        console.log("🔍 Incoming Request Body:", req.body);
-
-        return res.redirect(`/profile/group/${req.params.id}`);
-    } catch (error) {
-        console.error("❌ Error updating group profile:", error);
-        res.status(500).render("profile_views/groupprofileForm", {
-            layout: "profilelayout",
-            profile: req.body,
-            errorMessage: "An error occurred while saving your group profile. Please try again."
+      };
+  
+      // ✅ Upload new group image if provided
+      if (req.file) {
+        const buffer = req.file.buffer;
+        const base64 = buffer.toString("base64");
+        const dataUri = `data:${req.file.mimetype};base64,${base64}`;
+  
+        const result = await cloudinary.uploader.upload(dataUri, {
+          folder: "twennie_group_profiles"
         });
+  
+        updateFields.profileImage = result.secure_url;
+      }
+  
+      // ✅ Update Leader model (the main group record)
+      const updatedLeader = await Leader.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: {
+          groupName: updateFields.groupName,
+          organization: updateFields.organization,
+          biography: updateFields.biography,
+          goals: updateFields.goals,
+          topics: updateFields.topics,
+          ...(updateFields.profileImage && { profileImage: updateFields.profileImage }) // conditional image
+        }},
+        { new: true }
+      );
+  
+      if (!updatedLeader) {
+        console.error("❌ Group not found in `leaders`.");
+        return res.status(404).send("Group not found.");
+      }
+  
+      // ✅ Update GroupProfile with renamed fields
+      const updatedGroupProfile = await GroupProfile.findOneAndUpdate(
+        { groupId: req.params.id },
+        {
+          $set: {
+            groupName: updateFields.groupName,
+            organization: updateFields.organization,
+            biography: updateFields.biography,
+            groupGoals: updateFields.goals,
+            groupTopics: updateFields.topics,
+            ...(updateFields.profileImage && { groupImage: updateFields.profileImage })
+          }
+        },
+        { new: true }
+      );
+  
+      if (!updatedGroupProfile) {
+        console.error("❌ Group profile not found in `groupprofiles`.");
+        return res.status(404).send("Group profile not found.");
+      }
+  
+      console.log("✅ Group Profile & GroupProfile Updated Successfully:", updatedLeader, updatedGroupProfile);
+  
+      return res.redirect(`/profile/group/${req.params.id}`);
+    } catch (error) {
+      console.error("❌ Error updating group profile:", error);
+      res.status(500).render("profile_views/groupprofileForm", {
+        layout: "profilelayout",
+        profile: req.body,
+        errorMessage: "An error occurred while saving your group profile. Please try again."
+      });
     }
-};
+  };
+  
 
 
 

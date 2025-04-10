@@ -2,18 +2,23 @@
   
   <h2 class="profile-form-title">edit leader profile</h2>
 
-<form action="/profile/leader/{{profile.leaderId}}/update" method="POST">
-
-
-
+  <form action="/profile/leader/{{profile.leaderId}}/update" method="POST" enctype="multipart/form-data">
 
     {{!-- CSRF Token --}}
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-    <!-- Profile Image -->
+    <!-- Current Profile Image -->
+    {{#if profile.profileImage}}
+      <div class="form-field">
+        <label>Current Profile Image</label>
+        <img src="{{profile.profileImage}}" alt="Profile Image" style="width: 120px; height: auto; border-radius: 8px; margin-top: 8px;">
+      </div>
+    {{/if}}
+
+    <!-- Upload New Profile Image -->
     <div class="form-field">
-      <label for="profileImage">Profile Image URL</label>
-      <input type="text" id="profileImage" name="profileImage" value="{{profile.profileImage}}">
+      <label for="profileImage">Upload New Profile Image</label>
+      <input type="file" id="profileImage" name="profileImage" accept="image/*">
     </div>
 
     <!-- Name -->
@@ -85,8 +90,10 @@
       <button type="submit" class="form-button submit-button">save changes</button>
       <a href="/profile/leader/{{profile.leaderId}}" class="form-button save-button">cancel</a>
     </div>
+
   </form>
 
 </div>
+
 
 

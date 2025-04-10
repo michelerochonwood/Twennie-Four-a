@@ -2,14 +2,23 @@
   
   <h2 class="profile-form-title">edit profile</h2>
 
-  <form action="/profile/groupmember/{{profile.groupMemberId}}/update" method="POST" class="profile-form">
+  <form action="/profile/groupmember/{{profile.groupMemberId}}/update" method="POST" class="profile-form" enctype="multipart/form-data">
+    
     {{!-- CSRF Token --}}
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-    <!-- Profile Image -->
+    <!-- Current Profile Image -->
+    {{#if profile.profileImage}}
+      <div class="form-field">
+        <label>Current Profile Image</label>
+        <img src="{{profile.profileImage}}" alt="Profile Image" style="width: 120px; height: auto; border-radius: 8px; margin-top: 8px;">
+      </div>
+    {{/if}}
+
+    <!-- Upload New Profile Image -->
     <div class="form-field">
-      <label for="profileImage">Profile Image URL</label>
-      <input type="text" id="profileImage" name="profileImage" value="{{profile.profileImage}}">
+      <label for="profileImage">Upload New Profile Image</label>
+      <input type="file" id="profileImage" name="profileImage" accept="image/*">
     </div>
 
     <!-- Name -->
@@ -48,8 +57,8 @@
 
     <p class="groupmember-topic-instructions">
       Your leader has chosen three topics for your group (shown above).  
-      You can also choose **three topics of your own** from the dropdowns below.  
-      **Your selections will not change the group’s topics.**
+      You can also choose <strong>three topics of your own</strong> from the dropdowns below.  
+      <strong>Your selections will not change the group’s topics.</strong>
     </p>
 
     <!-- Personal Topics (Editable) -->
@@ -87,6 +96,7 @@
   </form>
 
 </div>
+
 
 
 

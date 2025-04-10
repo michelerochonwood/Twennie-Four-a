@@ -2,14 +2,23 @@
   
   <h2 class="profile-form-title">edit group profile</h2>
 
-  <form action="/profile/group/{{profile.leaderId}}/update" method="POST" class="profile-form">
+  <form action="/profile/group/{{profile.leaderId}}/update" method="POST" class="profile-form" enctype="multipart/form-data">
+    
     {{!-- CSRF Token --}}
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-    <!-- Group Image -->
+    <!-- Current Group Image -->
+    {{#if profile.profileImage}}
+      <div class="form-field">
+        <label>Current Group Image</label>
+        <img src="{{profile.profileImage}}" alt="Group Image" style="width: 120px; height: auto; border-radius: 8px; margin-top: 8px;">
+      </div>
+    {{/if}}
+
+    <!-- Upload New Group Image -->
     <div class="form-field">
-      <label for="profileImage">Group Image URL</label>
-      <input type="text" id="profileImage" name="profileImage" value="{{profile.profileImage}}">
+      <label for="profileImage">Upload New Group Image</label>
+      <input type="file" id="profileImage" name="profileImage" accept="image/*">
     </div>
 
     <!-- Group Name -->
@@ -24,18 +33,17 @@
       <input type="text" id="organization" name="organization" value="{{profile.organization}}" required>
     </div>
 
+    <!-- Biography -->
+    <div class="form-field">
+      <label for="biography">Group Biography</label>
+      <textarea id="biography" name="biography">{{profile.biography}}</textarea>
+    </div>
 
-<!-- Biography -->
-<div class="form-field">
-  <label for="biography">Group Biography</label>
-  <textarea id="biography" name="biography">{{profile.biography}}</textarea>
-</div>
-
-<!-- Goals -->
-<div class="form-field">
-  <label for="goals">Group Goals</label>
-  <textarea id="goals" name="goals">{{profile.goals}}</textarea>
-</div>
+    <!-- Goals -->
+    <div class="form-field">
+      <label for="goals">Group Goals</label>
+      <textarea id="goals" name="goals">{{profile.goals}}</textarea>
+    </div>
 
     <!-- Topics -->
     <p class="group-topic-instructions">Select the three topics that best represent your group.</p>
@@ -71,8 +79,10 @@
     <div class="form-buttons">
       <button type="submit" class="form-button submit-button">save changes</button>
     </div>
+    
   </form>
 
 </div>
+
 
 

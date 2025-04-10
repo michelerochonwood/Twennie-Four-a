@@ -6,7 +6,6 @@ const dotenv = require('dotenv');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const csrf = require('csrf');
-const multer = require('multer');
 const fs = require('fs');
 const moment = require('moment');
 const passport = require('passport'); // Imported once, globally
@@ -189,31 +188,10 @@ app.use((req, res, next) => {
     next();
 });
 
-// Multer setup
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadPath = path.join(__dirname, 'public', 'uploads');
-        fs.existsSync(uploadPath) || fs.mkdirSync(uploadPath, { recursive: true });
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        const fileExtension = path.extname(file.originalname);
-        cb(null, `${Date.now()}${fileExtension}`);
-    },
-});
 
-const upload = multer({
-    storage,
-    limits: { fileSize: 2 * 1024 * 1024 },
-    fileFilter: (req, file, cb) => {
-        const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (allowedMimeTypes.includes(file.mimetype)) {
-            cb(null, true);
-        } else {
-            cb(new Error('Invalid file type. Only JPEG, PNG, and GIF are allowed.'));
-        }
-    },
-});
+
+
+
 
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
@@ -233,9 +211,12 @@ app.use((req, res, next) => {
 
 
 // Ensure necessary directories exist
-['public/uploads/profiles', 'public/uploads/groups'].forEach((dir) => {
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-});
+if (process.env.VERCEL !== '1') {
+    ['public/uploads/profiles', 'public/uploads/groups'].forEach((dir) => {
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    });
+}
+
 
 // MongoDB connection
 mongoose
@@ -305,7 +286,6 @@ const promptsetcompleteRoutes = require('./routes/promptsetcompleteroutes');
 const membertopicRoutes = require('./routes/membertopicroutes');
 const badgesRoutes = require('./routes/badgesroutes');
 const notesRoutes = require('./routes/notesroutes');
-const reportingRoutes = require('./routes/reportingroutes');
 const latestRoutes = require('./routes/latestroutes'); // Import latest routes
 
 
