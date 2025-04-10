@@ -193,6 +193,7 @@ app.use((req, res, next) => {
 
 
 
+
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Passport.js configuration
@@ -268,9 +269,9 @@ mongoose
 const promoRoutes = require('./routes/promoroutes/promoroutes');
 const memberRoutes = require('./routes/memberroutes');
 const groupmemberRoutes = require('./routes/groupmemberroutes');
-const leaderDashboardRoutes = require('./routes/leaderdashboardRoutes');
-const groupMemberDashboardRoutes = require('./routes/groupmemberdashboardRoutes');
-const memberDashboardRoutes = require('./routes/memberdashboardRoutes');
+const leaderDashboardRoutes = require('./routes/leaderdashboardroutes');
+const groupMemberDashboardRoutes = require('./routes/groupmemberdashboardroutes');
+const memberDashboardRoutes = require('./routes/memberdashboardroutes');
 const leaderRoutes = require('./routes/leaderroutes');
 const loginRoutes = require('./routes/loginroutes');
 const profileRoutes = require('./routes/profileroutes');
