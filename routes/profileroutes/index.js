@@ -3,7 +3,7 @@ const router = express.Router();
 const profileController = require("../../controllers/profileController");
 const ensureAuthenticated = require("../../middleware/ensureAuthenticated");
 const upload = require('../../middleware/multer');
-const cloudinary = require('../utils/cloudinary');
+const cloudinary = require('../../utils/cloudinary');
 
 // ✅ Public Profile Routes
 router.get("/member/:id", profileController.viewMemberProfile);
