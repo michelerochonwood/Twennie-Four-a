@@ -4,8 +4,29 @@
     { "src": "index.js", "use": "@vercel/node" }
   ],
   "redirects": [
-    { "source": "/", "destination": "https://www.twennie.com", "permanent": true },
-    { "source": "/(.*)", "destination": "https://www.twennie.com/$1", "permanent": true }
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "twennie.com"
+        }
+      ],
+      "destination": "https://www.twennie.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "twennie-four-a.vercel.app"
+        }
+      ],
+      "destination": "https://www.twennie.com/:path*",
+      "permanent": true
+    }
   ]
 }
+
 
