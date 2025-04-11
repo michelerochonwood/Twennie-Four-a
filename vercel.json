@@ -8,3 +8,4 @@
     { "source": "/(.*)", "destination": "https://www.twennie.com/$1", "permanent": true }
   ]
 }
+
