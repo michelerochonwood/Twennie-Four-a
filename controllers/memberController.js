@@ -11,10 +11,11 @@ const connectDB = require('../utils/db');
 module.exports = {
     showMemberForm: (req, res) => {
       
-        res.render('member_form_views/member_form', {
-            layout: 'memberformlayout',
-            title: 'Individual Membership Form',
-        });
+      res.render('member_form_views/member_form', {
+        layout: 'memberformlayout',
+        title: 'Individual Membership Form',
+        csrfToken: res.locals.csrfToken 
+      });
     },
 
     createMember: async (req, res) => {
