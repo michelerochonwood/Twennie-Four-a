@@ -1,9 +1,13 @@
 {
-    "version": 2,
-    "builds": [
-      { "src": "index.js", "use": "@vercel/node" }
-    ],
-    "routes": [
-      { "src": "/(.*)", "dest": "/index.js" }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    { "src": "index.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.js" }
+  ],
+  "redirects": [
+    { "source": "/", "destination": "https://www.twennie.com", "permanent": true },
+    { "source": "/(.*)", "destination": "https://www.twennie.com/$1", "permanent": true }
+  ]
+}
