@@ -1,5 +1,6 @@
 <form id="member-form" action="/member/form" method="POST" class="membership-form">
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="redirectTarget" id="redirectTarget" value="form">
 
   <div class="individual-form-container">
     <h1 class="form-title">individual membership form</h1>
@@ -215,22 +216,21 @@
     const contributorTerms = document.getElementById('contributor-terms');
     const contributorAgreement = document.getElementById('contributorAgreement');
     const paidNote = document.getElementById('paid-redirect-note');
-    const form = document.getElementById('member-form');
+    const redirectTarget = document.getElementById('redirectTarget');
 
     // Reset visibility
     contributorTerms.classList.add('hidden');
     paidNote.classList.add('hidden');
     contributorAgreement.required = false;
+    redirectTarget.value = 'form'; // default
 
     if (value === 'contributor_individual') {
       contributorTerms.classList.remove('hidden');
       contributorAgreement.required = true;
-      form.action = '/member/form'; // stays on form route
+      redirectTarget.value = 'form'; // stays on form
     } else if (value === 'paid_individual') {
       paidNote.classList.remove('hidden');
-      form.action = '/member/payment'; // redirect to payment placeholder
-    } else {
-      form.action = '/member/form'; // regular free member path
+      redirectTarget.value = 'payment'; // request redirect on server
     }
   }
 </script>
