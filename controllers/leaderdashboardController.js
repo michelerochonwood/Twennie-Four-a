@@ -14,6 +14,10 @@ const path = require('path'); // ✅ Fix for "ReferenceError: path is not define
 const fs = require('fs'); // ✅ Ensure file system functions work
 const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion');
 
+const connectDB = require('../utils/db');
+
+
+
 
 async function resolveAuthorById(authorId) {
     let author = await Leader.findById(authorId).select('groupLeaderName profileImage') ||
@@ -218,6 +222,7 @@ async function getLeaderPromptSchedule(leaderId, promptSetId) {
 
 module.exports = {
     renderLeaderDashboard: async (req, res) => {
+        await connectDB();
         try {
             const { id } = req.session.user;
             console.log("Fetching dashboard for leader:", id);

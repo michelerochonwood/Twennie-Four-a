@@ -14,6 +14,10 @@ const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion
 const fs = require('fs');
 const path = require('path');
 
+const connectDB = require('../utils/db');
+
+
+
 
 
 //resolveAuthorById is necessary for showing library units in the library unit table. We have no author property in the unit models, so the resolve function allows the library units to show the author. Don't delete any code in the library units meant to resolve the author by id.
@@ -215,6 +219,7 @@ function getSubtopics(topicTitle) {
 
 module.exports = {
     renderGroupMemberDashboard: async (req, res) => {
+        await connectDB();
         try {
             const { id } = req.session.user;
             console.log("Fetching dashboard for user:", id);

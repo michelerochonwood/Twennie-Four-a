@@ -9,6 +9,10 @@ const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member');
 const moment = require('moment');
 
+const connectDB = require('../utils/db');
+
+
+
 // Function to get the correct icon for unit type
 function getUnitTypeIcon(type) {
     const icons = {
@@ -40,6 +44,7 @@ async function resolveAuthorById(authorId) {
 }
 
 exports.getLatestLibraryItems = async (req, res) => {
+    await connectDB();
     try {
         // Fetch all six library unit types, sorted by updated_at (most recent first)
         const articles = await Article.find().sort({ updated_at: -1 }).lean();

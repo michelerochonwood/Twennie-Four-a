@@ -1,4 +1,10 @@
+const connectDB = require('../utils/db');
+
+
+
+
 exports.showBadgesView = (req, res) => {
+  
   // Render the badges view using the custom layout.
   res.render('badges_view', { layout: 'badgeslayout' });
 };

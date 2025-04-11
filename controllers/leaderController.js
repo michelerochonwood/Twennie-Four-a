@@ -7,9 +7,14 @@ const LeaderProfile = require('../models/profile_models/leader_profile');
 const GroupProfile = require('../models/profile_models/group_profile');
 const bcrypt = require('bcrypt');
 
+const connectDB = require('../utils/db');
+
+
+
 module.exports = {
     // Render the leader form
     showLeaderForm: (req, res) => {
+        
         try {
             const csrfToken = req.csrfToken ? req.csrfToken() : null;
             res.render('member_form_views/form_leader', {
@@ -29,6 +34,7 @@ module.exports = {
 
     // Handle leader form submission
     createLeader: async (req, res) => {
+        await connectDB();
         try {
             const {
                 groupName,
@@ -195,6 +201,7 @@ module.exports = {
 
     // Render the add group member form
     showAddGroupMemberForm: async (req, res) => {
+        await connectDB();
         console.log('Rendering view: member_form_views/add_group_member');
         console.log(`showAddGroupMemberForm called with leaderId: ${req.params.leaderId}`);
         try {
@@ -235,6 +242,7 @@ module.exports = {
 
     // Handle submission of the add group member form
     addGroupMember: async (req, res) => {
+        await connectDB();
         try {
             const { leaderId } = req.params;
             const { name, email } = req.body;
@@ -278,6 +286,7 @@ module.exports = {
 
     // Function to update members for existing leaders
     updateMembers: async () => {
+        await connectDB();
         try {
             const leaders = await Leader.find();
             for (const leader of leaders) {

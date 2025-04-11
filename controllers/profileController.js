@@ -15,6 +15,10 @@ const Exercise = require('../models/unit_models/exercise');
 const Template = require('../models/unit_models/template');
 const Badge = require('../models/prompt_models/promptsetcompletion');
 
+const connectDB = require('../utils/db');
+
+
+
 
 
 
@@ -126,6 +130,7 @@ async function resolveAuthorById(authorId) {
 
 
 const viewMemberProfile = async (req, res) => {
+    await connectDB();
     try {
         const profile = await MemberProfile.findOne({ memberId: req.params.id });
 
@@ -217,6 +222,7 @@ const viewMemberProfile = async (req, res) => {
 
 
 const editMemberProfile = async (req, res) => {
+    await connectDB();
     try {
         const profile = await MemberProfile.findOne({ memberId: req.params.id });
 
@@ -252,6 +258,7 @@ const editMemberProfile = async (req, res) => {
 
 // ✅ Update Member Profile & Redirect
 const updateMemberProfile = async (req, res) => {
+    await connectDB();
     try {
       const profile = await MemberProfile.findOne({ memberId: req.params.id });
   
@@ -314,6 +321,7 @@ const updateMemberProfile = async (req, res) => {
 
 
 const viewLeaderProfile = async (req, res) => {
+    await connectDB();
     try {
         const profile = await LeaderProfile.findOne({ leaderId: req.params.id });
         const leader = await Leader.findOne({ _id: req.params.id }).populate("members");
@@ -419,6 +427,7 @@ const viewLeaderProfile = async (req, res) => {
 
 
 const updateLeaderProfile = async (req, res) => {
+    await connectDB();
     try {
       console.log("🔄 Updating Leader Profile...");
       console.log("Request Body:", req.body);
@@ -500,6 +509,7 @@ const updateLeaderProfile = async (req, res) => {
   
 
 const editLeaderProfile = async (req, res) => {
+    await connectDB();
     try {
         const profile = await LeaderProfile.findOne({ leaderId: req.params.id });
         const leader = await Leader.findOne({ _id: req.params.id });
@@ -537,6 +547,7 @@ const editLeaderProfile = async (req, res) => {
 
 
 const viewGroupMemberProfile = async (req, res) => {
+    await connectDB();
     try {
         const profile = await GroupMemberProfile.findOne({ groupMemberId: req.params.id });
         const groupMember = await GroupMember.findOne({ _id: req.params.id });
@@ -645,6 +656,7 @@ const viewGroupMemberProfile = async (req, res) => {
 
 
 const editGroupMemberProfile = async (req, res) => {
+    await connectDB();
     try {
         const profile = await GroupMemberProfile.findOne({ groupMemberId: req.params.id });
         const groupMember = await GroupMember.findOne({ _id: req.params.id });
@@ -753,6 +765,7 @@ const updateGroupMemberProfile = async (req, res) => {
 
 
 const viewGroupProfile = async (req, res) => {
+    await connectDB();
     try {
         const leader = await Leader.findOne({ _id: req.params.id }).populate("members");
         const groupProfile = await GroupProfile.findOne({ groupId: req.params.id });

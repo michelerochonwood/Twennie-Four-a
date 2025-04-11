@@ -9,6 +9,10 @@ const Template = require('../models/unit_models/template');
 const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion');
 const Notes = require('../models/notes/notes');
 
+const connectDB = require('../utils/db');
+
+
+
 // ✅ Resolve Unit Title & Topics
 const resolveUnitDetails = async (unitID) => {
     if (!unitID) return { unitTitle: "Unknown Unit", unitType: "Unknown", main_topic: "Unknown", secondary_topics: [] };
