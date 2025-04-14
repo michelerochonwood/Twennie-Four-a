@@ -3,7 +3,6 @@ const router = express.Router();
 const profileController = require("../../controllers/profileController");
 const ensureAuthenticated = require("../../middleware/ensureAuthenticated");
 const upload = require('../../middleware/multer');
-const cloudinary = require('../../utils/cloudinary');
 
 // ✅ Public Profile Routes
 router.get("/member/:id", profileController.viewMemberProfile);
@@ -11,7 +10,7 @@ router.get("/leader/:id", profileController.viewLeaderProfile);
 router.get("/groupmember/:id", profileController.viewGroupMemberProfile);
 router.get("/group/:id", profileController.viewGroupProfile);
 
-// ✅ Private Profile Edit Routes
+// ✅ Private Profile Edit Routes (with image upload)
 router.get("/member/:id/edit", ensureAuthenticated, profileController.editMemberProfile);
 router.post("/member/:id/update", ensureAuthenticated, upload.single("profileImage"), profileController.updateMemberProfile);
 
@@ -24,13 +23,14 @@ router.post("/groupmember/:id/update", ensureAuthenticated, upload.single("profi
 router.get("/group/:id/edit", ensureAuthenticated, profileController.editGroupProfile);
 router.post("/group/:id/update", ensureAuthenticated, upload.single("profileImage"), profileController.updateGroupProfile);
 
-// (Optional test route — delete if unused)
+// ✅ Optional test upload endpoint
 router.post('/upload-profile', upload.single('profileImage'), async (req, res) => {
   try {
     const buffer = req.file.buffer;
     const base64 = buffer.toString('base64');
     const dataUri = `data:${req.file.mimetype};base64,${base64}`;
 
+    const cloudinary = require('../../utils/cloudinary');
     const result = await cloudinary.uploader.upload(dataUri, {
       folder: 'twennie_profiles',
     });
@@ -43,6 +43,7 @@ router.post('/upload-profile', upload.single('profileImage'), async (req, res) =
 });
 
 module.exports = router;
+
 
 
 

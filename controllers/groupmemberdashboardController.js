@@ -227,9 +227,10 @@ module.exports = {
             //members of a group are meant to show in the group member dashboard as cards - it is important that none of this changed because the group members are located based on the leader of the group - if you are rewriting anything in this renderdashboard, make sure to rewrite it exactly as you see it here. 
     
             const userData = await GroupMember.findById(id)
+            .select('name profileImage professionalTitle organization groupId') // include profileImage explicitly
             .populate({
-                path: 'groupId',
-                populate: { path: 'members', model: 'GroupMember', select: 'name profileImage professionalTitle' }
+              path: 'groupId',
+              populate: { path: 'members', model: 'GroupMember', select: 'name profileImage professionalTitle' }
             });
         
             console.log("🔍 Fetched user data:", JSON.stringify(userData, null, 2));

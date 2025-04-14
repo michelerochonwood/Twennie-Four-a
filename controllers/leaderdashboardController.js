@@ -227,11 +227,14 @@ module.exports = {
             const { id } = req.session.user;
             console.log("Fetching dashboard for leader:", id);
 
-            const userData = await Leader.findById(id).populate({
-                path: 'members',
-                model: 'GroupMember',
-                select: 'name profileImage professionalTitle isVerified'
-            }).lean();
+            const userData = await Leader.findById(id)
+            .select('groupLeaderName profileImage professionalTitle organization topics members') // ✅ includes profileImage
+            .populate({
+              path: 'members',
+              model: 'GroupMember',
+              select: 'name profileImage professionalTitle isVerified'
+            })
+            .lean();
 
             const leader = userData; // ✅ Ensures leader is properly defined before usage
             const leaderGroupMembers = userData.members || []; // ✅ Ensures it's always an array

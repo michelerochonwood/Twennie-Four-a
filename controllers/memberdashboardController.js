@@ -175,7 +175,9 @@ module.exports = {
         await connectDB();
         try {
             const { id } = req.session.user;
-            const userData = await Member.findById(id).lean();
+            const userData = await Member.findById(id)
+            .select('username profileImage professionalTitle organization topics') // ✅ ensure needed fields are selected
+            .lean();
 
             if (!userData) {
                 throw new Error(`Member with ID ${id} not found.`);

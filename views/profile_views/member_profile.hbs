@@ -1,15 +1,23 @@
 <div class="profile-main">
 
-
-  <!-- Profile Sidebar (Centered at the Top) -->
+  <!-- Sidebar: Image, Name, Title, Edit Button -->
   <aside class="profile-sidebar">
-    <img src="{{member.profileImage}}" alt="{{member.name}}'s Profile Picture" class="profile-image">
+    <img 
+      src="{{#if member.profileImage}}{{member.profileImage}}{{else}}/images/defaultmemberavatar.jpg{{/if}}" 
+      alt="{{member.name}}'s Profile Picture" 
+      class="profile-image"
+    >
     <h2 class="profile-name">{{member.name}}</h2>
     <p class="profile-title">{{member.professionalTitle}}</p>
-    <a href="/profile/member/{{member.memberId}}/edit" class="profile-edit-btn">edit profile</a>
+    <a 
+      href="/profile/member/{{member.memberId}}/edit" 
+      class="profile-edit-btn"
+    >
+      edit profile
+    </a>
   </aside>
 
-  <!-- Profile Tabs (Now Centered Below Sidebar) -->
+  <!-- Tab Navigation -->
   <div class="profile-tabs-container">
     <button class="profile-tab active" data-tab="biography">
       <span class="tab-title">my biography</span>
@@ -37,8 +45,9 @@
     </button>
   </div>
 
-  <!-- Profile Content -->
+  <!-- Tab Content -->
   <div class="profile-content">
+
     <div class="profile-tab-content active" id="biography">
       {{> profilepartials/member_biography profile=profile}} 
     </div>
@@ -62,8 +71,10 @@
     <div class="profile-tab-content" id="badges">
       {{> profilepartials/member_badges profile=profile}}
     </div>
-  </div>
 
-</div>
+  </div> <!-- End Profile Content -->
+
+</div> <!-- End Profile Main -->
+
 
 
