@@ -1,16 +1,23 @@
 {
   "version": 2,
   "builds": [
-    { "src": "index.js", "use": "@vercel/node" }
+    { "src": "api/index.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    {
+      "src": "/(css|images|icons|javascript|badges|public|uploads|promptprogress)/(.*)",
+      "dest": "/public/$1/$2"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.js"
+    }
   ],
   "redirects": [
     {
       "source": "/:path*",
       "has": [
-        {
-          "type": "host",
-          "value": "twennie.com"
-        }
+        { "type": "host", "value": "twennie.com" }
       ],
       "destination": "https://www.twennie.com/:path*",
       "permanent": true
@@ -18,16 +25,14 @@
     {
       "source": "/:path*",
       "has": [
-        {
-          "type": "host",
-          "value": "twennie-four-a.vercel.app"
-        }
+        { "type": "host", "value": "twennie-four-a.vercel.app" }
       ],
       "destination": "https://www.twennie.com/:path*",
       "permanent": true
     }
   ]
 }
+
 
 
 
