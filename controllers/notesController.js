@@ -7,13 +7,13 @@ const GroupMember = require('../models/member_models/group_member');
 const Leader = require('../models/member_models/leader');
 const Template = require('../models/unit_models/template.js');
 
-const connectDB = require('../utils/db');
+
 
 
 
 // 1️⃣ CREATE NOTE (Submission Form Handler)
 exports.createNote = async (req, res) => {
-    await connectDB();
+
     try {
         const { unitId, note_content } = req.body;
         const userId = req.user._id;
@@ -71,7 +71,7 @@ exports.createNote = async (req, res) => {
 
 // 2️⃣ GET NOTES FOR LEADERS (Group Member Notes)
 exports.getNotesByLeader = async (req, res) => {
-    await connectDB();
+
     try {
         const leaderId = req.user._id;
 
@@ -99,7 +99,7 @@ exports.getNotesByLeader = async (req, res) => {
 
 // 3️⃣ GET NOTES FOR GROUP MEMBERS (Their Own Notes)
 exports.getNotesByGroupMember = async (req, res) => {
-    await connectDB();
+
     try {
         const memberId = req.user._id;
 

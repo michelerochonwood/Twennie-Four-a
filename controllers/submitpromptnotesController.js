@@ -4,13 +4,13 @@ const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member'); // ✅ Added Member model
 
-const connectDB = require('../utils/db');
+
 
 
 
 module.exports = {
     submitPromptNotes: async (req, res) => {
-        await connectDB();
+
         try {
             const { notes, promptSetId } = req.body;
             const memberId = req.user?.id;

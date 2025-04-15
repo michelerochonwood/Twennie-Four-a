@@ -4,14 +4,14 @@ const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member'); // ✅ Added Member model
 
-const connectDB = require('../utils/db');
+
 
 
 
 module.exports = {
     // ✅ Mark a Prompt Set as Completed for Leaders, Group Members, and Members
     markPromptSetAsCompleted: async (memberId, promptSetId, notes) => {
-        await connectDB();
+
         try {
             console.log(`Marking prompt set ${promptSetId} as completed for member ${memberId}`);
 
@@ -61,7 +61,7 @@ module.exports = {
 
     // ✅ Fetch All Completed Prompt Sets for a Member (Leader, Group Member, or Member)
     getCompletedPromptSets: async (req, res) => {
-        await connectDB();
+
         try {
             const memberId = req.user?.id;
             if (!memberId) {
@@ -89,7 +89,7 @@ module.exports = {
 
     // ✅ Render the Completion Success Page with Correct Data
     promptsetCompleteSuccess: async (req, res) => {
-        await connectDB();
+
         try {
             console.log("📌 Rendering prompt set completion success page");
 

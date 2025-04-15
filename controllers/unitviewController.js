@@ -9,7 +9,6 @@ const Leader = require('../models/member_models/leader'); // Import Leader model
 const GroupMember = require('../models/member_models/group_member'); // Import Group Member model
 const mongoose = require('mongoose');
 
-const connectDB = require('../utils/db');
 
 
 
@@ -46,7 +45,7 @@ async function resolveAuthorById(authorId) {
 module.exports = {
     
     viewArticle: async (req, res) => {
-      await connectDB();
+
         try {
           const { id } = req.params;
           console.log(`Fetching article with ID: ${id}`);
@@ -136,7 +135,7 @@ module.exports = {
     
 
       viewVideo: async (req, res) => {
-        await connectDB();
+
         try {
           const { id } = req.params;
           console.log(`Fetching video with ID: ${id}`);
@@ -227,7 +226,7 @@ module.exports = {
     
     
       viewInterview: async (req, res) => {
-        await connectDB();
+
         try {
           const { id } = req.params;
           console.log(`Fetching interview with ID: ${id}`);
@@ -312,7 +311,7 @@ module.exports = {
     
 
       viewPromptset: async (req, res) => {
-        await connectDB();
+
         try {
             const { id } = req.params;
             console.log(`Fetching prompt set with ID: ${id}`);
@@ -419,7 +418,7 @@ module.exports = {
 
     
     viewExercise: async (req, res) => {
-      await connectDB();
+
         try {
             const { id } = req.params; // Get exercise ID from route params
             console.log(`Fetching exercise with ID: ${id}`); // Debugging log
@@ -510,7 +509,7 @@ module.exports = {
     
     
     viewTemplate: async (req, res) => {
-      await connectDB();
+
         try {
             const { id } = req.params;
             console.log(`Fetching template with ID: ${id}`);

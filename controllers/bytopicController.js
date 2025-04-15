@@ -10,7 +10,7 @@ const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member');
 
-const connectDB = require('../utils/db');
+
 
 
 async function resolveAuthorById(authorId) {
@@ -30,7 +30,7 @@ async function resolveAuthorById(authorId) {
 }
 
 exports.getTopicView = async (req, res) => {
-    await connectDB();
+
     const normalizedTopic = req.params.id.toLowerCase().replace(/[^a-z0-9]/g, '');
     const topicsFilePath = path.join(__dirname, '../public/data/topics.json');
 

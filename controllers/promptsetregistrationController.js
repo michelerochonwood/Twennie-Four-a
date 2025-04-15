@@ -6,14 +6,14 @@ const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member'); // ✅ Added Member model
 
-const connectDB = require('../utils/db');
+
 
 
 
 module.exports = {
     // ✅ Register a user (Leader, Group Member, or Member) for a prompt set
     registerPromptSet: async (req, res) => {
-        await connectDB();
+
         try {
             const { promptSetId, frequency, targetCompletionDate } = req.body;
             const { id, membershipType } = req.session.user;
@@ -110,7 +110,7 @@ module.exports = {
 
     // ✅ Fetch all registered prompt sets for a user
     getRegisteredPromptSets: async (req, res) => {
-        await connectDB();
+
         try {
             const { id } = req.session.user;
             const registrations = await PromptSetRegistration.find({ memberId: id }).populate('promptSetId');
@@ -131,7 +131,7 @@ module.exports = {
 
     // ✅ Update progress for a prompt set
     updateProgress: async (req, res) => {
-        await connectDB();
+
         try {
             const { promptSetId, promptIndex, note } = req.body;
             const { id } = req.session.user;
@@ -178,7 +178,7 @@ module.exports = {
 
     // ✅ Unregister from a prompt set
     unregisterPromptSet: async (req, res) => {
-        await connectDB();
+
         try {
             const { registrationId } = req.params;
 

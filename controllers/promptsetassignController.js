@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const PromptSetRegistration = require('../models/prompt_models/promptsetregistration');
 const PromptSetProgress = require('../models/prompt_models/promptsetprogress');
 
-const connectDB = require('../utils/db');
+
 
 
 
@@ -19,7 +19,7 @@ router.use(bodyParser.json());
 module.exports = {
     // Assign a prompt set to group members
     assignPromptSet: async (req, res) => {
-        await connectDB();
+
         try {
             console.log("Assigning prompt set - Full Request Body:", req.body);
     
@@ -180,7 +180,7 @@ req.session.save(err => {
     
     // Fetch assigned prompt sets for a leader
     getAssignedPromptSets: async (req, res) => {
-        await connectDB();
+
         try {
             const { id: groupLeaderId } = req.session.user;
 
@@ -202,7 +202,7 @@ req.session.save(err => {
 
     // Fetch assigned prompt sets for an individual member
     getAssignedPromptSetsForMember: async (req, res) => {
-        await connectDB();
+
         try {
             const { id: memberId } = req.session.user;
 
@@ -224,7 +224,7 @@ req.session.save(err => {
 
     // Remove an assigned prompt set
     unassignPromptSet: async (req, res) => {
-        await connectDB();
+
         try {
             const { assignmentId } = req.params;
 

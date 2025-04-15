@@ -3,7 +3,7 @@ const { validateMemberData } = require('../utils/validateMember');
 const MemberProfile = require('../models/profile_models/member_profile'); // Import MemberProfile
 const bcrypt = require('bcrypt');
 
-const connectDB = require('../utils/db');
+
 
 
 
@@ -19,7 +19,7 @@ module.exports = {
     },
 
     createMember: async (req, res) => {
-      await connectDB();
+
         try {
           const {
             name,

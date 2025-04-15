@@ -1,6 +1,5 @@
 const passport = require('passport');
 
-const connectDB = require('../utils/db');
 
 
 

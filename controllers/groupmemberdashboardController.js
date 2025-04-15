@@ -14,7 +14,7 @@ const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion
 const fs = require('fs');
 const path = require('path');
 
-const connectDB = require('../utils/db');
+
 
 
 
@@ -219,7 +219,7 @@ function getSubtopics(topicTitle) {
 
 module.exports = {
     renderGroupMemberDashboard: async (req, res) => {
-        await connectDB();
+
         try {
             const { id } = req.session.user;
             console.log("Fetching dashboard for user:", id);

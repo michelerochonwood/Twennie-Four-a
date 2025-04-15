@@ -11,7 +11,7 @@ const Tag = require('../models/tag');
 const path = require('path'); // ✅ Fix for "ReferenceError: path is not defined"
 const fs = require('fs'); // ✅ Ensure file system functions work
 
-const connectDB = require('../utils/db');
+
 
 
 
@@ -172,7 +172,7 @@ async function getPromptSchedule(memberId, promptSetId) {
 
 module.exports = {
     renderMemberDashboard: async (req, res) => {
-        await connectDB();
+
         try {
             const { id } = req.session.user;
             const userData = await Member.findById(id)

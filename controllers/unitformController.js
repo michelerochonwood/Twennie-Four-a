@@ -6,7 +6,7 @@ const Template = require('../models/unit_models/template');
 const Exercise = require('../models/unit_models/exercise');
 const MicroStudy = require('../models/unit_models/microstudy');
 const MicroCourse = require('../models/unit_models/microcourse');
-const connectDB = require('../utils/db');
+
 
 
 
@@ -80,7 +80,7 @@ const unitFormController = {
     // POST Handlers with Validation
     submitUnit: (Model, unitType, validateFunction) => async (req, res) => {
         
-        await connectDB();
+
         try {
             console.log(`Received POST request for ${unitType}:`, req.body);
     
@@ -127,7 +127,7 @@ const unitFormController = {
 
     // Success Page Handler
     showSuccessPage: async (req, res) => {
-        await connectDB();
+
         const { unitType, id, error } = req.query;
 
         try {
@@ -173,7 +173,7 @@ const unitFormController = {
 
 
     submitArticle: async (req, res) => {
-        await connectDB();
+
         try {
             if (!isDevelopment && !req.body._csrf) {
                 console.warn('CSRF validation failed.');
@@ -232,7 +232,7 @@ const unitFormController = {
     
 
     submitVideo: async (req, res) => {
-        await connectDB();
+
         try {
             if (!isDevelopment && !req.body._csrf) {
                 throw new Error('CSRF token is missing or invalid.');
@@ -289,7 +289,7 @@ const unitFormController = {
 
 
     submitInterview: async (req, res) => {
-        await connectDB();
+
         try {
             if (!isDevelopment && !req.body._csrf) {
                 throw new Error('CSRF token is missing or invalid.');
@@ -341,7 +341,7 @@ const unitFormController = {
     },
     
     getPromptForm: async (req, res) => {
-        await connectDB();
+
         try {
           console.log('New prompt set form requested');
       
@@ -464,7 +464,7 @@ const unitFormController = {
     
 
       submitPromptSet: async (req, res) => {
-        await connectDB();
+
         try {
           if (!isDevelopment && !req.body._csrf) {
             console.error('CSRF validation failed: CSRF token is missing or invalid.');
@@ -560,7 +560,7 @@ const unitFormController = {
     
 
     submitExercise: async (req, res) => {
-        await connectDB();
+
         try {
             if (!isDevelopment && !req.body._csrf) {
                 throw new Error('CSRF token is missing or invalid.');
@@ -614,7 +614,7 @@ const unitFormController = {
     
 
     submitTemplate: async (req, res) => {
-        await connectDB();
+
         try {
             if (!isDevelopment && !req.body._csrf) {
                 throw new Error('CSRF token is missing or invalid.');

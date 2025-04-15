@@ -4,14 +4,14 @@ const Leader = require("../models/member_models/leader");
 const { validateGroupMemberData } = require("../utils/validateGroupMember");
 const bcrypt = require('bcrypt');
 
-const connectDB = require('../utils/db');
+
 
 
 
 module.exports = {
     // Render the verification form
     showVerifyMemberForm: async (req, res) => {
-        await connectDB();
+
         try {
             console.log('Fetching groups with aggregation...');
             
@@ -47,7 +47,7 @@ module.exports = {
     // Handle member verification
 // Handle member verification (No registration code needed)
 verifyMember: async (req, res) => {
-    await connectDB();
+
     try {
         const { memberName, memberEmail, groupId, groupName } = req.body;
 
@@ -76,7 +76,7 @@ verifyMember: async (req, res) => {
 },
 
 verifyRegistrationCode: async (req, res) => {
-    await connectDB();
+
     try {
         const { groupId, registration_code } = req.body;
 
@@ -113,7 +113,7 @@ verifyRegistrationCode: async (req, res) => {
 
     // Handle member registration
     registerGroupMember: async (req, res) => {
-        await connectDB();
+
         try {
             const {
                 groupId,
@@ -240,7 +240,7 @@ await groupMember.save();
 
 
     showCompleteMemberForm: async (req, res) => {
-        await connectDB();
+
         try {
             const { memberName, memberEmail, groupId, groupName } = req.query;
     
