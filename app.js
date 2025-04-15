@@ -19,6 +19,8 @@ const app = express();
 // ✅ Trust proxy for secure cookies on Railway
 app.set('trust proxy', 1);
 
+console.log("✅ MONGO_URI in use:", process.env.MONGO_URI);
+
 // ✅ Handlebars setup
 const hbs = create({
   extname: '.hbs',
