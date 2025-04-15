@@ -122,6 +122,9 @@ require('./config/passport-config')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/stripe', require('./routes/stripe/stripewebhook'));
+
+
 // ✅ Global user session middleware
 const Member = require("./models/member_models/member");
 const Leader = require("./models/member_models/leader");

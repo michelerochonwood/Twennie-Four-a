@@ -970,6 +970,20 @@ html, body {
   .dashboard-button:hover {
     background: #4a4ab2;
   }
+
+  /* PAYMENT SUCCESS ENHANCEMENTS */
+
+.success-container.payment-success {
+  border: 2px solid #4e50a2;
+  border-radius: 16px;
+  background-color: #f5f5fc;
+  padding: 3rem;
+  margin-top: 150px;
+}
+
+.registration-complete.payment {
+  color: #4e50a2;
+}
   
 
   /* LOGIN PAGE */

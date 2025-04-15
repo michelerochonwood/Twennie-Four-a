@@ -4,6 +4,8 @@ const MemberProfile = require('../models/profile_models/member_profile');
 const bcrypt = require('bcrypt');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+
 module.exports = {
   showMemberForm: (req, res) => {
     res.render('member_form_views/member_form', {
@@ -31,7 +33,7 @@ module.exports = {
 
       console.log('Received registration data:', { name, username, email, accessLevel });
 
-      // Validate form data
+      // ✅ Validate input
       const errors = validateMemberData(req.body);
       if (errors.length > 0) {
         console.warn('Validation errors:', errors);
@@ -43,8 +45,10 @@ module.exports = {
         });
       }
 
+      // ✅ Secure password
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      // ✅ Create Member
       const newMember = new Member({
         name,
         professionalTitle,
@@ -61,6 +65,7 @@ module.exports = {
       await newMember.save();
       console.log('✅ Member saved:', newMember._id);
 
+      // ✅ Create Profile
       const memberProfile = new MemberProfile({
         memberId: newMember._id,
         name: newMember.name,
@@ -78,38 +83,43 @@ module.exports = {
       await memberProfile.save();
       console.log(`✅ Member Profile Created: ${memberProfile._id}`);
 
-      // Set session
+      // ✅ Store session
       req.session.user = {
         id: newMember._id,
         username: newMember.username,
         membershipType: newMember.membershipType,
       };
 
-      // If member chose paid membership, redirect to Stripe
+      // ✅ Redirect to Stripe if paid
       if (accessLevel === 'paid_individual') {
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ['card'],
-          mode: 'payment',
+          mode: 'subscription',
           line_items: [
             {
               price_data: {
-                currency: 'usd',
+                currency: 'cad',
+                unit_amount: 1700, // $17.00 CAD in cents
+                recurring: { interval: 'month' },
                 product_data: {
                   name: 'Twennie Paid Individual Membership',
                 },
-                unit_amount: 1500, // $15.00 in cents
+                tax_behavior: 'exclusive', // GST/HST will be added on top
               },
               quantity: 1,
             },
           ],
-          success_url: `${process.env.BASE_URL}/member/payment/success`,
-          cancel_url: `${process.env.BASE_URL}/member/payment/cancel`,
+          automatic_tax: { enabled: true }, // ✅ Enable GST/HST calculations
+          billing_address_collection: 'required', // ✅ Ensures province is collected
+          success_url: `${baseUrl}/member/payment/success`,
+          cancel_url: `${baseUrl}/member/payment/cancel`,
         });
-
+      
         return res.redirect(303, session.url);
       }
+      
 
-      // Otherwise, show success page for free/contributor memberships
+      // ✅ Free or Contributor — show success
       res.render("member_form_views/register_success", {
         layout: "memberformlayout",
         title: "Registration Successful",
@@ -128,4 +138,5 @@ module.exports = {
     }
   }
 };
+
 

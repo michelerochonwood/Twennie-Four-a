@@ -6,7 +6,8 @@ const LeaderProfile = require('../models/profile_models/leader_profile');
 
 const GroupProfile = require('../models/profile_models/group_profile');
 const bcrypt = require('bcrypt');
-
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
 
 
@@ -33,171 +34,223 @@ module.exports = {
     },
 
     // Handle leader form submission
-    createLeader: async (req, res) => {
-
-        try {
-            const {
-                groupName,
-                groupLeaderName,
-                professionalTitle,
-                organization,
-                username,
-                groupLeaderEmail,
-                password,
-                groupSize,
-                topic1,
-                topic2,
-                topic3,
-                members,
-                registration_code,
-            } = req.body;
-
-            console.log('Parsed members:', members);
-
-            // Validate leader data
-            const leaderErrors = validateLeaderData(req.body);
-            if (leaderErrors.length > 0) {
-                console.error('Leader validation errors:', leaderErrors);
-                return res.status(400).render('member_form_views/form_leader', {
-                    layout: 'memberformlayout',
-                    title: 'Leader Membership Form',
-                    csrfToken: req.csrfToken ? req.csrfToken() : null,
-                    errorMessage: leaderErrors.join(" "),
-                });
-            }
-
-            // Create the leader document
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            const leader = new Leader({
-                groupName,
-                groupLeaderName,
-                professionalTitle,
-                organization,
-                username,
-                groupLeaderEmail,
-                password: hashedPassword, // ✅ hashed password
-                groupSize,
-                topics: { topic1, topic2, topic3 },
-                members: [],
-                registration_code,
-            });
-            
-            const savedLeader = await leader.save();
-            console.log('✅ Leader saved successfully:', savedLeader);
-            
-            // ✅ Automatically create a profile for the leader
-            const leaderProfile = new LeaderProfile({
-                leaderId: savedLeader._id,
-                name: savedLeader.groupLeaderName,
-                professionalTitle: savedLeader.professionalTitle,
-                profileImage: "/images/default-avatar.png",
-                biography: "",
-                goals: "",
-                groupLeadershipGoals: "",
-                topics: {
-                    topic1: topic1 || "Default Topic 1",
-                    topic2: topic2 || "Default Topic 2",
-                    topic3: topic3 || "Default Topic 3"
-                }
-            });
-            
-            await leaderProfile.save();
-            console.log(`✅ Leader Profile Created: ${leaderProfile._id}`);
-            
-            // ✅ Automatically create a profile for the group
-            const groupProfile = new GroupProfile({
-                groupId: savedLeader._id, // Link to the Leader document
-                groupName: savedLeader.groupName,
-                groupLeaderName: savedLeader.groupLeaderName,
-                organization: savedLeader.organization,
-                groupSize: savedLeader.groupSize,
-                groupGoals: "",
-                groupTopics: {
-                    topic1: topic1 || "Default Topic 1",
-                    topic2: topic2 || "Default Topic 2",
-                    topic3: topic3 || "Default Topic 3"
-                },
-                members: [], // Initially empty
-                groupImage: "/images/default-group.png"
-            });
-            
-            await groupProfile.save();
-            console.log(`✅ Group Profile Created: ${groupProfile._id}`);
-
-            // Validate each group member
-            const memberErrors = [];
-            members.forEach((member, index) => {
-                const errors = validateGroupMemberData({
-                    groupId: savedLeader._id.toString(),
-                    groupName,
-                    ...member,
-                    username: `member_${index}_${groupName.toLowerCase().replace(/\s+/g, '_')}`,
-                    password: 'defaultPassword123', // Default password for debugging
-                    topics: { topic1, topic2, topic3 },
-                });
-                if (errors.length > 0) {
-                    memberErrors.push(`Member ${index + 1}: ${errors.join(", ")}`);
-                }
-            });
-
-            if (memberErrors.length > 0) {
-                console.error('Group member validation errors:', memberErrors);
-                return res.status(400).render('member_form_views/form_leader', {
-                    layout: 'memberformlayout',
-                    title: 'Leader Membership Form',
-                    csrfToken: req.csrfToken ? req.csrfToken() : null,
-                    errorMessage: memberErrors.join(" "),
-                });
-            }
-
-            console.log('Validation passed. Proceeding to save members.');
-
-            // Create group member documents and update members field
-            const groupMemberPromises = members.map(async (member, index) => {
-                const groupMember = new GroupMember({
-                    groupId: savedLeader._id,
-                    groupName,
-                    name: member.name,
-                    email: member.email,
-                    username: `member_${index}_${groupName.toLowerCase().replace(/\s+/g, '_')}`,
-                    password: await bcrypt.hash('defaultPassword123', 10), // ✅ hashed default
-                    topics: { topic1, topic2, topic3 },
-                });
-
-                const savedMember = await groupMember.save();
-                savedLeader.members.push(savedMember._id); // Add member ID to leader's members array
-                return savedMember;
-            });
-
-            await Promise.all(groupMemberPromises);
-            await savedLeader.save();
-            console.log('All group members saved successfully.');
-
-            // Set session for the new leader
-            req.session.user = {
-                id: savedLeader._id,
-                username: savedLeader.username,
-                membershipType: savedLeader.membershipType,
-            };
-
-            // Redirect to success page
-            res.render('member_form_views/register_success', {
-                layout: 'memberformlayout',
-                title: 'Registration Successful',
-                username: savedLeader.username,
-                user: savedLeader,
-                dashboardLink: "/dashboard/leader"
-            });
-        } catch (err) {
-            console.error('Error creating leader or group members:', err.message);
-            res.status(500).render('member_form_views/error', {
-                layout: 'mainlayout',
-                title: 'Error',
-                errorMessage: 'An error occurred while creating the leader or group members.',
-            });
+// Handle leader form submission
+createLeader: async (req, res) => {
+    try {
+      const {
+        groupName,
+        groupLeaderName,
+        professionalTitle,
+        organization,
+        username,
+        groupLeaderEmail,
+        password,
+        groupSize,
+        topic1,
+        topic2,
+        topic3,
+        members,
+        registration_code,
+        redirectTarget // ✅ Now passed from hidden field
+      } = req.body;
+  
+      console.log('Parsed members:', members);
+  
+      const leaderErrors = validateLeaderData(req.body);
+      if (leaderErrors.length > 0) {
+        console.error('Leader validation errors:', leaderErrors);
+        return res.status(400).render('member_form_views/form_leader', {
+          layout: 'memberformlayout',
+          title: 'Leader Membership Form',
+          csrfToken: req.csrfToken ? req.csrfToken() : null,
+          errorMessage: leaderErrors.join(" "),
+        });
+      }
+  
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      const leader = new Leader({
+        groupName,
+        groupLeaderName,
+        professionalTitle,
+        organization,
+        username,
+        groupLeaderEmail,
+        password: hashedPassword,
+        groupSize,
+        topics: { topic1, topic2, topic3 },
+        members: [],
+        registration_code,
+        accessLevel: 'paid_leader', // ✅ Ensure access level is stored
+      });
+  
+      const savedLeader = await leader.save();
+      console.log('✅ Leader saved successfully:', savedLeader);
+  
+      const leaderProfile = new LeaderProfile({
+        leaderId: savedLeader._id,
+        name: savedLeader.groupLeaderName,
+        professionalTitle: savedLeader.professionalTitle,
+        profileImage: "/images/default-avatar.png",
+        biography: "",
+        goals: "",
+        groupLeadershipGoals: "",
+        topics: {
+          topic1: topic1 || "Default Topic 1",
+          topic2: topic2 || "Default Topic 2",
+          topic3: topic3 || "Default Topic 3"
         }
-    },
+      });
+  
+      await leaderProfile.save();
+      console.log(`✅ Leader Profile Created: ${leaderProfile._id}`);
+  
+      const groupProfile = new GroupProfile({
+        groupId: savedLeader._id,
+        groupName: savedLeader.groupName,
+        groupLeaderName: savedLeader.groupLeaderName,
+        organization: savedLeader.organization,
+        groupSize: savedLeader.groupSize,
+        groupGoals: "",
+        groupTopics: {
+          topic1: topic1 || "Default Topic 1",
+          topic2: topic2 || "Default Topic 2",
+          topic3: topic3 || "Default Topic 3"
+        },
+        members: [],
+        groupImage: "/images/default-group.png"
+      });
+  
+      await groupProfile.save();
+      console.log(`✅ Group Profile Created: ${groupProfile._id}`);
+  
+      const memberErrors = [];
+      members.forEach((member, index) => {
+        const errors = validateGroupMemberData({
+          groupId: savedLeader._id.toString(),
+          groupName,
+          ...member,
+          username: `member_${index}_${groupName.toLowerCase().replace(/\s+/g, '_')}`,
+          password: 'defaultPassword123',
+          topics: { topic1, topic2, topic3 },
+        });
+        if (errors.length > 0) {
+          memberErrors.push(`Member ${index + 1}: ${errors.join(", ")}`);
+        }
+      });
+  
+      if (memberErrors.length > 0) {
+        console.error('Group member validation errors:', memberErrors);
+        return res.status(400).render('member_form_views/form_leader', {
+          layout: 'memberformlayout',
+          title: 'Leader Membership Form',
+          csrfToken: req.csrfToken ? req.csrfToken() : null,
+          errorMessage: memberErrors.join(" "),
+        });
+      }
+  
+      console.log('Validation passed. Proceeding to save members.');
+  
+      const groupMemberPromises = members.map(async (member, index) => {
+        const groupMember = new GroupMember({
+          groupId: savedLeader._id,
+          groupName,
+          name: member.name,
+          email: member.email,
+          username: `member_${index}_${groupName.toLowerCase().replace(/\s+/g, '_')}`,
+          password: await bcrypt.hash('defaultPassword123', 10),
+          topics: { topic1, topic2, topic3 },
+        });
+  
+        const savedMember = await groupMember.save();
+        savedLeader.members.push(savedMember._id);
+        return savedMember;
+      });
+  
+      await Promise.all(groupMemberPromises);
+      await savedLeader.save();
+      console.log('All group members saved successfully.');
+  
+      req.session.user = {
+        id: savedLeader._id,
+        username: savedLeader.username,
+        membershipType: savedLeader.membershipType,
+      };
+  
+      // ✅ Stripe redirect for all leaders
+      if (redirectTarget === 'payment') {
+        const groupSizeInt = parseInt(groupSize);
+        const unitAmount = groupSizeInt * 1700; // $17 per member in CAD cents
+      
+        // ✅ Create Stripe Customer with metadata
+        const customer = await stripe.customers.create({
+          email: groupLeaderEmail,
+          name: groupLeaderName,
+          metadata: {
+            leaderId: savedLeader._id.toString(),
+            groupName: groupName
+          }
+        });
+      
+        // ✅ Save Stripe customer ID in Leader document
+        savedLeader.stripeCustomerId = customer.id;
+        await savedLeader.save();
+      
+        // ✅ Create product + price
+        const product = await stripe.products.create({
+          name: `Twennie Group Membership (${groupSizeInt} members)`
+        });
+      
+        const price = await stripe.prices.create({
+          unit_amount: unitAmount,
+          currency: 'cad',
+          recurring: { interval: 'month' },
+          product: product.id,
+          tax_behavior: 'exclusive'
+        });
+      
+        // ✅ Create subscription checkout session
+        const session = await stripe.checkout.sessions.create({
+          customer: customer.id,
+          payment_method_types: ['card'],
+          mode: 'subscription',
+          line_items: [
+            {
+              price: price.id,
+              quantity: 1,
+            },
+          ],
+          automatic_tax: { enabled: true },
+          billing_address_collection: 'required',
+          success_url: `${baseUrl}/member/payment/success`,
+          cancel_url: `${baseUrl}/member/payment/cancel`,
+        });
+      
+        console.log(`✅ Stripe session created: ${session.id}`);
+        return res.redirect(303, session.url);
+      }
+      
+      
+      
+  
+      // Default fallback (never hit in practice)
+      res.render('member_form_views/register_success', {
+        layout: 'memberformlayout',
+        title: 'Registration Successful',
+        username: savedLeader.username,
+        user: savedLeader,
+        dashboardLink: "/dashboard/leader"
+      });
+    } catch (err) {
+      console.error('Error creating leader or group members:', err.message);
+      res.status(500).render('member_form_views/error', {
+        layout: 'mainlayout',
+        title: 'Error',
+        errorMessage: 'An error occurred while creating the leader or group members.',
+      });
+    }
+  },
+  
 
     // Render the add group member form
     showAddGroupMemberForm: async (req, res) => {

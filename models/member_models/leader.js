@@ -116,10 +116,20 @@ const leaderSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
-  }
-}, {
+  },
+stripeCustomerId: { type: String },
+stripeSubscriptionId: { type: String },
+
+subscriptionStatus: {
+  type: String,
+  enum: ['active', 'cancelled', 'pending'],
+  default: 'pending'
+},
+
   timestamps: true
 });
+
+
 
 const Leader = mongoose.model('Leader', leaderSchema);
 
