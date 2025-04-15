@@ -11,11 +11,24 @@ const moment = require('moment');
 const passport = require('passport'); // Imported once, globally
 const MongoStore = require('connect-mongo');
 
+const app = express();
 
+// ✅ Tell Express to trust Railway's proxy
+app.set('trust proxy', 1);
 // Importing CORs.
 const cors = require('cors');
 
 dotenv.config();
+
+const csrf = require('csurf');
+
+// AFTER sessions
+app.use(csrf());
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken(); // Now it's built-in
+  next();
+});
 
 // Handlebars setup
 const hbs = create({
@@ -92,7 +105,7 @@ hbs.getPartials().then((partials) => {
 });
 
 
-const app = express();
+
 
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
@@ -144,46 +157,8 @@ app.use(
     })
 );
 
-// CSRF Protection setup
-const csrfTokens = new csrf();
-//const disableCSRF = process.env.NODE_ENV !== 'production';
 
 
-
-
-
-app.use((req, res, next) => {
-    if (!req.session.csrfSecret) {
-        req.session.csrfSecret = csrfTokens.secretSync();
-    }
-
-    try {
-        res.locals.csrfToken = csrfTokens.create(req.session.csrfSecret);
-        next();
-    } catch (err) {
-        console.error('CSRF token generation error:', err.message);
-        res.locals.csrfToken = null;
-        next(err);
-    }
-});
-
-app.use((req, res, next) => {
-    if (req.method !== 'POST') {
-        return next();
-    }
-
-    const token = req.body._csrf || req.headers['x-csrf-token'];
-    if (!csrfTokens.verify(req.session.csrfSecret, token)) {
-        console.warn('Invalid CSRF token');
-        return res.status(403).render('member_form_views/error', {
-            layout: 'memberformlayout',
-            title: 'Forbidden',
-            errorMessage: 'Invalid CSRF token.',
-        });
-    }
-
-    next();
-});
 
 
 
@@ -337,6 +312,18 @@ app.use((err, req, res, next) => {
         errorMessage: process.env.NODE_ENV === 'development' ? err.message : 'An internal server error occurred.',
     });
 });
+
+app.use((err, req, res, next) => {
+    if (err.code === 'EBADCSRFTOKEN') {
+      return res.status(403).render('member_form_views/error', {
+        layout: 'memberformlayout',
+        title: 'CSRF Error',
+        errorMessage: 'Form submission failed for security reasons. Please try again.',
+      });
+    }
+    next(err);
+  });
+  
 
 module.exports = app;
 
