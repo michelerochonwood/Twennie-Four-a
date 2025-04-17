@@ -32,20 +32,43 @@ const hbs = create({
     allowProtoMethodsByDefault: true,
   },
   helpers: {
-    replace: (string, find, replace) => typeof string === 'string' ? string.split(find).join(replace) : '',
-    formatContent: (content) => content ? content.replace(/\n/g, '<br>') : '',
-    ifEquals: (a, b, options) => a === b ? options.fn(this) : options.inverse(this),
-    toLowerCase: (str) => typeof str === 'string' ? str.toLowerCase() : '',
-    formatDate: (date) => date ? moment(date).format('MMMM D, YYYY') : '',
+    replace: (string, find, replace) =>
+      typeof string === 'string' ? string.split(find).join(replace) : '',
+  
+    formatContent: (content) =>
+      content ? content.replace(/\n/g, '<br>') : '',
+  
+    ifEquals: (a, b, options) =>
+      a === b ? options.fn(this) : options.inverse(this),
+  
+    toLowerCase: (str) =>
+      typeof str === 'string' ? str.toLowerCase() : '',
+  
+    formatDate: (date) =>
+      date ? moment(date).format('MMMM D, YYYY') : '',
+  
     eq: (v1, v2) => v1 === v2,
+  
     ne: (v1, v2) => v1 !== v2,
+  
     and: (v1, v2) => v1 && v2,
+  
     or: (v1, v2) => v1 || v2,
-    includes: (array, value) => Array.isArray(array) && array.includes(value),
-    ifIncludes: (array, value, options) => Array.isArray(array) && array.includes(value) ? options.fn(this) : options.inverse(this),
-    range: (start, end) => Array.from({ length: end - start }, (_, i) => start + i),
-    concat: (str1, str2) => `${str1}${str2}`,
+  
+    includes: (array, value) =>
+      Array.isArray(array) && array.includes(value),
+  
+    ifIncludes: (array, value, options) =>
+      Array.isArray(array) && array.includes(value) ? options.fn(this) : options.inverse(this),
+  
+    range: (start, end) =>
+      Array.from({ length: end - start }, (_, i) => start + i),
+  
+    concat: (str1, str2) =>
+      `${str1}${str2}`,
+  
     lt: (a, b) => a < b,
+  
     getUnitTypeIcon: (unitType) => {
       const icons = {
         article: '/icons/article.svg',
@@ -57,11 +80,33 @@ const hbs = create({
       };
       return icons[unitType] || '/icons/default.svg';
     },
-    capitalize: (str) => typeof str === 'string' ? str.charAt(0).toUpperCase() + str.slice(1) : '',
-    json: (context) => JSON.stringify(context, null, 2),
-    increment: (value) => parseInt(value) + 1,
+  
+    // NEW: Get duration image for each unit type
+    getDurationImage: (unitType) => {
+      const baseURL = 'https://www.twennie.com/images/';
+      const map = {
+        article: '5mins.svg',
+        video: '10mins.svg',
+        interview: '10mins.svg',
+        promptset: '20mins.svg',
+        exercise: '30mins.svg',
+        template: '30mins.svg',
+      };
+      return baseURL + (map[unitType] || '5mins.svg');
+    },
+  
+    capitalize: (str) =>
+      typeof str === 'string' ? str.charAt(0).toUpperCase() + str.slice(1) : '',
+  
+    json: (context) =>
+      JSON.stringify(context, null, 2),
+  
+    increment: (value) =>
+      parseInt(value) + 1,
+  
     timestamp: () => Date.now()
   }
+  
 });
 
 hbs.getPartials().then((partials) => {

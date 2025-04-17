@@ -9,30 +9,32 @@
       <div class="bytopic-library-unit-card">
         <!-- SVG Header Container -->
         <div class="bytopic-card-svg-header">
-          <svg
-            id="Layer_2"
-            data-name="Layer 2"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 198.89 17.83"
-          >
+          <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198.89 17.83">
             <defs>
-              <style>
-                .cls-1 {
-                  fill: #4e50a2;
-                }
-              </style>
+              <style>.cls-1 { fill: #4e50a2; }</style>
             </defs>
             <g id="Layer_1-2" data-name="Layer 1">
-              <path
-                class="cls-1"
-                d="M0,9.74s30.57,13.88,92.83,1.88c0,0,68.2-13.17,106.06,6.21V0H0v9.74Z"
-              />
+              <path class="cls-1" d="M0,9.74s30.57,13.88,92.83,1.88c0,0,68.2-13.17,106.06,6.21V0H0v9.74Z"/>
             </g>
           </svg>
         </div>
 
         <!-- Card Content Container -->
         <div class="bytopic-card-content">
+
+          <!-- Duration Image -->
+          <div class="bytopic-duration-image-container" style="text-align: center;">
+            {{#if (eq this.type "article")}}
+              <img src="https://www.twennie.com/images/5mins.svg" alt="5 mins" class="bytopic-duration-image">
+            {{else if (or (eq this.type "video") (eq this.type "interview"))}}
+              <img src="https://www.twennie.com/images/10mins.svg" alt="10 mins" class="bytopic-duration-image">
+            {{else if (eq this.type "promptset")}}
+              <img src="https://www.twennie.com/images/20mins.svg" alt="20 mins" class="bytopic-duration-image">
+            {{else if (or (eq this.type "exercise") (eq this.type "template"))}}
+              <img src="https://www.twennie.com/images/30mins.svg" alt="30 mins" class="bytopic-duration-image">
+            {{/if}}
+          </div>
+
           <!-- Unit Type Icon -->
           <div class="bytopic-unit-type-icon-container">
             <img src="{{getUnitTypeIcon this.type}}" alt="Unit Type Icon" class="bytopic-unit-type-icon">
@@ -44,20 +46,14 @@
           </div>
 
           <!-- Down Arrow for Expand/Collapse -->
-<div class="bytopic-expand-toggle" onclick="toggleCard(this)">
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #4e50a2;
-      }
-    </style>
-  </defs>
-  <g id="Layer_1-2" data-name="Layer 1">
-    <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-  </g>
-</svg>
-</div>
+          <div class="bytopic-expand-toggle" onclick="toggleCard(this)">
+            <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
+              <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
+              <g id="Layer_1-2" data-name="Layer 1">
+                <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
+              </g>
+            </svg>
+          </div>
 
           <!-- Hidden Content (Initially Collapsed) -->
           <div class="bytopic-hidden-content">
@@ -91,6 +87,7 @@
     </div>
   </div>
 </div>
+
 
 
 

@@ -67,10 +67,16 @@
   </div> <!-- Closing .single_article-main -->
 
   <!-- Sidebar -->
-  <aside class="single_article-sidebar">
-    <div class="single_article-image-container">
-      <img src="{{article_image}}" alt="Article Image" class="single_article-image">
-    </div>
+<aside class="single_article-sidebar">
+  <!-- Duration Image -->
+  <div class="single_article-duration-image-container" style="text-align: center; margin-bottom: 10px; width: 100px; height: auto; display: inline-block">
+    <img src="https://www.twennie.com/images/5mins.svg" alt="Estimated Time: 5 Minutes" class="single_article-duration-image">
+  </div>
+
+  <!-- Article Image -->
+  <div class="single_article-image-container">
+    <img src="{{article_image}}" alt="Article Image" class="single_article-image">
+  </div>
     <p class="single_article-title-sidebar">{{article_title}}</p>
 
     <!-- Toggle Arrow for Expanding Sidebar Details -->
