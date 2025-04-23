@@ -5,6 +5,30 @@
     <p class="single_exercise-short-summary" style="color:#4e50a2;"><strong>{{short_summary}}</strong></p>
     <p class="single_exercise-long-summary" style="margin-bottom: 20px;">{{full_summary}}</p>
 
+    <!-- Estimated Time Display -->
+{{#if time_required}}
+  <div class="single_exercise-time-display">
+    <p class="single_exercise-short-summary"><strong>Estimated Time:</strong> {{time_required}}</p>
+  </div>
+{{/if}}
+
+<!-- Uploaded Documents Display -->
+{{#if document_uploads.length}}
+  <div class="single_exercise-documents">
+    <p class="single_exercise-short-summary"><strong>Attached Documents:</strong></p>
+    <ul>
+      {{#each document_uploads}}
+        <li>
+          <a href="{{this}}" target="_blank" rel="noopener" class="single_exercise-download-btn">
+            View Document(s) {{@index+1}}
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
+
+
     <!-- Download Button -->
 {{#if isAuthorizedToViewFullContent}}
   <!-- Download Button -->

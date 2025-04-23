@@ -73,6 +73,33 @@
         </div>
     </div>
 
+    <!-- Document Uploads -->
+<div class="form-field">
+  <label for="document_uploads">Upload Supporting Documents (up to 3)</label>
+  <input
+    type="file"
+    id="document_uploads"
+    name="document_uploads"
+    multiple
+    accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
+    onchange="if(this.files.length > 3) { alert('You can upload up to 3 files.'); this.value = ''; }"
+  >
+  <small>You can select multiple files at once. Only the first three will be saved.</small>
+</div>
+
+<!-- Time Estimate Dropdown -->
+<div class="form-field">
+  <label for="time_required">Estimated Completion Time</label>
+  <select name="time_required" id="time_required" required>
+    <option value="">Select a time estimate</option>
+    <option value="15 mins" {{#ifEquals data.time_required "15 mins"}}selected{{/ifEquals}}>15 mins</option>
+    <option value="30 mins" {{#ifEquals data.time_required "30 mins"}}selected{{/ifEquals}}>30 mins</option>
+    <option value="1 hour" {{#ifEquals data.time_required "1 hour"}}selected{{/ifEquals}}>1 hour</option>
+    <option value="1.5 hours" {{#ifEquals data.time_required "1.5 hours"}}selected{{/ifEquals}}>1.5 hours</option>
+  </select>
+</div>
+
+
       <!-- Toggles -->
       <div class="form-field">
         <div class="white-container">

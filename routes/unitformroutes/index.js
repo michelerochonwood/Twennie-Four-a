@@ -7,6 +7,7 @@ const PromptSet = require('../../models/unit_models/promptset');
 const unitFormController = require('../../controllers/unitformController');
 const ensureAuthenticated = require('../../middleware/ensureAuthenticated');
 const isDevelopment = process.env.NODE_ENV !== 'production';
+const uploadDocs = require('../utils/multerDocuments');
 
 // Debugging the ensureAuthenticated function
 console.log('ensureAuthenticated:', ensureAuthenticated);
@@ -484,7 +485,12 @@ router.get('/edit_exercise/:id', ensureAuthenticated, async (req, res) => {
     }
 });
 
-router.post('/submit_exercise', ensureAuthenticated, unitFormController.submitExercise);
+router.post(
+    '/submit_exercise',
+    ensureAuthenticated,
+    uploadDocs.array('document_uploads', 3),
+    unitFormController.submitExercise
+  );
 
 
 

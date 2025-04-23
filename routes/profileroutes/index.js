@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const profileController = require("../../controllers/profileController");
 const ensureAuthenticated = require("../../middleware/ensureAuthenticated");
-const upload = require('../../middleware/multer');
+const uploadImages = require("../../middleware/multerImages"); // ✅ updated import
 
 // ✅ Public Profile Routes
 router.get("/member/:id", profileController.viewMemberProfile);
@@ -12,26 +12,26 @@ router.get("/group/:id", profileController.viewGroupProfile);
 
 // ✅ Private Profile Edit Routes (with image upload)
 router.get("/member/:id/edit", ensureAuthenticated, profileController.editMemberProfile);
-router.post("/member/:id/update", ensureAuthenticated, upload.single("profileImage"), profileController.updateMemberProfile);
+router.post("/member/:id/update", ensureAuthenticated, uploadImages.single("profileImage"), profileController.updateMemberProfile);
 
 router.get("/leader/:id/edit", ensureAuthenticated, profileController.editLeaderProfile);
-router.post("/leader/:id/update", ensureAuthenticated, upload.single("profileImage"), profileController.updateLeaderProfile);
+router.post("/leader/:id/update", ensureAuthenticated, uploadImages.single("profileImage"), profileController.updateLeaderProfile);
 
 router.get("/groupmember/:id/edit", ensureAuthenticated, profileController.editGroupMemberProfile);
-router.post("/groupmember/:id/update", ensureAuthenticated, upload.single("profileImage"), profileController.updateGroupMemberProfile);
+router.post("/groupmember/:id/update", ensureAuthenticated, uploadImages.single("profileImage"), profileController.updateGroupMemberProfile);
 
 router.get("/group/:id/edit", ensureAuthenticated, profileController.editGroupProfile);
-router.post("/group/:id/update", ensureAuthenticated, upload.single("profileImage"), profileController.updateGroupProfile);
+router.post("/group/:id/update", ensureAuthenticated, uploadImages.single("profileImage"), profileController.updateGroupProfile);
 
 // ✅ Optional test upload endpoint
-router.post('/upload-profile', upload.single('profileImage'), async (req, res) => {
+router.post('/upload-profile', uploadImages.single('profileImage'), async (req, res) => {
   try {
     const buffer = req.file.buffer;
     const base64 = buffer.toString('base64');
     const dataUri = `data:${req.file.mimetype};base64,${base64}`;
 
-    const cloudinary = require('../../utils/cloudinary');
-    const result = await cloudinary.uploader.upload(dataUri, {
+    const { uploader } = require('../../utils/cloudinary'); // ✅ updated access to uploader
+    const result = await uploader.upload(dataUri, {
       folder: 'twennie_profiles',
     });
 
@@ -43,6 +43,7 @@ router.post('/upload-profile', upload.single('profileImage'), async (req, res) =
 });
 
 module.exports = router;
+
 
 
 

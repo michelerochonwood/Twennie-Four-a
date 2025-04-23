@@ -6,8 +6,7 @@ const Template = require('../models/unit_models/template');
 const Exercise = require('../models/unit_models/exercise');
 const MicroStudy = require('../models/unit_models/microstudy');
 const MicroCourse = require('../models/unit_models/microcourse');
-
-
+const { uploader } = require('../utils/cloudinary');
 
 
 console.log('unitFormController loaded');
@@ -553,63 +552,91 @@ const unitFormController = {
       },
       
       
-      
-    
-    
-    
-    
-
-    submitExercise: async (req, res) => {
-
+      submitExercise: async (req, res) => {
         try {
-            if (!isDevelopment && !req.body._csrf) {
-                throw new Error('CSRF token is missing or invalid.');
-            }
-    
-            const { _id, ...exerciseData } = req.body; // Extract _id and other form data
-    
-            // Convert checkbox values from "on" to true
-            const booleanFields = ['clarify_topic', 'topics_and_enlightenment', 'challenge', 'instructions', 'time', 'permission'];
-            booleanFields.forEach((field) => {
-                exerciseData[field] = req.body[field] === 'on';
-            });
-    
-            // Automatically include author information
-            exerciseData.author = {
-                id: req.user._id, // Automatically populate the logged-in user's ID
-            };
-    
-            let exercise;
-            if (_id) {
-                // Edit existing exercise
-                exercise = await Exercise.findByIdAndUpdate(
-                    _id,
-                    exerciseData,
-                    { new: true, runValidators: true } // Ensure validators are run
+          if (!isDevelopment && !req.body._csrf) {
+            throw new Error('CSRF token is missing or invalid.');
+          }
+      
+          const { _id, ...exerciseData } = req.body;
+      
+          // Convert checkbox values
+          const booleanFields = [
+            'clarify_topic',
+            'topics_and_enlightenment',
+            'challenge',
+            'instructions',
+            'time',
+            'permission'
+          ];
+          booleanFields.forEach((field) => {
+            exerciseData[field] = req.body[field] === 'on';
+          });
+      
+          // Add author
+          exerciseData.author = {
+            id: req.user._id
+          };
+      
+          // Upload each file to Cloudinary and collect secure URLs
+          if (req.files && req.files.length > 0) {
+            const uploadPromises = req.files.map((file) => {
+              return new Promise((resolve, reject) => {
+                const stream = uploader.upload_stream(
+                  {
+                    folder: 'twennie_exercises',
+                    resource_type: 'raw', // Important: allows non-image uploads
+                    public_id: file.originalname.replace(/\.[^/.]+$/, '') // removes file extension
+                  },
+                  (error, result) => {
+                    if (error) return reject(error);
+                    resolve(result.secure_url);
+                  }
                 );
-                console.log(`Exercise with ID ${_id} updated successfully.`);
-            } else {
-                // Create new exercise
-                exercise = new Exercise(exerciseData);
-                await exercise.save();
-                console.log('New exercise created successfully.');
-            }
-    
-            res.render('unit_form_views/unit_success', {
-                layout: 'unitformlayout',
-                unitType: 'exercise',
-                unit: exercise,
-                csrfToken: isDevelopment ? null : req.csrfToken(),
+                stream.end(file.buffer);
+              });
             });
+      
+            const documentUrls = await Promise.all(uploadPromises);
+            exerciseData.document_uploads = documentUrls;
+          }
+      
+          let exercise;
+      
+          if (_id) {
+            exercise = await Exercise.findByIdAndUpdate(
+              _id,
+              exerciseData,
+              { new: true, runValidators: true }
+            );
+            console.log(`Exercise with ID ${_id} updated successfully.`);
+          } else {
+            exercise = new Exercise(exerciseData);
+            await exercise.save();
+            console.log('New exercise created successfully.');
+          }
+      
+          res.render('unit_form_views/unit_success', {
+            layout: 'unitformlayout',
+            unitType: 'exercise',
+            unit: exercise,
+            csrfToken: isDevelopment ? null : req.csrfToken(),
+          });
+      
         } catch (error) {
-            console.error('Error submitting exercise:', error);
-            res.status(500).render('unit_form_views/error', {
-                layout: 'unitformlayout',
-                title: 'Error',
-                errorMessage: 'An error occurred while submitting the exercise.',
-            });
+          console.error('Error submitting exercise:', error);
+          res.status(500).render('unit_form_views/error', {
+            layout: 'unitformlayout',
+            title: 'Error',
+            errorMessage: 'An error occurred while submitting the exercise.',
+          });
         }
-    },
+      },
+    
+    
+    
+    
+
     
     
 
