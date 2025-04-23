@@ -7,7 +7,7 @@ const PromptSet = require('../../models/unit_models/promptset');
 const unitFormController = require('../../controllers/unitformController');
 const ensureAuthenticated = require('../../middleware/ensureAuthenticated');
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const uploadDocs = require('../../utils/multerDocuments');
+const uploadDocs = require('../../middleware/multerDocuments');
 
 // Debugging the ensureAuthenticated function
 console.log('ensureAuthenticated:', ensureAuthenticated);
