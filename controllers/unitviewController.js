@@ -483,7 +483,13 @@ module.exports = {
     
             // Determine if user is allowed to view full content
             const isAuthorizedToViewFullContent = isOwner || isGroupMemberOrLeader || isPayingIndividual;
-    
+            console.log("🧪 Auth check:");
+            console.log("isOwner:", isOwner);
+            console.log("isGroupMemberOrLeader:", !!isGroupMemberOrLeader);
+            console.log("isPayingIndividual:", isPayingIndividual);
+            console.log("accessLevel:", req.user?.accessLevel);
+            console.log("membershipType:", req.user?.membershipType);
+            console.log("Final isAuthorizedToViewFullContent:", isAuthorizedToViewFullContent);
             // Render the single exercise view
             res.render('unit_views/single_exercise', {
                 layout: 'unitviewlayout',
