@@ -78,9 +78,13 @@ View Document {{increment @index}}
 </svg>
         </div>
 
-        <a href="#" class="single_exercise-download-btn">
-            download exercise
-        </a>
+{{#each document_uploads}}
+  <li>
+    <a href="{{this}}" target="_blank" rel="noopener" class="single_exercise-download-btn" download>
+      Download Document {{increment @index}}
+    </a>
+  </li>
+{{/each}}
     </div>
 
   <!-- Tag This Unit -->

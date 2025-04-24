@@ -14,28 +14,37 @@ const mongoose = require('mongoose');
 
 
 async function resolveAuthorById(authorId) {
-    let author = null;
+  let author;
 
-    // Check Leader collection
-    author = await Leader.findById(authorId).select('groupLeaderName profileImage');
-    if (author) {
-        return { name: author.groupLeaderName, image: author.profileImage };
-    }
+  // Check Leader collection
+  author = await Leader.findById(authorId).select('name profileImage');
+  if (author) {
+    return {
+      name: author.name,
+      image: author.profileImage
+    };
+  }
 
-    // Check GroupMember collection
-    author = await GroupMember.findById(authorId).select('name profileImage');
-    if (author) {
-        return { name: author.name, image: author.profileImage };
-    }
+  // Check GroupMember collection
+  author = await GroupMember.findById(authorId).select('name profileImage');
+  if (author) {
+    return {
+      name: author.name,
+      image: author.profileImage
+    };
+  }
 
-    // Check Member collection
-    author = await Member.findById(authorId).select('username profileImage');
-    if (author) {
-        return { name: author.username, image: author.profileImage };
-    }
+  // Check Member collection
+  author = await Member.findById(authorId).select('name profileImage');
+  if (author) {
+    return {
+      name: author.name,
+      image: author.profileImage
+    };
+  }
 
-    // If no author is found, return null
-    return null;
+  // No match found
+  return null;
 }
 
 
