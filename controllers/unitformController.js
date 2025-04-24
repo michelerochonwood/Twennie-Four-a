@@ -580,13 +580,17 @@ const unitFormController = {
       
           // Upload each file to Cloudinary and collect secure URLs
           if (req.files && req.files.length > 0) {
+            console.log(`📦 Total files received: ${req.files.length}`);
+          
             const uploadPromises = req.files.map((file) => {
+              console.log(`📄 Uploading file: ${file.originalname}, mimetype: ${file.mimetype}`);
+          
               return new Promise((resolve, reject) => {
                 const stream = uploader.upload_stream(
                   {
                     folder: 'twennie_exercises',
                     resource_type: 'raw',
-                    public_id: file.originalname.replace(/\.[^/.]+$/, ''),
+                    public_id: file.originalname.replace(/\.[^/.]+$/, '')
                   },
                   (error, result) => {
                     if (error) {
@@ -597,21 +601,28 @@ const unitFormController = {
                     console.log('✅ Uploaded to Cloudinary:', {
                       secure_url: result.secure_url,
                       public_id: result.public_id,
-                      resource_type: result.resource_type,
-                      folder: 'twennie_exercises'
+                      resource_type: result.resource_type
                     });
           
                     resolve(result.secure_url);
                   }
                 );
           
-                stream.end(file.buffer);
+                if (file && file.buffer) {
+                  stream.end(file.buffer);
+                  console.log('🚀 stream.end called successfully for:', file.originalname);
+                } else {
+                  console.warn('⚠️ Skipping file with no buffer:', file.originalname);
+                  resolve(null);
+                }
               });
             });
           
-            const documentUrls = await Promise.all(uploadPromises);
+            const documentUrls = (await Promise.all(uploadPromises)).filter(Boolean);
             exerciseData.document_uploads = documentUrls;
           }
+          
+          
           
       
           let exercise;
