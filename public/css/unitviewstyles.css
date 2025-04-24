@@ -2003,6 +2003,10 @@ label {
   background-color: #4a4ab2;
 }
 
+.single_exercise-short-summary, .single_exercise-long-summary {
+  text-align: left;
+}
+
 /* Placeholder for download icon */
 .single_exercise-download-icon {
   width: 100px;
