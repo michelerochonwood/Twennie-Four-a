@@ -4,6 +4,7 @@ const Article = require('../../models/unit_models/article'); // Import the Artic
 const Video = require('../../models/unit_models/video'); // Import the Video model
 const Interview = require('../../models/unit_models/interview'); // Import the Interview model
 const PromptSet = require('../../models/unit_models/promptset');
+const Exercise = require('../../models/unit_models/exercise');
 const unitFormController = require('../../controllers/unitformController');
 const ensureAuthenticated = require('../../middleware/ensureAuthenticated');
 const isDevelopment = process.env.NODE_ENV !== 'production';
