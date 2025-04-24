@@ -1,7 +1,7 @@
 <div class="single_exercise-container">
   <!-- Main Section -->
   <div class="single_exercise-main">
-    <p style="color:red;">DEBUG: Authorized = {{isAuthorizedToViewFullContent}}</p>
+    <p style="color:blue;">DEBUG: Document 0 = {{document_uploads.[0]}}</p>
     <h1 class="single_exercise-main-title">{{exercise_title}}</h1>
     <p class="single_exercise-short-summary" style="color:#4e50a2;"><strong>{{short_summary}}</strong></p>
     <p class="single_exercise-long-summary" style="margin-bottom: 20px;">{{full_summary}}</p>
@@ -14,18 +14,12 @@
 {{/if}}
 
 <!-- Uploaded Documents Display -->
-{{#if document_uploads}}
-  <div class="single_exercise-documents">
-    <p class="single_exercise-short-summary"><strong>Attached Documents:</strong></p>
-    <ul>
-      {{#each document_uploads}}
-        <li>
-          <a href="{{this}}" target="_blank" rel="noopener" class="single_exercise-download-btn" download>
-            Download Document {{increment @index}}
-          </a>
-        </li>
-      {{/each}}
-    </ul>
+{{#if isAuthorizedToViewFullContent}}
+  <div class="single_exercise-download">
+    <div class="single_exercise-download-icon">
+      <!-- SVG -->
+    </div>
+    <a href="/test" class="single_exercise-download-btn">test button</a>
   </div>
 {{/if}}
 
