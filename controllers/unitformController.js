@@ -585,21 +585,34 @@ const unitFormController = {
                 const stream = uploader.upload_stream(
                   {
                     folder: 'twennie_exercises',
-                    resource_type: 'raw', // Important: allows non-image uploads
-                    public_id: file.originalname.replace(/\.[^/.]+$/, '') // removes file extension
+                    resource_type: 'raw',
+                    public_id: file.originalname.replace(/\.[^/.]+$/, ''),
                   },
                   (error, result) => {
-                    if (error) return reject(error);
+                    if (error) {
+                      console.error('❌ Cloudinary upload error:', error);
+                      return reject(error);
+                    }
+          
+                    console.log('✅ Uploaded to Cloudinary:', {
+                      secure_url: result.secure_url,
+                      public_id: result.public_id,
+                      resource_type: result.resource_type,
+                      folder: 'twennie_exercises'
+                    });
+          
                     resolve(result.secure_url);
                   }
                 );
+          
                 stream.end(file.buffer);
               });
             });
-      
+          
             const documentUrls = await Promise.all(uploadPromises);
             exerciseData.document_uploads = documentUrls;
           }
+          
       
           let exercise;
       
@@ -615,6 +628,7 @@ const unitFormController = {
             await exercise.save();
             console.log('New exercise created successfully.');
           }
+          
       
           res.render('unit_form_views/unit_success', {
             layout: 'unitformlayout',
