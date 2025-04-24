@@ -17,7 +17,8 @@ console.log('unitFormController loaded');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 const createGetFormHandler = (unitType, viewPath) => (req, res) => {
-    
+  console.log(`🛡 Rendering ${unitType} form. CSRF available:`, typeof req.csrfToken === 'function');
+
     try {
         const mainTopics = [
             'Career Development in Technical Services',
@@ -57,7 +58,7 @@ const createGetFormHandler = (unitType, viewPath) => (req, res) => {
             unitType,
             mainTopics,
             data: {},
-            csrfToken: isDevelopment ? null : req.csrfToken(),
+            csrfToken: req.csrfToken(),
         });
     } catch (error) {
         console.error(`Error rendering form for ${unitType}:`, error);

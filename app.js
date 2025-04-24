@@ -150,11 +150,13 @@ app.use(
 );
 
 // ✅ CSRF setup (after sessions)
-app.use(csrf());
-app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
+//app.use(csrf());
+//app.use((req, res, next) => {
+  //res.locals.csrfToken = req.csrfToken();
+  //next();
+//});
+
+
 
 // ✅ Log requests
 app.use((req, res, next) => {

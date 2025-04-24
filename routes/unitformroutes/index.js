@@ -8,6 +8,8 @@ const unitFormController = require('../../controllers/unitformController');
 const ensureAuthenticated = require('../../middleware/ensureAuthenticated');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const uploadDocs = require('../../middleware/multerDocuments');
+const csrf = require('csurf');
+const csrfProtection = csrf();
 
 // Debugging the ensureAuthenticated function
 console.log('ensureAuthenticated:', ensureAuthenticated);
@@ -437,58 +439,60 @@ router.get('/edit_promptset/:id', ensureAuthenticated, async (req, res) => {
 router.post('/submit_promptset', ensureAuthenticated, unitFormController.submitPromptSet);
 
 // Exercise Routes
-router.get('/form_exercise', ensureAuthenticated, unitFormController.getExerciseForm);
+router.get('/form_exercise', ensureAuthenticated, csrfProtection, unitFormController.getExerciseForm);
 
-router.get('/edit_exercise/:id', ensureAuthenticated, async (req, res) => {
+
+router.get('/edit_exercise/:id', ensureAuthenticated, csrfProtection, async (req, res) => {
     try {
-        const { id } = req.params;
-        console.log(`Edit form requested for exercise ID: ${id}`);
-        const exercise = await Exercise.findById(id).populate({
-            path: 'author.id',
-            model: 'Member',
-            select: 'name profileImage',
+      const { id } = req.params;
+      console.log(`Edit form requested for exercise ID: ${id}`);
+      const exercise = await Exercise.findById(id).populate({
+        path: 'author.id',
+        model: 'Member',
+        select: 'name profileImage',
+      });
+  
+      if (!exercise) {
+        return res.status(404).render('unit_form_views/error', {
+          layout: 'unitformlayout',
+          title: 'Exercise Not Found',
+          errorMessage: `The exercise with ID ${id} does not exist.`,
         });
-
-        if (!exercise) {
-            console.warn(`Exercise with ID ${id} not found.`);
-            return res.status(404).render('unit_form_views/error', {
-                layout: 'unitformlayout',
-                title: 'Exercise Not Found',
-                errorMessage: `The exercise with ID ${id} does not exist.`,
-            });
-        }
-
-        res.render('unit_form_views/form_exercise', {
-            layout: 'unitformlayout',
-            data: {
-                ...exercise.toObject(),
-                author: exercise.author?.id || {
-                    name: 'Unknown Author',
-                    image: '/images/default-avatar.png',
-                },
-            },
-            mainTopics: [
-                'Career Development in Technical Services',
-                'Soft Skills in Technical Environments',
-                'Project Management',
-                // Add more topics as needed
-            ],
-            csrfToken: isDevelopment ? null : req.csrfToken(),
-        });
+      }
+  
+      res.render('unit_form_views/form_exercise', {
+        layout: 'unitformlayout',
+        data: {
+          ...exercise.toObject(),
+          author: exercise.author?.id || {
+            name: 'Unknown Author',
+            image: '/images/default-avatar.png',
+          },
+        },
+        mainTopics: [
+          'Career Development in Technical Services',
+          'Soft Skills in Technical Environments',
+          'Project Management',
+          // ...
+        ],
+        csrfToken: req.csrfToken(), // ✅ always pass the token
+      });
     } catch (error) {
-        console.error(`Error loading edit form for exercise ID ${req.params.id}:`, error);
-        res.status(500).render('unit_form_views/error', {
-            layout: 'unitformlayout',
-            title: 'Error',
-            errorMessage: 'An error occurred while loading the edit form.',
-        });
+      console.error(`Error loading edit form for exercise ID ${req.params.id}:`, error);
+      res.status(500).render('unit_form_views/error', {
+        layout: 'unitformlayout',
+        title: 'Error',
+        errorMessage: 'An error occurred while loading the edit form.',
+      });
     }
-});
+  });
+  
 
 router.post(
     '/submit_exercise',
     ensureAuthenticated,
-    uploadDocs.array('document_uploads', 3),
+    uploadDocs.array('document_uploads', 3), // multer
+    csrfProtection,                          // ✅ CSRF now AFTER multer
     unitFormController.submitExercise
   );
 
