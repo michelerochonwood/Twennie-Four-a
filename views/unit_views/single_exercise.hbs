@@ -14,20 +14,18 @@
 
 <!-- Uploaded Documents Display -->
 {{#if document_uploads}}
-  {{#if (gt document_uploads.length 0)}}
-    <div class="single_exercise-documents">
-      <p class="single_exercise-short-summary"><strong>Attached Documents:</strong></p>
-      <ul>
-        {{#each document_uploads}}
-          <li>
-            <a href="{{this}}" target="_blank" rel="noopener" class="single_exercise-download-btn" download>
-              Download Document {{increment @index}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    </div>
-  {{/if}}
+  <div class="single_exercise-documents">
+    <p class="single_exercise-short-summary"><strong>Attached Documents:</strong></p>
+    <ul>
+      {{#each document_uploads}}
+        <li>
+          <a href="{{this}}" target="_blank" rel="noopener" class="single_exercise-download-btn" download>
+            Download Document {{increment @index}}
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 {{/if}}
 
 
