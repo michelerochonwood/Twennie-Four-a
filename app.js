@@ -81,7 +81,6 @@ const hbs = create({
       return icons[unitType] || '/icons/default.svg';
     },
   
-    // NEW: Get duration image for each unit type
     getDurationImage: (unitType) => {
       const baseURL = 'https://www.twennie.com/images/';
       const map = {
@@ -104,8 +103,23 @@ const hbs = create({
     increment: (value) =>
       parseInt(value) + 1,
   
-    timestamp: () => Date.now()
+    timestamp: () => Date.now(),
+  
+    // NEW: Convert YouTube link to embed format
+    getYouTubeEmbedUrl: (url) => {
+      if (!url) return '';
+      if (url.includes('watch?v=')) {
+        const videoId = url.split('watch?v=')[1].split('&')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
+      if (url.includes('youtu.be/')) {
+        const videoId = url.split('youtu.be/')[1].split('?')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
+      return url;
+    }
   }
+  
   
 });
 

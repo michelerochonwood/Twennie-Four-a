@@ -15,8 +15,16 @@
   method="POST" 
   enctype="multipart/form-data"
 >
-      <input type="hidden" name="_csrf" value="{{csrfToken}}">
-      <input type="hidden" name="_id" value="{{data._id}}">
+  <!-- Hidden CSRF Token -->
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+  <!-- Hidden ID (for editing existing exercises) -->
+  {{#if data._id}}
+    <input type="hidden" name="_id" value="{{data._id}}">
+  {{/if}}
+
+  <!-- Rest of your form fields go here -->
+
 
 
 

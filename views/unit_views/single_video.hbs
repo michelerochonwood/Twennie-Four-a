@@ -10,14 +10,16 @@
       {{#if isAuthorizedToViewFullContent}}
         <div class="single_video-window">
           {{#if video_link}}
-            <iframe 
-              width="100%" 
-              height="315" 
-              src="{{video_link}}" 
-              frameborder="0" 
-              allowfullscreen 
-              class="single_video-frame">
-            </iframe>
+<iframe 
+  width="100%" 
+  height="450" 
+  src="{{getYouTubeEmbedUrl video_link}}" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+  allowfullscreen 
+  class="single_video-frame">
+</iframe>
+
           {{else}}
             <p style="text-align: center;">This is where the video will appear once uploaded.</p>
           {{/if}}
