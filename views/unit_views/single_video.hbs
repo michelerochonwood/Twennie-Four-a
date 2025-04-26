@@ -74,6 +74,9 @@
 
   <!-- Sidebar -->
   <aside class="single_video-sidebar">
+    <div class="single_video-duration-image-container" style="text-align: center; margin-bottom: 10px; width: 100px; height: auto; display: inline-block">
+  <img src="https://www.twennie.com/images/10mins.svg" alt="Estimated Time: 10 Minutes" class="single_video-duration-image">
+</div>
 
     <p class="single_video-title-sidebar">{{video_title}}</p>
 
@@ -84,6 +87,7 @@
 
     <div class="single_video-details">
       <p class="single_video-unit-type">Video</p>
+      
       <p class="single_video-main-topic">Main Topic: {{main_topic}}</p>
       <p class="single_video-subtitle">Sub Topic(s): {{sub_topic}}</p>
       <p class="single_video-secondary-topics">{{#each secondary_topics}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</p>
