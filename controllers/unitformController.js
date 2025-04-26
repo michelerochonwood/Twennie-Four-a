@@ -16,6 +16,11 @@ console.log('unitFormController loaded');
 // Environment check for development mode
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+// Helper function to safely get CSRF token
+function getCsrfToken(req) {
+  return req.csrfToken ? req.csrfToken() : null;
+}
+
 const createGetFormHandler = (unitType, viewPath) => (req, res) => {
   console.log(`🛡 Rendering ${unitType} form. CSRF available:`, typeof req.csrfToken === 'function');
 
@@ -54,12 +59,12 @@ const createGetFormHandler = (unitType, viewPath) => (req, res) => {
         ];
 
         res.render(`unit_form_views/${viewPath}`, {
-            layout: 'unitformlayout',
-            unitType,
-            mainTopics,
-            data: {},
-            csrfToken: req.csrfToken(),
-        });
+          layout: 'unitformlayout',
+          unitType,
+          mainTopics,
+          data: {},
+          csrfToken: getCsrfToken(req),
+      });
     } catch (error) {
         console.error(`Error rendering form for ${unitType}:`, error);
         res.status(500).send(`Error rendering form for ${unitType}.`);
@@ -268,11 +273,11 @@ const unitFormController = {
             }
     
             res.render('unit_form_views/unit_success', {
-                layout: 'unitformlayout',
-                unitType: 'video',
-                unit: video,
-                csrfToken: isDevelopment ? null : req.csrfToken(),
-            });
+              layout: 'unitformlayout',
+              unitType: 'video',
+              unit: video,
+              csrfToken: getCsrfToken(req),
+          });
         } catch (error) {
             console.error('Error submitting video:', error);
             res.status(500).render('unit_form_views/error', {
