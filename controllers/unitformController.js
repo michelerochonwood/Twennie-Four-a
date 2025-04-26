@@ -239,9 +239,9 @@ const unitFormController = {
     submitVideo: async (req, res) => {
 
         try {
-            if (!isDevelopment && !req.body._csrf) {
-                throw new Error('CSRF token is missing or invalid.');
-            }
+          if (process.env.NODE_ENV === 'production' && !req.body._csrf) {
+            throw new Error('CSRF token is missing or invalid.');
+        }
     
             const { _id, ...videoData } = req.body; // Extract _id and other form data
     
