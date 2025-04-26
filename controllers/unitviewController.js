@@ -207,7 +207,7 @@ module.exports = {
             video_title: video.video_title,
             short_summary: video.short_summary,
             full_summary: video.full_summary,
-            video_link: video.video_link || '', // for iframe
+            video_content: video.video_content || '', // for iframe
             video_url: video.video_url || '/images/valuegroupcont.png', // fallback image
             author: {
               name: author.name || 'Unknown Author',
