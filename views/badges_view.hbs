@@ -147,3 +147,36 @@
 
 
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.badge-pick-btn');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', async function() {
+        const badgePath = this.getAttribute('data-badge-path');
+        const badgeName = this.getAttribute('data-badge-name');
+
+        try {
+          const response = await fetch('/badges/pick', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ badgePath, badgeName })
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            // Redirect back to prompt set form
+            window.location.href = '/unitform/form_promptset';
+          } else {
+            alert('There was a problem picking the badge.');
+          }
+        } catch (error) {
+          console.error('Error picking badge:', error);
+          alert('Error picking badge.');
+        }
+      });
+    });
+  });
+</script>
