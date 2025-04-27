@@ -147,36 +147,74 @@
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.badge-pick-btn');
+  const badgeButtons = document.querySelectorAll('.badge-pick-btn');
 
-    buttons.forEach(button => {
-      button.addEventListener('click', async function() {
-        const badgePath = this.getAttribute('data-badge-path');
-        const badgeName = this.getAttribute('data-badge-name');
+  badgeButtons.forEach(button => {
+    button.addEventListener('click', async function() {
+      const badgeCard = this.closest('.badge-card');
+      const badgeImg = badgeCard.querySelector('img');
+      const badgePath = badgeImg.getAttribute('src');
 
-        try {
-          const response = await fetch('/badges/pick', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ badgePath, badgeName })
-          });
-
-          const result = await response.json();
-          if (result.success) {
-            // Redirect back to prompt set form
-            window.location.href = '/unitform/form_promptset';
-          } else {
-            alert('There was a problem picking the badge.');
-          }
-        } catch (error) {
-          console.error('Error picking badge:', error);
-          alert('Error picking badge.');
-        }
+      const { value: badgeName } = await Swal.fire({
+        title: 'Name Your Badge',
+        input: 'text',
+        inputLabel: 'Example: "Communication Hero" or "Leadership Pro"',
+        inputPlaceholder: 'Type your badge name here...',
+        customClass: {
+          popup: 'swal2-badge-popup',
+          icon: 'swal2-badge'
+        },
+        confirmButtonText: 'Save Badge Name',
+        cancelButtonText: 'Cancel',
+        showCancelButton: true
       });
+
+      if (!badgeName || badgeName.trim() === '') {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Badge name is required!',
+          text: 'Please enter a badge name.',
+          customClass: {
+            icon: 'swal2-warning'
+          }
+        });
+        return;
+      }
+
+      try {
+        const response = await fetch('/badges/pick', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ badgePath, badgeName: badgeName.trim() })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          window.location.href = '/unitform/form_promptset';
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: result.error || 'Error picking badge.'
+          });
+        }
+      } catch (error) {
+        console.error('Error picking badge:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error picking badge.'
+        });
+      }
     });
   });
+});
 </script>
+
+

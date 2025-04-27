@@ -284,18 +284,48 @@ html, body {
 }
 
 
-/* BADGE POP UPS */
-.swal2-icon.swal2-badge {
-  border-color: #ff9800 !important; /* Orange border for badges */
-  color: #ff9800 !important;
+
+
+@media screen and (max-width: 1200px) {
+  .tab-wrapper {
+    justify-content: left;
+  }
+  @media screen and (max-width: 1000px) {
+    .badge-row {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .tab-wrapper {
+      margin-bottom: 2.25rem;
+    }
+    @media screen and (max-width: 640px) {
+      .badge-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media screen and (max-width: 640px) {
+      .tabs-column {
+        gap: 1.25rem;
+      }
+      .badge-card {
+        padding: 10px 0;
+        min-width: 0;
+      }
+      .badge-row .badge-card img {
+        height: 60px;
+        width: 60px;  
+      }
+    }
+  }
 }
+
+/* --- SweetAlert2 Shared Styles (Tagging + Badges) --- */
 
 /* SweetAlert2 Popup */
 .swal2-popup {
   border-radius: 15px !important;
   padding: 25px !important;
   font-family: "Figtree", sans-serif !important;
-  background-color: #f8f9fa !important;
+  background-color: #f8f9fa !important; /* Light background */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
   border: 1px solid #262262 !important;
 }
@@ -351,17 +381,19 @@ html, body {
   background-color: #bdbdbd !important;
 }
 
-/* Additional SweetAlert2 Icon Styles */
+/* SweetAlert2 Warning Popups */
 .swal2-icon.swal2-warning {
   border-color: #ffcc00 !important;
   color: #ffcc00 !important;
 }
 
+/* SweetAlert2 Success Popups */
 .swal2-icon.swal2-success {
   border-color: #28a745 !important;
   color: #28a745 !important;
 }
 
+/* SweetAlert2 Error Popups */
 .swal2-icon.swal2-error {
   border-color: #ff4d4d !important;
   color: #ff4d4d !important;
@@ -372,38 +404,25 @@ html, body {
   background-color: rgba(0, 0, 0, 0.6) !important;
 }
 
-@media screen and (max-width: 1200px) {
-  .tab-wrapper {
-    justify-content: left;
-  }
-  @media screen and (max-width: 1000px) {
-    .badge-row {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .tab-wrapper {
-      margin-bottom: 2.25rem;
-    }
-    @media screen and (max-width: 640px) {
-      .badge-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media screen and (max-width: 640px) {
-      .tabs-column {
-        gap: 1.25rem;
-      }
-      .badge-card {
-        padding: 10px 0;
-        min-width: 0;
-      }
-      .badge-row .badge-card img {
-        height: 60px;
-        width: 60px;  
-      }
-    }
-  }
+/* --- Custom SweetAlert2 Icons --- */
+
+/* For Tagging */
+.swal2-icon.swal2-tagging {
+  border-color: #ff9800 !important; /* Orange */
+  color: #ff9800 !important;
 }
 
+/* For Badge Naming */
+.swal2-icon.swal2-badge {
+  border-color: #4e50a2 !important; /* Twennie Purple */
+  color: #4e50a2 !important;
+}
+
+/* Optional: Badge Popup Specific */
+.swal2-popup.swal2-badge-popup {
+  background-color: #fefefe !important;
+  border: 2px solid #4e50a2 !important;
+}
 
 
 
