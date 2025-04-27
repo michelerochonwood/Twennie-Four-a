@@ -1,12 +1,11 @@
-// badgesroutes.js
 const express = require('express');
 const router = express.Router();
 const badgesController = require('../../controllers/badgesController');
 
-// When mounted at '/badges/', this route will be '/badges/'
+// Route to view badges
 router.get('/', badgesController.showBadgesView);
 
-// This route will be '/badges/pick'
+// Route to pick a badge
 router.post('/pick', badgesController.pickBadge);
 
 module.exports = router;
