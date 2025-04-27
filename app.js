@@ -163,6 +163,8 @@ app.use(
   })
 );
 
+app.use('/badges', require('./routes/badgesroutes'));
+
 // ✅ CSRF setup (after sessions)
 app.use(csrf());
 app.use((req, res, next) => {
@@ -253,7 +255,7 @@ app.use('/promptsetassign', require('./routes/promptsetassignroutes'));
 app.use('/promptsetnotes', require('./routes/promptsetnotesroutes'));
 app.use('/promptsetcomplete', require('./routes/promptsetcompleteroutes'));
 app.use('/membertopics', require('./routes/membertopicroutes'));
-app.use('/badges', require('./routes/badgesroutes'));
+
 app.use('/notes', require('./routes/notesroutes'));
 app.use('/reports', require('./routes/reportingroutes'));
 app.use('/latest', require('./routes/latestroutes'));
