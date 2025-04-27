@@ -219,3 +219,39 @@
 
 
 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const wrappers = document.querySelectorAll(".tabs-column .tab-wrapper");
+    const tabs = document.querySelectorAll(".tabs-column .tab");
+    const contents = document.querySelectorAll(".badges-tab-content");
+    const badgeContentContainer = document.querySelector(".badge-content");
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", function () {
+        const target = this.getAttribute("data-target");
+
+        tabs.forEach(t => t.classList.remove("active"));
+        contents.forEach(c => c.classList.remove("active"));
+
+        this.classList.add("active");
+        const content = document.getElementById(target);
+        if (content) {
+          content.classList.add("active");
+        }
+        const offset = this.parentNode.offsetTop;
+        badgeContentContainer.style.marginTop = offset + "px";
+      });
+    });
+
+    if (tabs.length > 0 && contents.length > 0) {
+      tabs[0].classList.add("active");
+      const firstTarget = tabs[0].getAttribute("data-target");
+      const firstContent = document.getElementById(firstTarget);
+      if (firstContent) {
+        firstContent.classList.add("active");
+      }
+      badgeContentContainer.style.marginTop = tabs[0].parentNode.offsetTop + "px";
+    }
+  });
+</script>
