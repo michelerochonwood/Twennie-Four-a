@@ -1,16 +1,23 @@
-
 <div class="view-promptset-container">
   <!-- Left Section -->
   <div class="promptset-view-left">
+  
+    <!-- Clock Icon -->
+<div class="view-promptset-clock" style="text-align: center; margin-bottom: 1rem;">
+  <img src="/images/20mins.svg" alt="Estimated time to complete: 20 minutes" style="width: 50px; height: auto;">
+</div>
+
+
     <h1 class="view-promptset-title">{{promptset_title}}</h1>
     <p class="view-promptset-description">{{short_summary}}</p>
 
-<!-- Starting Message (Prompt 0) -->
-<div class="view-promptset-starting-container">
-  <h2 class="view-promptset-starting-title">Why should I complete this prompt set?</h2>
-  <h2 class="view-promptset-starting-title2">{{prompt_headline0}}</h2>
-  <p class="view-promptset-starting-text">{{prompt0}}</p>
-</div>
+    <!-- Starting Message (Prompt 0) -->
+    <div class="view-promptset-starting-container">
+      <h2 class="view-promptset-starting-title">Why should I complete this prompt set?</h2>
+      <h2 class="view-promptset-starting-title2">{{prompt_headline0}}</h2>
+      <p class="view-promptset-starting-text">{{prompt0}}</p>
+    </div>
+
 
 <!-- Toggle Arrow for Expanding Main Section -->
 <div class="view-promptset-main-toggle" onclick="toggleMainSection(this)">
@@ -483,7 +490,8 @@
     </div>
 
   <!-- Right Sidebar -->
-<aside class="promptset-right-sidebar" style="padding-bottom: 100px; width: 40%;">
+<aside class="promptset-right-sidebar" style="padding-bottom: 100px; width: 30%; margin-left: auto; margin-right: 0;">
+
   <div class="view-promptset-sidebar-details">
     <p class="view-promptset-sidebar-title">{{promptset_title}}</p>
     <p class="view-promptset-summary">{{full_summary}}</p>
