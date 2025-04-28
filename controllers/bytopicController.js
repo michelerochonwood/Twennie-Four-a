@@ -12,7 +12,9 @@ const Member = require('../models/member_models/member');
 
 
 
-
+// Resolves an author's display name and profile image based on their role.
+// Leaders, Group Members, and Members are stored in separate models by design.
+// Leaders use `groupLeaderName` instead of `name`, so we map it manually here for consistency.
 async function resolveAuthorById(authorId) {
     try {
         let author = await Leader.findById(authorId).select('groupLeaderName profileImage');
@@ -21,13 +23,14 @@ async function resolveAuthorById(authorId) {
         author = await GroupMember.findById(authorId).select('name profileImage');
         if (author) return { name: author.name, image: author.profileImage };
 
-        author = await Member.findById(authorId).select('username profileImage');
-        if (author) return { name: author.username, image: author.profileImage };
+        author = await Member.findById(authorId).select('name profileImage');
+        if (author) return { name: author.name, image: author.profileImage };
     } catch (error) {
         console.error('Error resolving author:', error);
     }
     return { name: 'Unknown Author', image: '/images/default-avatar.png' };
 }
+
 
 exports.getTopicView = async (req, res) => {
 
