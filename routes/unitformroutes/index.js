@@ -391,9 +391,9 @@ router.get('/edit_template/:id', ensureAuthenticated, async (req, res) => {
 router.post(
     '/submit_template',
     ensureAuthenticated,
-    csrfProtection,                  // ✅ Validate CSRF immediately
-    uploadDocs.single('template_file'), // ✅ Upload file normally
-    unitFormController.submitTemplate   // ✅ Then submit
+    csrfProtection,
+    uploadDocs, // ✅ now custom uploadDocs that repairs body if needed
+    unitFormController.submitTemplate
   );
   
   

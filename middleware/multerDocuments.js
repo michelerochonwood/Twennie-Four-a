@@ -1,22 +1,20 @@
 const multer = require("multer");
 
-// Use in-memory storage (you may still send to Cloudinary, S3, etc.)
 const storage = multer.memoryStorage();
 
-// Allowed MIME types for documents
 const allowedMimeTypes = [
   "application/pdf",
-  "application/msword", // .doc
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-  "application/vnd.ms-powerpoint", // .ppt
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation", // .pptx
-  "application/vnd.ms-excel", // .xls
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 ];
 
 const upload = multer({
   storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB max
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
   fileFilter: (req, file, cb) => {
     if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
@@ -26,4 +24,26 @@ const upload = multer({
   }
 });
 
-module.exports = upload;
+const uploadDocs = (req, res, next) => {
+  const singleUpload = upload.single('template_file');
+
+  singleUpload(req, res, (err) => {
+    if (err) {
+      console.error('❌ Multer upload error:', err);
+      return res.status(400).render('unit_form_views/error', {
+        layout: 'unitformlayout',
+        title: 'Upload Error',
+        errorMessage: err.message || 'Error uploading template file.'
+      });
+    }
+
+    if (!req.body) {
+      console.warn('⚠️ Warning: req.body was empty. Forcing empty object.');
+      req.body = {}; // Patch empty body to prevent CSRF crash
+    }
+
+    next();
+  });
+};
+
+module.exports = uploadDocs;
