@@ -229,11 +229,10 @@ mongoose.connect(process.env.MONGO_URI)
   });
 
 // ✅ Ensure directories exist
-if (process.env.VERCEL !== '1') {
-  ['public/uploads/profiles', 'public/uploads/groups'].forEach((dir) => {
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  });
-}
+['public/uploads/profiles', 'public/uploads/groups'].forEach((dir) => {
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+});
+
 
 // ✅ Routes
 app.use('/', require('./routes/promoroutes/promoroutes'));
@@ -263,14 +262,18 @@ app.use('/latest', require('./routes/latestroutes'));
 // ✅ CSRF Error handler
 app.use((err, req, res, next) => {
   if (err.code === 'EBADCSRFTOKEN') {
+    console.error('❌ CSRF token validation failed.');
+    console.error('Request body at failure:', JSON.stringify(req.body, null, 2));
+    console.error('Session at failure:', JSON.stringify(req.session, null, 2));
     return res.status(403).render('member_form_views/error', {
       layout: 'memberformlayout',
       title: 'CSRF Error',
-      errorMessage: 'Form submission failed for security reasons. Please try again.',
+      errorMessage: 'Form submission failed for security reasons. Please refresh the page and try again.',
     });
   }
   next(err);
 });
+
 
 // ✅ 404 handler
 app.use((req, res) => {
