@@ -392,7 +392,9 @@ router.post(
     '/submit_template',
     ensureAuthenticated,
     csrfProtection,
-    uploadDocs.single('template_file'),
+    uploadDocs.fields([
+      { name: 'template_file', maxCount: 1 }
+    ]),
     unitFormController.submitTemplate
   );
   
