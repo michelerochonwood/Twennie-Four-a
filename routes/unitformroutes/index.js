@@ -300,7 +300,8 @@ router.post('/submit_interview', ensureAuthenticated, unitFormController.submitI
 
 
 // Route to display the template form (Create New)
-router.get('/form_template', ensureAuthenticated, unitFormController.getTemplateForm);
+router.get('/form_template', ensureAuthenticated, csrfProtection, unitFormController.getTemplateForm);
+
 
 // Route to display the edit form for an existing template
 router.get('/edit_template/:id', ensureAuthenticated, async (req, res) => {
