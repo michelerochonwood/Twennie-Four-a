@@ -390,10 +390,23 @@ router.get('/edit_template/:id', ensureAuthenticated, async (req, res) => {
 router.post(
     '/submit_template',
     ensureAuthenticated,
-    uploadDocs.single('template_file'), // ✅ use uploadDocs
-    csrfProtection,                     // ✅ use csrfProtection
-    unitFormController.submitTemplate   // ✅ your controller
+    (req, res, next) => {
+      uploadDocs.single('template_file')(req, res, function (err) {
+        if (err) {
+          console.error('Upload error:', err);
+          return res.status(400).render('unit_form_views/error', {
+            layout: 'unitformlayout',
+            title: 'Upload Error',
+            errorMessage: err.message || 'Error uploading template file.'
+          });
+        }
+        next();
+      });
+    },
+    csrfProtection,
+    unitFormController.submitTemplate
   );
+  
   
 
 
