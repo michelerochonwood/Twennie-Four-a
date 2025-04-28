@@ -391,6 +391,7 @@ router.get('/edit_template/:id', ensureAuthenticated, async (req, res) => {
 router.post(
     '/submit_template',
     ensureAuthenticated,
+    csrfProtection,  // ✅ FIRST
     (req, res, next) => {
       uploadDocs.single('template_file')(req, res, function (err) {
         if (err) {
@@ -404,9 +405,9 @@ router.post(
         next();
       });
     },
-    csrfProtection,
     unitFormController.submitTemplate
   );
+  
   
   
 
