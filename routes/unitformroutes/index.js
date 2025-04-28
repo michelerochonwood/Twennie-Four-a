@@ -392,7 +392,7 @@ router.post(
     '/submit_template',
     ensureAuthenticated,
     csrfProtection,
-    uploadDocs, // ✅ now custom uploadDocs that repairs body if needed
+    uploadDocs.single('template_file'),
     unitFormController.submitTemplate
   );
   
