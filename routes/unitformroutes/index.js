@@ -12,6 +12,7 @@ const uploadDocs = require('../../middleware/multerDocuments');
 const csrf = require('csurf');
 const csrfProtection = csrf();
 
+
 // Debugging the ensureAuthenticated function
 console.log('ensureAuthenticated:', ensureAuthenticated);
 console.log('ensureAuthenticated is a function:', typeof ensureAuthenticated === 'function'); // Should log true
@@ -385,7 +386,15 @@ router.get('/edit_template/:id', ensureAuthenticated, async (req, res) => {
 });
 
 // Route to handle form submission for templates
-router.post('/submit_template', ensureAuthenticated, unitFormController.submitTemplate);
+
+router.post(
+    '/submit_template',
+    ensureAuthenticated,
+    uploadDocs.single('template_file'), // ✅ use uploadDocs
+    csrfProtection,                     // ✅ use csrfProtection
+    unitFormController.submitTemplate   // ✅ your controller
+  );
+  
 
 
 

@@ -671,65 +671,115 @@ const unitFormController = {
     
     
 
-    submitTemplate: async (req, res) => {
-
+      submitTemplate: async (req, res) => {
         try {
-            if (!isDevelopment && !req.body._csrf) {
-                throw new Error('CSRF token is missing or invalid.');
-            }
+          if (!isDevelopment && !req.body._csrf) {
+            throw new Error('CSRF token is missing or invalid.');
+          }
     
-            const { _id, ...templateData } = req.body; // Extract _id and other form data
+          const { _id, ...templateData } = req.body;
     
-            // Convert checkbox values from "on" to true
-            const booleanFields = ['clarify_topic', 'produce_deliverables', 'new_ideas', 'engaging', 'file_format', 'permission'];
-            booleanFields.forEach((field) => {
-                templateData[field] = req.body[field] === 'on';
-            });
+          // Convert checkbox values
+          const booleanFields = [
+            'clarify_topic',
+            'produce_deliverables',
+            'new_ideas',
+            'engaging',
+            'file_format',
+            'permission'
+          ];
+          booleanFields.forEach((field) => {
+            templateData[field] = req.body[field] === 'on';
+          });
     
-            // Automatically include author information
-            templateData.author = {
-                id: req.user._id, // Automatically populate the logged-in user's ID
-            };
+          // Set author
+          templateData.author = {
+            id: req.user._id
+          };
     
-            let template;
-            if (_id) {
-                // Edit existing template
-                template = await Template.findByIdAndUpdate(
-                    _id,
-                    templateData,
-                    { new: true, runValidators: true } // Ensure validators are run
-                );
-                console.log(`Template with ID ${_id} updated successfully.`);
+          // Handle file uploads first
+          if (req.file) {
+            console.log(`📄 Uploading template file: ${req.file.originalname}`);
+            
+            const stream = uploader.upload_stream(
+              {
+                folder: 'twennie_templates',
+                resource_type: 'raw',
+                public_id: req.file.originalname.replace(/\.[^/.]+$/, '')
+              },
+              async (error, result) => {
+                if (error) {
+                  console.error('❌ Cloudinary upload error:', error);
+                  throw error;
+                }
+    
+                console.log('✅ Uploaded to Cloudinary:', result.secure_url);
+    
+                templateData.template_link = result.secure_url;
+    
+                // Save Template
+                await saveTemplate(templateData, _id, res);
+              }
+            );
+    
+            if (req.file.buffer) {
+              stream.end(req.file.buffer);
             } else {
-                // Create new template
-                template = new Template(templateData);
-                await template.save();
-                console.log('New template created successfully.');
+              console.warn('⚠️ No file buffer found.');
             }
     
-            res.render('unit_form_views/unit_success', {
-                layout: 'unitformlayout',
-                unitType: 'template',
-                unit: template,
-                csrfToken: isDevelopment ? null : req.csrfToken(),
-            });
+            return;
+          }
+    
+          // No file uploaded, check for pasted link
+          if (req.body.template_link && req.body.template_link.trim() !== '') {
+            templateData.template_link = req.body.template_link.trim();
+          } else {
+            console.warn('⚠️ No file upload or template link provided.');
+          }
+    
+          // Save the Template
+          await saveTemplate(templateData, _id, res);
+    
         } catch (error) {
-            console.error('Error submitting template:', error);
-            res.status(500).render('unit_form_views/error', {
-                layout: 'unitformlayout',
-                title: 'Error',
-                errorMessage: 'An error occurred while submitting the template.',
-            });
+          console.error('Error submitting template:', error);
+          res.status(500).render('unit_form_views/error', {
+            layout: 'unitformlayout',
+            title: 'Error',
+            errorMessage: 'An error occurred while submitting the template.',
+          });
         }
-    }    
+      }
+    
+      // Later: add other handlers like submitArticle, submitVideo, etc.
+    };
+    
+    module.exports = unitFormController;
 
-    // Other handlers (replace these comments with submitArticle, submitVideo, etc.)
-};
 
-module.exports = unitFormController;
+async function saveTemplate(templateData, _id, res) {
+  let template;
 
+  if (_id) {
+    template = await Template.findByIdAndUpdate(
+      _id,
+      templateData,
+      { new: true, runValidators: true }
+    );
+    console.log(`Template with ID ${_id} updated successfully.`);
+  } else {
+    template = new Template(templateData);
+    await template.save();
+    console.log('New template created successfully.');
+  }
 
-
+  res.render('unit_form_views/unit_success', {
+    layout: 'unitformlayout',
+    unitType: 'template',
+    unit: template,
+    csrfToken: isDevelopment ? null : res.req.csrfToken(),
+  });
+}
 
 
 

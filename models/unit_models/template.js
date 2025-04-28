@@ -95,6 +95,10 @@ const templateSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
+    template_link: {
+        type: String,
+        trim: true
+    },
     clarify_topic: { type: Boolean, default: false },
     produce_deliverables: { type: Boolean, default: false },
     new_ideas: { type: Boolean, default: false },

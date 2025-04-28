@@ -10,9 +10,16 @@
   <div class="form-template-container">
 
     <!-- Template Submission Form -->
-    <form id="template-form" class="template-form" action="/unitform/submit_template" method="POST" enctype="multipart/form-data">
+<form 
+  id="template-form" 
+  action="/unitform/submit_template" 
+  method="POST" 
+  enctype="multipart/form-data"
+>
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-      <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+
+
 
       <!-- Template Title -->
       <div class="form-field">
@@ -140,10 +147,34 @@
       </div>
 
       <!-- Toggles (Criteria Questions) -->
+      <!-- Toggles -->
       <div class="form-field">
         <div class="white-container">
           <div class="toggle-group">
-            {{!-- (Your criteria toggles stay the same) --}}
+            <label>
+              <input type="checkbox" name="clarify_topic">
+              Does your template further clarify the topic?
+            </label>
+            <label>
+              <input type="checkbox" name="produce_deliverables">
+              Does your template produce tangible deliverables?
+            </label>
+            <label>
+              <input type="checkbox" name="new_ideas">
+              Does your template challenge users to complete it creatively?
+            </label>
+            <label>
+              <input type="checkbox" name="engaging">
+              Are the template instructions insightful and engaging?
+            </label>
+            <label>
+              <input type="checkbox" name="recognized_file_format">
+              Is your template in a recognized file format?
+            </label>
+            <label>
+              <input type="checkbox" name="permission" required>
+              Do you provide consent for this library unit to be used for Twennie promotional purposes?
+            </label>
           </div>
         </div>
       </div>
