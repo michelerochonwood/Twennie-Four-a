@@ -391,22 +391,11 @@ router.get('/edit_template/:id', ensureAuthenticated, async (req, res) => {
 router.post(
     '/submit_template',
     ensureAuthenticated,
-    csrfProtection,  // ✅ FIRST
-    (req, res, next) => {
-      uploadDocs.single('template_file')(req, res, function (err) {
-        if (err) {
-          console.error('Upload error:', err);
-          return res.status(400).render('unit_form_views/error', {
-            layout: 'unitformlayout',
-            title: 'Upload Error',
-            errorMessage: err.message || 'Error uploading template file.'
-          });
-        }
-        next();
-      });
-    },
-    unitFormController.submitTemplate
+    uploadDocs.single('template_file'), // first multer
+    csrfProtection,                     // then csrfProtection
+    unitFormController.submitTemplate   // then controller
   );
+  
   
   
   
