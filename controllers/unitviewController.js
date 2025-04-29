@@ -558,24 +558,25 @@ module.exports = {
                 req.user?.accessLevel === 'paid_individual' ||
                 req.user?.accessLevel === 'contributor_individual';
     
-            res.render('unit_views/single_template', {
-                layout: 'unitviewlayout',
-                _id: template._id.toString(),
-                template_title: template.template_title,
-                short_summary: template.short_summary,
-                full_summary: template.full_summary,
-                template_content: template.template_content,
-                author: {
+                res.render('unit_views/single_template', {
+                  layout: 'unitviewlayout',
+                  _id: template._id.toString(),
+                  template_title: template.template_title,
+                  short_summary: template.short_summary,
+                  full_summary: template.full_summary,
+                  template_link: template.template_link, // ✅ Add this line
+                  template_content: template.template_content,
+                  author: {
                     name: author.name || 'Unknown Author',
                     image: author.image || '/images/default-avatar.png',
-                },
-                main_topic: template.main_topic,
-                secondary_topics: template.secondary_topics,
-                sub_topic: template.sub_topic,
-                isOwner,
-                isGroupMemberOrLeader,
-                isAuthorizedToViewFullContent // ✅ Pass to the view
-            });
+                  },
+                  main_topic: template.main_topic,
+                  secondary_topics: template.secondary_topics,
+                  sub_topic: template.sub_topic,
+                  isOwner,
+                  isGroupMemberOrLeader,
+                  isAuthorizedToViewFullContent
+                });
         } catch (err) {
             console.error('Error fetching template:', err.stack || err.message);
             res.status(500).render('unit_views/error', {
