@@ -13,8 +13,7 @@
 <form 
   id="template-form" 
   action="/unitform/submit_template" 
-  method="POST" 
-  enctype="multipart/form-data"
+  method="POST"
 >
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
@@ -111,40 +110,16 @@
         <input type="text" id="sub-topic" name="sub_topic">
       </div>
 
-      <!-- Upload or Link Choice -->
-      <div class="form-field">
-        <label for="upload-or-link">How are you submitting your template?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="submission_type" value="upload" required onchange="toggleSubmissionFields()"> Upload a File</label>
-          <label><input type="radio" name="submission_type" value="link" required onchange="toggleSubmissionFields()"> Paste a Link (e.g., Mural Template)</label>
-        </div>
-      </div>
 
-      <!-- Upload Field (shown if upload selected) -->
-      <div class="form-field" id="upload-field" style="display: none;">
-        <label for="template-file">Upload Your File:</label>
-        <input type="file" id="template-file" name="template_file" accept=".doc,.docx,.pdf,.ppt,.pptx,.xls,.xlsx">
-        <small>Accepted formats: Word, Excel, PowerPoint, PDF.</small>
-      </div>
 
       <!-- Link Field (shown if link selected) -->
-      <div class="form-field" id="link-field" style="display: none;">
+      <div class="form-field">
         <label for="template-link">Paste Template Link:</label>
         <input type="url" id="template-link" name="template_link" placeholder="https://">
+        <p class="form-note">Template uploads are not currently supported through this form. Please paste a link to your Mural, Google Doc, or shared resource. If you have a file you’d like to share, contact <a href="mailto:info@twennie.com">info@twennie.com</a>.</p>
+
       </div>
 
-      <!-- File Format Radio (Optional: still helpful for reporting) -->
-      <div class="form-field">
-        <label for="file-format">Select a File Format (or Mural):</label>
-        <div class="radio-group">
-          <label><input type="radio" name="file_format" value="MS Word"> MS Word</label>
-          <label><input type="radio" name="file_format" value="MS Excel"> MS Excel</label>
-          <label><input type="radio" name="file_format" value="MS PowerPoint"> MS PowerPoint</label>
-          <label><input type="radio" name="file_format" value="PDF"> PDF</label>
-          <label><input type="radio" name="file_format" value="Mural"> Mural</label>
-          <label><input type="radio" name="file_format" value="Other"> Other</label>
-        </div>
-      </div>
 
       <!-- Toggles (Criteria Questions) -->
       <!-- Toggles -->
@@ -218,19 +193,4 @@
 
 {{> mainpartials/footer}}
 
-<!-- Toggle Upload vs Link -->
-<script>
-function toggleSubmissionFields() {
-  const uploadField = document.getElementById('upload-field');
-  const linkField = document.getElementById('link-field');
-  const submissionType = document.querySelector('input[name="submission_type"]:checked').value;
-  
-  if (submissionType === 'upload') {
-    uploadField.style.display = 'block';
-    linkField.style.display = 'none';
-  } else if (submissionType === 'link') {
-    uploadField.style.display = 'none';
-    linkField.style.display = 'block';
-  }
-}
-</script>
+
