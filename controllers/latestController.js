@@ -25,7 +25,6 @@ function getUnitTypeIcon(type) {
     return icons[type] || '/icons/default-icon.svg';
 }
 
-// Helper function to resolve author details
 async function resolveAuthorById(authorId) {
     try {
         let author = await Leader.findById(authorId).select('groupLeaderName profileImage');
@@ -34,13 +33,15 @@ async function resolveAuthorById(authorId) {
         author = await GroupMember.findById(authorId).select('name profileImage');
         if (author) return { name: author.name, image: author.profileImage };
 
-        author = await Member.findById(authorId).select('username profileImage');
-        if (author) return { name: author.username, image: author.profileImage };
+        author = await Member.findById(authorId).select('name profileImage'); // ✅ not username
+        if (author) return { name: author.name, image: author.profileImage }; // ✅ not username
     } catch (error) {
         console.error('Error resolving author:', error);
     }
     return { name: 'Unknown Author', image: '/images/default-avatar.png' };
 }
+
+
 
 exports.getLatestLibraryItems = async (req, res) => {
 

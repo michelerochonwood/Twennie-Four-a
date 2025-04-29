@@ -667,7 +667,7 @@ html, body {
   align-items: start;
 }
 
-.latestpartial2-left {
+.latestpartial2-left { 
   display: flex;
   flex-direction: column;
   align-items: center;

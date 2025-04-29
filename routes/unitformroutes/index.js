@@ -365,17 +365,28 @@ router.get('/edit_template/:id', ensureAuthenticated, async (req, res) => {
 
         res.render('unit_form_views/form_template', {
             layout: 'unitformlayout',
-            data: {
-                ...template.toObject(),
-                author: {
-                    name: template.author?.id?.name || 'Unknown Author',
-                    image: template.author?.id?.profileImage || '/images/default-avatar.png',
-                },
+            _id: template._id.toString(),
+            template_title: template.template_title,
+            short_summary: template.short_summary,
+            full_summary: template.full_summary,
+            template_link: template.template_link,
+            main_topic: template.main_topic,
+            secondary_topics: template.secondary_topics,
+            sub_topic: template.sub_topic,
+            clarify_topic: template.clarify_topic,
+            produce_deliverables: template.produce_deliverables,
+            new_ideas: template.new_ideas,
+            engaging: template.engaging,
+            file_format: template.file_format,
+            permission: template.permission,
+            author: {
+              name: template.author?.id?.name || 'Unknown Author',
+              image: template.author?.id?.profileImage || '/images/default-avatar.png',
             },
             mainTopics,
-            secondaryTopics, // Pass secondary topics for dynamic rendering
+            secondaryTopics,
             csrfToken: isDevelopment ? null : req.csrfToken(),
-        });
+          });
     } catch (error) {
         console.error(`Error loading edit form for template ID ${req.params.id}:`, error);
         res.status(500).render('unit_form_views/error', {
