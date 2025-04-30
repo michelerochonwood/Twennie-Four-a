@@ -176,8 +176,16 @@ module.exports = {
         try {
             const { id } = req.session.user;
             const userData = await Member.findById(id)
-            .select('username profileImage professionalTitle organization topics') // ✅ ensure needed fields are selected
+            .select('username profileImage professionalTitle organization topics accessLevel')
             .lean();
+
+            const accessLevelLabels = {
+                free_individual: 'Free',
+                contributor_individual: 'Contributing',
+                paid_individual: 'Paid'
+              };
+              
+              const accessLevelLabel = accessLevelLabels[userData.accessLevel] || 'Member';
 
             if (!userData) {
                 throw new Error(`Member with ID ${id} not found.`);
@@ -338,9 +346,11 @@ return res.render("member_dashboard", {
     layout: "dashboardlayout",
     title: "Member Dashboard",
     member: {
-        ...userData, // Spread member data
-        selectedTopics // ✅ Attach selectedTopics inside member (so Handlebars can use profile.selectedTopics)
-    },
+        ...userData,
+        selectedTopics,
+        accessLevel: userData.accessLevel,
+        accessLevelLabel
+      },
     memberUnits,
     memberTaggedUnits,
     registeredPromptSets,

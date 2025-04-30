@@ -3,9 +3,9 @@
   <div class="individual-membership-grid">
     <!-- Column 1 -->
     <div class="individual-membership-column">
-      <p class="individual-membership-access">
-        You have a <strong class="highlight-access">{{member.accessLevel}}</strong> membership.
-      </p>
+<p class="individual-membership-access">
+  You have a <strong class="highlight-access">{{member.accessLevelLabel}}</strong> membership.
+</p>
 
       {{#if (eq member.accessLevel "free_individual")}}
         <p class="individual-membership-section-title">You can access:</p>
