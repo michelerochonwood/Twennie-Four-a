@@ -187,7 +187,9 @@ module.exports = {
         industry,
         email: member.email,
         username: member.username,
-        password: member.password, // already hashed
+        password: member.password,
+        groupLeaderEmail: member.email, // ✅ Fix
+        professionalTitle: member.professionalTitle, // ✅ Fix
         groupSize,
         registration_code,
         profileImage: member.profileImage || "/images/default-avatar.png",
