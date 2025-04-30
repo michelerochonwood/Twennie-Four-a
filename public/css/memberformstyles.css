@@ -916,6 +916,21 @@ html, body {
   color: #4a4ab2; /* Matches the label color in other fields */
 }
 
+/*Convert to leader view*/
+
+.convert-leader-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  border-radius: 8px;
+  width: 60%;
+  margin: 7rem auto 8rem auto;
+}
+
+.convert-leader-form-container h4 {
+  margin: 1.25rem 0;
+}
 
   
   /*SUCCESS PAGE*/

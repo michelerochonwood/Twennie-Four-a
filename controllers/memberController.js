@@ -1,6 +1,7 @@
 const Member = require('../models/member_models/member');
-const { validateMemberData } = require('../utils/validateMember');
+const Leader = require('../models/member_models/leader');
 const MemberProfile = require('../models/profile_models/member_profile');
+const { validateMemberData } = require('../utils/validateMember');
 const bcrypt = require('bcrypt');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -104,20 +105,19 @@ module.exports = {
                 product_data: {
                   name: 'Twennie Paid Individual Membership',
                 },
-                tax_behavior: 'exclusive', // GST/HST will be added on top
+                tax_behavior: 'exclusive',
               },
               quantity: 1,
             },
           ],
-          automatic_tax: { enabled: true }, // ✅ Enable GST/HST calculations
-          billing_address_collection: 'required', // ✅ Ensures province is collected
+          automatic_tax: { enabled: true },
+          billing_address_collection: 'required',
           success_url: `${baseUrl}/member/payment/success`,
           cancel_url: `${baseUrl}/member/payment/cancel`,
         });
-      
+
         return res.redirect(303, session.url);
       }
-      
 
       // ✅ Free or Contributor — show success
       res.render("member_form_views/register_success", {
@@ -136,7 +136,123 @@ module.exports = {
         errorMessage: 'An error occurred while creating the member. Please try again.',
       });
     }
+  },
+
+  convertToLeader: async (req, res) => {
+    try {
+      const memberId = req.session.user?.id;
+      if (!memberId) {
+        return res.status(401).render('member_form_views/error', {
+          layout: 'memberformlayout',
+          title: 'Unauthorized',
+          errorMessage: 'You must be logged in to convert your membership.',
+        });
+      }
+  
+      const member = await Member.findById(memberId);
+      if (!member) {
+        return res.status(404).render('member_form_views/error', {
+          layout: 'memberformlayout',
+          title: 'Member Not Found',
+          errorMessage: 'Your account could not be found.',
+        });
+      }
+  
+      const {
+        groupName,
+        groupLeaderName,
+        organization,
+        industry,
+        groupSize,
+        registration_code,
+        topic1,
+        topic2,
+        topic3,
+        group_agreement,
+        redirectTarget
+      } = req.body;
+  
+      if (!group_agreement) {
+        return res.status(400).render('member_form_views/error', {
+          layout: 'memberformlayout',
+          title: 'Agreement Required',
+          errorMessage: 'You must agree to the leadership responsibilities to proceed.',
+        });
+      }
+  
+      const newLeader = new Leader({
+        groupName,
+        groupLeaderName,
+        organization,
+        industry,
+        email: member.email,
+        username: member.username,
+        password: member.password, // already hashed
+        groupSize,
+        registration_code,
+        profileImage: member.profileImage || "/images/default-avatar.png",
+        topics: { topic1, topic2, topic3 },
+        membershipType: 'leader',
+        accessLevel: 'paid_leader'
+      });
+  
+      await newLeader.save();
+      console.log('✅ Leader created:', newLeader._id);
+  
+      // Soft archive the member account
+      member.isActive = false;
+      await member.save();
+      console.log(`🔒 Archived member account: ${member._id}`);
+  
+      // Update session
+      req.session.user = {
+        id: newLeader._id,
+        username: newLeader.username,
+        membershipType: 'leader'
+      };
+  
+      // Handle Stripe redirect
+      if (redirectTarget === 'payment') {
+        const quantity = parseInt(groupSize, 10) || 1;
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          mode: 'subscription',
+          line_items: [
+            {
+              price_data: {
+                currency: 'cad',
+                unit_amount: 1700, // $17.00 CAD in cents
+                recurring: { interval: 'month' },
+                product_data: {
+                  name: 'Twennie Group Leader Membership',
+                },
+                tax_behavior: 'exclusive',
+              },
+              quantity: quantity,
+            },
+          ],
+          automatic_tax: { enabled: true },
+          billing_address_collection: 'required',
+          success_url: `${baseUrl}/member/payment/success`,
+          cancel_url: `${baseUrl}/member/payment/cancel`,
+        });
+  
+        return res.redirect(303, session.url);
+      }
+  
+      res.redirect('/dashboard/leader');
+  
+    } catch (err) {
+      console.error('❌ Error converting to leader:', err);
+      res.status(500).render('member_form_views/error', {
+        layout: 'memberformlayout',
+        title: 'Conversion Error',
+        errorMessage: 'An error occurred while converting your membership. Please try again.',
+      });
+    }
   }
+  
 };
+
 
 
