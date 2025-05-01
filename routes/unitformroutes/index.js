@@ -605,13 +605,14 @@ router.get('/edit_exercise/:id', ensureAuthenticated, csrfProtection, async (req
   });
   
 
-router.post(
+  router.post(
     '/submit_exercise',
     ensureAuthenticated,
-    uploadDocs.array('document_uploads', 3), // multer
-    csrfProtection,                          // ✅ CSRF now AFTER multer
+    uploadDocs.array('document_uploads', 3), // ✅ MUST come before csrfProtection
+    csrfProtection,
     unitFormController.submitExercise
   );
+  
 
 
 

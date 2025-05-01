@@ -566,7 +566,7 @@ const unitFormController = {
       
           const { _id, ...exerciseData } = req.body;
       
-          // Convert checkbox values
+          // Convert checkbox values from "on" to true
           const booleanFields = [
             'clarify_topic',
             'topics_and_enlightenment',
@@ -579,18 +579,18 @@ const unitFormController = {
             exerciseData[field] = req.body[field] === 'on';
           });
       
-          // Add author
+          // Add author info
           exerciseData.author = {
             id: req.user._id
           };
       
-          // Upload each file to Cloudinary and collect secure URLs
+          // Upload to Cloudinary if files exist
           if (req.files && req.files.length > 0) {
             console.log(`📦 Total files received: ${req.files.length}`);
-          
+      
             const uploadPromises = req.files.map((file) => {
               console.log(`📄 Uploading file: ${file.originalname}, mimetype: ${file.mimetype}`);
-          
+      
               return new Promise((resolve, reject) => {
                 const stream = uploader.upload_stream(
                   {
@@ -603,17 +603,17 @@ const unitFormController = {
                       console.error('❌ Cloudinary upload error:', error);
                       return reject(error);
                     }
-          
+      
                     console.log('✅ Uploaded to Cloudinary:', {
                       secure_url: result.secure_url,
                       public_id: result.public_id,
                       resource_type: result.resource_type
                     });
-          
+      
                     resolve(result.secure_url);
                   }
                 );
-          
+      
                 if (file && file.buffer) {
                   stream.end(file.buffer);
                   console.log('🚀 stream.end called successfully for:', file.originalname);
@@ -623,13 +623,10 @@ const unitFormController = {
                 }
               });
             });
-          
+      
             const documentUrls = (await Promise.all(uploadPromises)).filter(Boolean);
             exerciseData.document_uploads = documentUrls;
           }
-          
-          
-          
       
           let exercise;
       
@@ -645,7 +642,6 @@ const unitFormController = {
             await exercise.save();
             console.log('New exercise created successfully.');
           }
-          
       
           res.render('unit_form_views/unit_success', {
             layout: 'unitformlayout',
@@ -663,6 +659,7 @@ const unitFormController = {
           });
         }
       },
+      
     
     
     
