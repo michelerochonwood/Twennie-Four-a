@@ -237,6 +237,99 @@ router.get('/edit_promptset/:id', ensureAuthenticated, async (req, res) => {
 // Video Form Routes
 router.get('/form_video', ensureAuthenticated, unitFormController.getVideoForm);
 
+// Edit Video Route
+router.get('/edit_video/:id', ensureAuthenticated, async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log(`Edit form requested for video ID: ${id}`);
+  
+      const video = await Video.findById(id).populate({
+        path: 'author.id',
+        model: 'Member',
+        select: 'name profileImage',
+      });
+  
+      if (!video) {
+        console.warn(`Video with ID ${id} not found.`);
+        return res.status(404).render('unit_form_views/error', {
+          layout: 'unitformlayout',
+          title: 'Video Not Found',
+          errorMessage: `The video with ID ${id} does not exist.`,
+        });
+      }
+  
+      const mainTopics = [
+        'Career Development in Technical Services',
+        'Soft Skills in Technical Environments',
+        'Project Management',
+        'Business Development in Technical Services',
+        'Proposal Management',
+        'Proposal Strategy',
+        'Storytelling in Technical Marketing',
+        'Client Experience',
+        'Social Media, Advertising, and Other Mysteries',
+        'Emotional Intelligence',
+        'The Pareto Principle or 80/20',
+        'Diversity and Inclusion in Consulting',
+        'People Before Profit',
+        'Non-Technical Roles in Technical Environments',
+        'Leadership in Technical Services',
+        'The Advantage of Failure',
+        'Social Entrepreneurship',
+        'Employee Experience',
+        'Project Management Software',
+        'CRM Platforms',
+        'Client Feedback Software',
+        'Workplace Culture',
+        'Mental Health in Consulting Environments',
+        'Remote and Hybrid Work',
+        'Four Day Work Week',
+        'The Power of Play in the Workplace',
+        'Team Building in Consulting',
+        'AI in Consulting',
+        'AI in Project Management',
+        'AI in Learning',
+      ];
+  
+      const secondaryTopics = mainTopics.map((topic) => ({
+        name: topic,
+        selected: video.secondary_topics?.includes(topic) || false,
+      }));
+  
+      res.render('unit_form_views/form_video', {
+        layout: 'unitformlayout',
+        data: {
+          _id: video._id.toString(),
+          video_title: video.video_title,
+          short_summary: video.short_summary,
+          full_summary: video.full_summary,
+          video_content: video.video_content,
+          main_topic: video.main_topic,
+          secondary_topics: video.secondary_topics,
+          sub_topic: video.sub_topic,
+          clarify_topic: video.clarify_topic,
+          produce_deliverables: video.produce_deliverables,
+          new_ideas: video.new_ideas,
+          engaging: video.engaging,
+          permission: video.permission,
+          visibility: video.visibility,
+        },
+        mainTopics,
+        secondaryTopics,
+        csrfToken: isDevelopment ? null : req.csrfToken(),
+      });
+      
+    } catch (error) {
+      console.error(`Error loading edit form for video ID ${req.params.id}:`, error);
+      res.status(500).render('unit_form_views/error', {
+        layout: 'unitformlayout',
+        title: 'Error',
+        errorMessage: 'An error occurred while loading the edit form.',
+      });
+    }
+  });
+  
+
 router.post('/submit_video', ensureAuthenticated, unitFormController.submitVideo);
 
 // Interview Form Routes
