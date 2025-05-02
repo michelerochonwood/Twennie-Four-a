@@ -166,11 +166,18 @@ app.use(
 app.use('/badges', require('./routes/badgesroutes'));
 
 // ✅ CSRF setup (after sessions)
-app.use(csrf());
+
+
+const csrfProtection = csrf();
+
 app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
-  next();
+  const contentType = req.headers['content-type'] || '';
+  if (contentType.startsWith('multipart/form-data')) {
+    return next(); // 🔥 Skip CSRF globally for multipart requests
+  }
+  csrfProtection(req, res, next);
 });
+
 
 
 

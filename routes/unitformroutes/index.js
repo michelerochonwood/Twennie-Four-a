@@ -608,8 +608,9 @@ router.get('/edit_exercise/:id', ensureAuthenticated, csrfProtection, async (req
   router.post(
     '/submit_exercise',
     ensureAuthenticated,
-    uploadDocs.array('document_uploads', 3), // ✅ multer runs first
-    unitFormController.submitExercise        // ✅ global CSRF is already active
+    uploadDocs.array('document_uploads', 3), // ✅ multer FIRST
+    csrfProtection,                          // ✅ csrf AFTER multer
+    unitFormController.submitExercise
   );
 
 
