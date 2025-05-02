@@ -64,7 +64,7 @@ html, body {
 .bytopic-library-units-grid {
   margin-top: 2.5rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 0 1.5rem;
   transition: all 0.3s ease-in-out;
 }
