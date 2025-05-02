@@ -495,7 +495,8 @@ router.get('/edit_template/:id', ensureAuthenticated, async (req, res) => {
 router.post(
     '/submit_template',
     ensureAuthenticated,
-    csrfProtection,
+    uploadDocs.array('document_uploads', 3), // ✅ multer first
+    csrfProtection,                          // ✅ csrf second
     unitFormController.submitTemplate
   );
   

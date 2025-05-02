@@ -14,6 +14,7 @@
   id="template-form" 
   action="/unitform/submit_template" 
   method="POST"
+  enctype="multipart/form-data"
 >
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
@@ -113,12 +114,19 @@
 
 
       <!-- Link Field (shown if link selected) -->
-      <div class="form-field">
-        <label for="template-link">Paste Template Link:</label>
-        <input type="url" id="template-link" name="template_link" placeholder="https://">
-        <p class="form-note">Template uploads are not currently supported through this form. Please paste a link to your Mural, Google Doc, or shared resource. If you have a file you’d like to share, contact <a href="mailto:info@twennie.com">info@twennie.com</a>.</p>
-
-      </div>
+<div class="form-field">
+  <label for="template_upload">Upload Template File (PDF, Word, Excel, PowerPoint)</label>
+  <input
+    type="file"
+    id="template_upload"
+    name="document_uploads"
+    accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
+    required
+  >
+  <small class="form-note">
+    You may upload one file. If you need to upload multiple related files, combine them into a single PDF before submitting.
+  </small>
+</div>
 
 
       <!-- Toggles (Criteria Questions) -->
