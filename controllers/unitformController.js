@@ -677,7 +677,7 @@ const unitFormController = {
       
           const { _id, ...templateData } = req.body;
       
-          // Convert checkbox values
+          // Convert checkboxes to booleans
           const booleanFields = [
             'clarify_topic',
             'produce_deliverables',
@@ -690,17 +690,24 @@ const unitFormController = {
             templateData[field] = req.body[field] === 'on';
           });
       
-          // Add author
-          templateData.author = { id: req.user._id };
-      
-          // Confirm link is present
-          if (!templateData.template_link || !templateData.template_link.trim()) {
+          // Confirm file was uploaded
+          if (!req.files || req.files.length === 0) {
             return res.status(400).render('unit_form_views/error', {
               layout: 'unitformlayout',
-              title: 'Missing Link',
-              errorMessage: 'Please provide a link to your template.'
+              title: 'Missing File',
+              errorMessage: 'Please upload your template document before submitting.'
             });
           }
+      
+          // Store the file info (Cloudinary or local path, based on your setup)
+          templateData.documentUploads = req.files.map((file) => ({
+            filename: file.originalname,
+            path: file.path,
+            mimetype: file.mimetype
+          }));
+      
+          // Add author
+          templateData.author = { id: req.user._id };
       
           let template;
           if (_id) {
@@ -718,6 +725,7 @@ const unitFormController = {
             unit: template,
             csrfToken: isDevelopment ? null : res.req.csrfToken()
           });
+      
         } catch (error) {
           console.error('Error submitting template:', error);
           res.status(500).render('unit_form_views/error', {
@@ -727,6 +735,7 @@ const unitFormController = {
           });
         }
       }
+      
       
       };
       

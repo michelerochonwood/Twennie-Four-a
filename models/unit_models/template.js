@@ -95,10 +95,14 @@ const templateSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    template_link: {
-        type: String,
-        trim: true
-    },
+    documentUploads: [
+        {
+          filename: { type: String, required: true },
+          path: { type: String, required: true },
+          mimetype: { type: String, required: true }
+        }
+      ],
+      
     clarify_topic: { type: Boolean, default: false },
     produce_deliverables: { type: Boolean, default: false },
     new_ideas: { type: Boolean, default: false },
