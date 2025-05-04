@@ -564,8 +564,9 @@ module.exports = {
                   template_title: template.template_title,
                   short_summary: template.short_summary,
                   full_summary: template.full_summary,
-                  template_link: template.template_link, // ✅ Add this line
+                  // template_link: template.template_link, ← You can delete this if you're not using links anymore
                   template_content: template.template_content,
+                  documentUploads: template.documentUploads, // ✅ Add this line
                   author: {
                     name: author.name || 'Unknown Author',
                     image: author.image || '/images/default-avatar.png',
