@@ -1633,7 +1633,7 @@ html, body {
 }
 
 .membership-grid-item {
-  background-color: #f6f6f6; /* Light grey background */
+  background-color: #f1f0f0; /* Light grey background */
   padding: 20px;
   text-align: left;
   display: flex;
@@ -1642,7 +1642,7 @@ html, body {
   height: 600px; /* Full height for consistent sizing */
   border-radius: 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border: solid 1px #262262;
+
 }
 
 
@@ -1667,7 +1667,7 @@ html, body {
 .membership-description,
 .membership-benefits {
   font-family: 'Figtree', sans-serif;
-  color: rgb(103, 102, 102);
+  color: rgb(124, 124, 124);
   font-weight: 400;
   font-size: 14px;
 }
@@ -1746,7 +1746,7 @@ html, body {
 }
 
 .membership-benefits-list {
-  color: rgb(216, 216, 216);
+  color: rgb(124, 124, 124);
   font-family: "Figtree";
   text-decoration: none;
 }
