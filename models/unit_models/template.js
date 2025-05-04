@@ -98,8 +98,8 @@ const templateSchema = new mongoose.Schema({
     documentUploads: [
         {
           filename: { type: String, required: true },
-          path: { type: String, required: true },
-          mimetype: { type: String, required: true }
+          mimetype: { type: String, required: true },
+          url: { type: String, required: true }
         }
       ],
       

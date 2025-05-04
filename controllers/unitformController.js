@@ -7,6 +7,7 @@ const Exercise = require('../models/unit_models/exercise');
 const MicroStudy = require('../models/unit_models/microstudy');
 const MicroCourse = require('../models/unit_models/microcourse');
 const { uploader } = require('../utils/cloudinary');
+const { Readable } = require('stream');
 
 
 console.log('unitFormController loaded');
@@ -563,10 +564,9 @@ const unitFormController = {
           if (!isDevelopment && !req.body._csrf) {
             throw new Error('CSRF token is missing or invalid.');
           }
-      
+    
           const { _id, ...exerciseData } = req.body;
-      
-          // Convert checkbox values from "on" to true
+    
           const booleanFields = [
             'clarify_topic',
             'topics_and_enlightenment',
@@ -578,19 +578,11 @@ const unitFormController = {
           booleanFields.forEach((field) => {
             exerciseData[field] = req.body[field] === 'on';
           });
-      
-          // Add author info
-          exerciseData.author = {
-            id: req.user._id
-          };
-      
-          // Upload to Cloudinary if files exist
+    
+          exerciseData.author = { id: req.user._id };
+    
           if (req.files && req.files.length > 0) {
-            console.log(`📦 Total files received: ${req.files.length}`);
-      
             const uploadPromises = req.files.map((file) => {
-              console.log(`📄 Uploading file: ${file.originalname}, mimetype: ${file.mimetype}`);
-      
               return new Promise((resolve, reject) => {
                 const stream = uploader.upload_stream(
                   {
@@ -599,85 +591,59 @@ const unitFormController = {
                     public_id: file.originalname.replace(/\.[^/.]+$/, '')
                   },
                   (error, result) => {
-                    if (error) {
-                      console.error('❌ Cloudinary upload error:', error);
-                      return reject(error);
-                    }
-      
-                    console.log('✅ Uploaded to Cloudinary:', {
-                      secure_url: result.secure_url,
-                      public_id: result.public_id,
-                      resource_type: result.resource_type
-                    });
-      
+                    if (error) return reject(error);
                     resolve(result.secure_url);
                   }
                 );
-      
+    
                 if (file && file.buffer) {
                   stream.end(file.buffer);
-                  console.log('🚀 stream.end called successfully for:', file.originalname);
                 } else {
-                  console.warn('⚠️ Skipping file with no buffer:', file.originalname);
                   resolve(null);
                 }
               });
             });
-      
+    
             const documentUrls = (await Promise.all(uploadPromises)).filter(Boolean);
             exerciseData.document_uploads = documentUrls;
           }
-      
+    
           let exercise;
-      
           if (_id) {
-            exercise = await Exercise.findByIdAndUpdate(
-              _id,
-              exerciseData,
-              { new: true, runValidators: true }
-            );
-            console.log(`Exercise with ID ${_id} updated successfully.`);
+            exercise = await Exercise.findByIdAndUpdate(_id, exerciseData, {
+              new: true,
+              runValidators: true
+            });
           } else {
             exercise = new Exercise(exerciseData);
             await exercise.save();
-            console.log('New exercise created successfully.');
           }
-      
+    
           res.render('unit_form_views/unit_success', {
             layout: 'unitformlayout',
             unitType: 'exercise',
             unit: exercise,
-            csrfToken: isDevelopment ? null : req.csrfToken(),
+            csrfToken: isDevelopment ? null : req.csrfToken()
           });
-      
+    
         } catch (error) {
           console.error('Error submitting exercise:', error);
           res.status(500).render('unit_form_views/error', {
             layout: 'unitformlayout',
             title: 'Error',
-            errorMessage: 'An error occurred while submitting the exercise.',
+            errorMessage: 'An error occurred while submitting the exercise.'
           });
         }
       },
-      
     
-    
-    
-    
-
-    
-    
-
-
       submitTemplate: async (req, res) => {
         try {
           if (!isDevelopment && !req.body._csrf) {
             throw new Error('CSRF token is missing or invalid.');
           }
-      
+    
           const { _id, ...templateData } = req.body;
-      
-          // Convert checkboxes to booleans
+    
           const booleanFields = [
             'clarify_topic',
             'produce_deliverables',
@@ -689,8 +655,7 @@ const unitFormController = {
           booleanFields.forEach((field) => {
             templateData[field] = req.body[field] === 'on';
           });
-      
-          // Confirm file was uploaded
+    
           if (!req.files || req.files.length === 0) {
             return res.status(400).render('unit_form_views/error', {
               layout: 'unitformlayout',
@@ -698,34 +663,57 @@ const unitFormController = {
               errorMessage: 'Please upload your template document before submitting.'
             });
           }
-      
-          // Store the file info (Cloudinary or local path, based on your setup)
-          templateData.documentUploads = req.files.map((file) => ({
-            filename: file.originalname,
-            path: file.path,
-            mimetype: file.mimetype
-          }));
-      
-          // Add author
+    
+          const uploadedFiles = [];
+    
+          for (const file of req.files) {
+            const fileUploadPromise = new Promise((resolve, reject) => {
+              const stream = uploader.upload_stream(
+                {
+                  resource_type: 'raw',
+                  folder: 'twennie_templates'
+                },
+                (error, result) => {
+                  if (error) return reject(new Error('Cloudinary upload failed: ' + error.message));
+                  resolve({
+                    filename: file.originalname,
+                    mimetype: file.mimetype,
+                    url: result.secure_url
+                  });
+                }
+              );
+    
+              const readableStream = new Readable();
+              readableStream.push(file.buffer);
+              readableStream.push(null);
+              readableStream.pipe(stream);
+            });
+    
+            const uploaded = await fileUploadPromise;
+            uploadedFiles.push(uploaded);
+          }
+    
+          templateData.documentUploads = uploadedFiles;
           templateData.author = { id: req.user._id };
-      
+    
           let template;
           if (_id) {
             template = await Template.findByIdAndUpdate(_id, templateData, {
-              new: true, runValidators: true
+              new: true,
+              runValidators: true
             });
           } else {
             template = new Template(templateData);
             await template.save();
           }
-      
+    
           res.render('unit_form_views/unit_success', {
             layout: 'unitformlayout',
             unitType: 'template',
             unit: template,
-            csrfToken: isDevelopment ? null : res.req.csrfToken()
+            csrfToken: isDevelopment ? null : req.csrfToken()
           });
-      
+    
         } catch (error) {
           console.error('Error submitting template:', error);
           res.status(500).render('unit_form_views/error', {
@@ -735,9 +723,7 @@ const unitFormController = {
           });
         }
       }
-      
-      
-      };
+    };
       
       module.exports = unitFormController;
       
