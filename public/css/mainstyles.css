@@ -1633,7 +1633,7 @@ html, body {
 }
 
 .membership-grid-item {
-  background-color: #dbdcdc; /* Light grey background */
+  background-color: #f6f6f6; /* Light grey background */
   padding: 20px;
   text-align: left;
   display: flex;
@@ -1642,6 +1642,7 @@ html, body {
   height: 600px; /* Full height for consistent sizing */
   border-radius: 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: solid 1px #262262;
 }
 
 
@@ -1745,7 +1746,7 @@ html, body {
 }
 
 .membership-benefits-list {
-  color: white;
+  color: rgb(216, 216, 216);
   font-family: "Figtree";
   text-decoration: none;
 }
