@@ -8,197 +8,107 @@
 
 <div class="form-template-background">
   <div class="form-template-container">
+    <form id="template-form" action="/unitform/submit_template" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+      <input type="hidden" name="_id" value="{{data._id}}">
 
-    <!-- Template Submission Form -->
-<form 
-  id="template-form" 
-  action="/unitform/submit_template" 
-  method="POST"
-  enctype="multipart/form-data"
->
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-
-
-
-
-      <!-- Template Title -->
       <div class="form-field">
         <label for="template-title">Template Title</label>
-        <input type="text" id="template-title" name="template_title" required>
+        <input type="text" id="template-title" name="template_title" value="{{data.template_title}}" required>
       </div>
 
-      <!-- Main Topic -->
       <div class="form-field">
         <label for="main-topic">Main Topic</label>
         <select id="main-topic" name="main_topic" style="border-radius: 55px;" required>
           <option value="">Please select a main topic</option>
-          <option value="Career Development in Technical Services">Career Development in Technical Services</option>
-          <option value="Soft Skills in Technical Environments">Soft Skills in Technical Environments</option>
-          <option value="Project Management">Project Management</option>
-          <option value="Business Development in Technical Services">Business Development in Technical Services</option>
-          <option value="Proposal Management">Proposal Management</option>
-          <option value="Proposal Strategy">Proposal Strategy</option>
-          <option value="Storytelling in Technical Marketing">Storytelling in Technical Marketing</option>
-          <option value="Client Experience">Client Experience</option>
-          <option value="Social Media, Advertising, and Other Mysteries">Social Media, Advertising, and Other Mysteries</option>
-          <option value="Emotional Intelligence">Emotional Intelligence</option>
-          <option value="The Pareto Principle or 80/20">The Pareto Principle or 80/20</option>
-          <option value="Diversity and Inclusion in Consulting">Diversity and Inclusion in Consulting</option>
-          <option value="People Before Profit">People Before Profit</option>
-          <option value="Non-Technical Roles in Technical Environments">Non-Technical Roles in Technical Environments</option>
-          <option value="Leadership in Technical Services">Leadership in Technical Services</option>
-          <option value="The Advantage of Failure">The Advantage of Failure</option>
-          <option value="Social Entrepreneurship">Social Entrepreneurship</option>
-          <option value="Employee Experience">Employee Experience</option>
-          <option value="Project Management Software">Project Management Software</option>
-          <option value="CRM Platforms">CRM Platforms</option>
-          <option value="Client Feedback Software">Client Feedback Software</option>
-          <option value="Workplace Culture">Workplace Culture</option>
-          <option value="Mental Health in Consulting Environments">Mental Health in Consulting Environments</option>
-          <option value="Remote and Hybrid Work">Remote and Hybrid Work</option>
-          <option value="Four Day Work Week">Four Day Work Week</option>
-          <option value="The Power of Play in the Workplace">The Power of Play in the Workplace</option>
-          <option value="Team Building in Consulting">Team Building in Consulting</option>
-          <option value="AI in Consulting">AI in Consulting</option>
-          <option value="AI in Project Management">AI in Project Management</option>
-          <option value="AI in Learning">AI in Learning</option>
+          {{#each mainTopics}}
+            <option value="{{this}}" {{#ifEquals this ../data.main_topic}}selected{{/ifEquals}}>{{this}}</option>
+          {{/each}}
         </select>
-
       </div>
 
-      <!-- Secondary Topics -->
       <div class="form-field">
         <label for="secondary-topics">Secondary Topics (Optional)</label>
         <select id="secondary-topics" name="secondary_topics" multiple>
-          <option value="Career Development in Technical Services">Career Development in Technical Services</option>
-          <option value="Soft Skills in Technical Environments">Soft Skills in Technical Environments</option>
-          <option value="Project Management">Project Management</option>
-          <option value="Business Development in Technical Services">Business Development in Technical Services</option>
-          <option value="Proposal Management">Proposal Management</option>
-          <option value="Proposal Strategy">Proposal Strategy</option>
-          <option value="Storytelling in Technical Marketing">Storytelling in Technical Marketing</option>
-          <option value="Client Experience">Client Experience</option>
-          <option value="Social Media, Advertising, and Other Mysteries">Social Media, Advertising, and Other Mysteries</option>
-          <option value="Emotional Intelligence">Emotional Intelligence</option>
-          <option value="The Pareto Principle or 80/20">The Pareto Principle or 80/20</option>
-          <option value="Diversity and Inclusion in Consulting">Diversity and Inclusion in Consulting</option>
-          <option value="People Before Profit">People Before Profit</option>
-          <option value="Non-Technical Roles in Technical Environments">Non-Technical Roles in Technical Environments</option>
-          <option value="Leadership in Technical Services">Leadership in Technical Services</option>
-          <option value="The Advantage of Failure">The Advantage of Failure</option>
-          <option value="Social Entrepreneurship">Social Entrepreneurship</option>
-          <option value="Employee Experience">Employee Experience</option>
-          <option value="Project Management Software">Project Management Software</option>
-          <option value="CRM Platforms">CRM Platforms</option>
-          <option value="Client Feedback Software">Client Feedback Software</option>
-          <option value="Workplace Culture">Workplace Culture</option>
-          <option value="Mental Health in Consulting Environments">Mental Health in Consulting Environments</option>
-          <option value="Remote and Hybrid Work">Remote and Hybrid Work</option>
-          <option value="Four Day Work Week">Four Day Work Week</option>
-          <option value="The Power of Play in the Workplace">The Power of Play in the Workplace</option>
-          <option value="Team Building in Consulting">Team Building in Consulting</option>
-          <option value="AI in Consulting">AI in Consulting</option>
-          <option value="AI in Project Management">AI in Project Management</option>
-          <option value="AI in Learning">AI in Learning</option>
+          {{#each mainTopics}}
+            <option value="{{this}}" {{#ifIncludes ../data.secondary_topics this}}selected{{/ifIncludes}}>{{this}}</option>
+          {{/each}}
         </select>
-
         <small>Select multiple topics by holding Ctrl (Windows) or Command (Mac).</small>
       </div>
 
-      <!-- Sub Topic -->
       <div class="form-field">
         <label for="sub-topic">Sub Topic (Optional)</label>
-        <input type="text" id="sub-topic" name="sub_topic">
+        <input type="text" id="sub-topic" name="sub_topic" value="{{data.sub_topic}}">
       </div>
 
+      {{#if data.documentUploads}}
+        <div class="uploaded-files">
+          {{#each data.documentUploads}}
+            <p><a href="{{this.url}}" target="_blank">{{this.filename}}</a></p>
+          {{/each}}
+        </div>
+      {{/if}}
 
+      <div class="form-field">
+        <label for="template_upload">Upload Template File (PDF, Word, Excel, PowerPoint)</label>
+        <input type="file" id="template_upload" name="document_uploads" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx">
+        <small>You may upload one file. Combine related files into a single PDF before submitting.</small>
+      </div>
 
-      <!-- Link Field (shown if link selected) -->
-<div class="form-field">
-  <label for="template_upload">Upload Template File (PDF, Word, Excel, PowerPoint)</label>
-  <input
-    type="file"
-    id="template_upload"
-    name="document_uploads"
-    accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
-    required
-  >
-  <small class="form-note">
-    You may upload one file. If you need to upload multiple related files, combine them into a single PDF before submitting.
-  </small>
-</div>
-
-
-      <!-- Toggles (Criteria Questions) -->
-      <!-- Toggles -->
       <div class="form-field">
         <div class="white-container">
           <div class="toggle-group">
-            <label>
-              <input type="checkbox" name="clarify_topic">
-              Does your template further clarify the topic?
-            </label>
-            <label>
-              <input type="checkbox" name="produce_deliverables">
-              Does your template produce tangible deliverables?
-            </label>
-            <label>
-              <input type="checkbox" name="new_ideas">
-              Does your template challenge users to complete it creatively?
-            </label>
-            <label>
-              <input type="checkbox" name="engaging">
-              Are the template instructions insightful and engaging?
-            </label>
-            <label>
-              <input type="checkbox" name="file_format">
-
-              Is your template in a recognized file format?
-            </label>
-            <label>
-              <input type="checkbox" name="permission" required>
-              Do you provide consent for this library unit to be used for Twennie promotional purposes?
-            </label>
+            <label><input type="checkbox" name="clarify_topic" {{#if data.clarify_topic}}checked{{/if}}> Clarifies topic?</label>
+            <label><input type="checkbox" name="produce_deliverables" {{#if data.produce_deliverables}}checked{{/if}}> Produces deliverables?</label>
+            <label><input type="checkbox" name="new_ideas" {{#if data.new_ideas}}checked{{/if}}> Encourages creativity?</label>
+            <label><input type="checkbox" name="engaging" {{#if data.engaging}}checked{{/if}}> Insightful and engaging?</label>
+            <label><input type="checkbox" name="file_format" {{#if data.file_format}}checked{{/if}}> File format appropriate?</label>
+            <label><input type="checkbox" name="permission" {{#if data.permission}}checked{{/if}} required> Consent for promotional use?</label>
           </div>
         </div>
       </div>
 
-      <!-- Short Summary -->
       <div class="form-field">
         <label for="short-summary">Short Summary (50 words)</label>
-        <textarea id="short-summary" name="short_summary" maxlength="300" required></textarea>
+        <textarea id="short-summary" name="short_summary" maxlength="300" required>{{data.short_summary}}</textarea>
       </div>
 
-      <!-- Full Summary -->
       <div class="form-field">
         <label for="full-summary">Full Summary (150 words)</label>
-        <textarea id="full-summary" name="full_summary" maxlength="600" required></textarea>
+        <textarea id="full-summary" name="full_summary" maxlength="600" required>{{data.full_summary}}</textarea>
       </div>
 
-      <!-- Visibility -->
       <div class="form-field">
         <label>Who can access this template?</label>
         <div class="visibility-toggle-row">
           <label class="visibility-option">
-            <input type="radio" name="visibility" value="team_only" required> Share with my team only
+            <input type="radio" name="visibility" value="team_only" {{#ifEquals data.visibility "team_only"}}checked{{/ifEquals}} required>
+            Share with my team only
           </label>
           <label class="visibility-option">
-            <input type="radio" name="visibility" value="organization_only" required> Share with my organization only
+            <input type="radio" name="visibility" value="organization_only" {{#ifEquals data.visibility "organization_only"}}checked{{/ifEquals}} required>
+            Share with my organization only
           </label>
           <label class="visibility-option">
-            <input type="radio" name="visibility" value="all_members" required> Share with all Twennie members
+            <input type="radio" name="visibility" value="all_members" {{#ifEquals data.visibility "all_members"}}checked{{/ifEquals}} required>
+            Share with all Twennie members
           </label>
         </div>
       </div>
 
-      <!-- Submit Button -->
       <div class="form-buttons">
-        <button type="submit" class="form-button submit-button" style="margin: 0 auto;">submit for approval</button>
+        {{#if data._id}}
+          <button type="submit" name="submit" value="edit" class="form-button submit-button">save edited template</button>
+        {{else}}
+          <button type="submit" name="submit" value="submit" class="form-button submit-button">submit for approval</button>
+        {{/if}}
       </div>
     </form>
   </div>
 </div>
 
 {{> mainpartials/footer}}
+
 
 

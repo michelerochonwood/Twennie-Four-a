@@ -491,33 +491,27 @@ module.exports = {
             console.log("membershipType:", req.user?.membershipType);
             console.log("Final isAuthorizedToViewFullContent:", isAuthorizedToViewFullContent);
             // Render the single exercise view
-            res.render('unit_form_views/form_template', {
-              layout: 'unitformlayout',
-              _id: template._id.toString(),
-              template_title: template.template_title,
-              short_summary: template.short_summary,
-              full_summary: template.full_summary,
-              // template_link: template.template_link, ← delete this if no longer used
-              template_content: template.template_content,
-              documentUploads: template.documentUploads, // ✅ ADD THIS LINE
-              main_topic: template.main_topic,
-              secondary_topics: template.secondary_topics,
-              sub_topic: template.sub_topic,
-              clarify_topic: template.clarify_topic,
-              produce_deliverables: template.produce_deliverables,
-              new_ideas: template.new_ideas,
-              engaging: template.engaging,
-              file_format: template.file_format,
-              permission: template.permission,
-              author: {
-                name: template.author?.id?.name || 'Unknown Author',
-                image: template.author?.id?.profileImage || '/images/default-avatar.png',
+            res.render('unit_views/single_exercise', {
+              layout: 'unitviewlayout',
+              _id: exercise._id.toString(),
+              exercise_title: exercise.exercise_title,
+              short_summary: exercise.short_summary,
+              full_summary: exercise.full_summary,
+              file_format: exercise.file_format,
+              document_uploads: Array.isArray(exercise.document_uploads)
+                ? exercise.document_uploads
+                : [exercise.document_uploads], // ✅ ensures it's always an array
+              creator: {
+                name: creator.name || 'Unknown Creator',
+                image: creator.image || '/images/default-avatar.png',
               },
-              mainTopics,
-              secondaryTopics,
-              csrfToken: isDevelopment ? null : req.csrfToken(),
+              main_topic: exercise.main_topic,
+              secondary_topics: exercise.secondary_topics,
+              sub_topic: exercise.sub_topic,
+              isOwner,
+              isGroupMemberOrLeader,
+              isAuthorizedToViewFullContent,
             });
-            
         } catch (err) {
             console.error('Error fetching exercise:', err.stack || err.message);
             res.status(500).render('unit_views/error', {
