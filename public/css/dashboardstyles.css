@@ -2892,11 +2892,12 @@ box-shadow: none !important;
   border-spacing: 3.75px 0;
   font-family: "Figtree";
   margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 /* Sticky Table Headers */
 .dashboard-library-table thead {
-  position: sticky;
+  position: relative;
   top: 0;
   background-color: #4a4ab2;
   z-index: 2;
