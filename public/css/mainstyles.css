@@ -829,7 +829,7 @@ html, body {
 
 /* Buttons */
 .cta-button {
-  background-color: #e0e0e0;
+  background-color: #262262;
   color: white;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
@@ -839,7 +839,7 @@ html, body {
 }
 
 .cta-button:hover {
-  background-color: #dc176a;
+  background-color: #4a4ab2;
 }
 
 /* ===== Scroll Animation ===== */
@@ -856,7 +856,6 @@ html, body {
 }
 
 .promptset-cta-buttons {
-  background-color: #262262;
   color: white;
   padding: 60px 20px;
   text-align: center;
@@ -876,8 +875,8 @@ html, body {
 }
 
 .cta-button {
-  background-color: white;
-  color: #262262;
+  background-color: #262262;
+  color: white;
   font-weight: 700;
   font-family: 'Figtree', sans-serif;
   font-size: 1rem;
@@ -888,7 +887,7 @@ html, body {
 }
 
 .cta-button:hover {
-  background-color: #e1e1e1;
+  background-color: #4a4ab2;
 }
 
 
