@@ -425,6 +425,15 @@ html, body {
     0 1px 3px rgba(0, 0, 0, 0.1); */
 }
 
+.what-is-twennie-subtext {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #444;
+  max-width: 500px;
+  font-style: italic;
+}
+
 @media screen and (max-width: 630px) {
   .dynamic-text-container {
     min-width: 200px;
@@ -1738,7 +1747,7 @@ html, body {
 
 .membership-container {
   text-align: center;
-  padding-top: 200px;
+  padding-top: 100px;
   margin-left: 10%;
   margin-right: 10%;
   margin-bottom: 10%;

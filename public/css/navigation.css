@@ -284,6 +284,7 @@ html, body {
     position: relative;
     text-decoration: none;
     padding: 5px;
+    border-radius: 3px;
   }
   
   .nav-square:hover {
@@ -377,6 +378,7 @@ html, body {
     position: relative;
     transition: background-color 0.3s ease;
     text-decoration: none;  
+    border-radius: 2px;
   }
   
   /* Ensures the first tab doesn't have a left border */
