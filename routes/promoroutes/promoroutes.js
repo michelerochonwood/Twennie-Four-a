@@ -32,59 +32,8 @@ router.get('/member_access', (req, res) => {
     });
 });
 
-router.get('/sample_articles', (req, res) => {
-    res.render('promo_views/sample_articles', {
-        layout: 'mainlayout'
-    });
-});
 
-router.get('/sample_exercises', (req, res) => {
-    res.render('promo_views/sample_exercises', {
-        layout: 'mainlayout'
-    });
-});
 
-router.get('/sample_interview', (req, res) => {
-    res.render('promo_views/sample_interview', {
-        layout: 'mainlayout'
-    });
-});
-
-router.get('/sample_microcourse', (req, res) => {
-    res.render('promo_views/sample_microcourse', {
-        layout: 'mainlayout'
-    });
-});
-
-router.get('/sample_microstudy', (req, res) => {
-    res.render('promo_views/sample_microstudy', {
-        layout: 'mainlayout'
-    });
-});
-
-router.get('/sample_peercoach', (req, res) => {
-    res.render('promo_views/sample_peercoach', {
-        layout: 'mainlayout'
-    });
-});
-
-router.get('/sample_promptset', (req, res) => {
-    res.render('promo_views/sample_promptset', {
-        layout: 'mainlayout'
-    });
-});
-
-router.get('/sample_templates', (req, res) => {
-    res.render('promo_views/sample_templates', {
-        layout: 'mainlayout'
-    });
-});
-
-router.get('/sample_video', (req, res) => {
-    res.render('promo_views/sample_video', {
-        layout: 'mainlayout'
-    });
-});
 
 router.get('/what_is_twennie', (req, res) => {
     res.render('promo_views/whatistwennie_view', {
