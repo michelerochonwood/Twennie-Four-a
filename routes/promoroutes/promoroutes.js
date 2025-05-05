@@ -140,6 +140,12 @@ router.get('/facilitation', (req, res) => {
     });
 });
 
+router.get('/promptset_promo', (req, res) => {
+    res.render('promo_views/promptset_promo', {
+        layout: 'mainlayout'
+    });
+});
+
 
 // Export the router
 module.exports = router;

@@ -473,7 +473,7 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
   /* width: 100vw; */
-  height: 1200px;
+  height: 1000px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column; /* Stack video and buttons vertically */
@@ -535,7 +535,7 @@ html, body {
   font-size: clamp(0.75rem, 4vw, 1rem);
   padding: 15px 10px;
   border: none;
-  border-radius: 25px;
+  border-radius: 55px;
   cursor: pointer;
   text-align: center;
   width: 230px; /* Fixed button width */
@@ -558,11 +558,10 @@ html, body {
 
 .interactive-video-wrapper video {
   width: 100%;
-  max-width: 640px; /* Or whatever max size you want */
+  max-width: 700px; /* Or whatever max size you want */
   height: auto;
   border-radius: 12px; /* Optional: soften the edges */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Optional: visual polish */
-  margin-top: 30px;
 }
 
 
@@ -594,6 +593,258 @@ html, body {
   }
 }
 
+
+/* ===== Promo View: Prompt Set ===== */
+
+.promptset-heading {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #262262;
+  margin-bottom: 1rem;
+}
+
+.promptset-intro {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  font-size: 1.25rem;
+  text-align: center;
+  color: #333;
+}
+
+.promptset-video-wrapper {
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+
+.promptset-video-wrapper video {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Benefits Grid ===== */
+
+.promptset-benefits-section {
+  background-color: #f4f5f9;
+  padding: 60px 20px;
+}
+
+.promptset-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.promptset-features-grid .grid-item {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.promptset-features-grid .grid-item h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #4e50a2;
+}
+
+.promptset-features-grid .grid-item p {
+  color: #555;
+}
+
+/* ===== Example Images Section ===== */
+
+.promptset-example-section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #262262;
+}
+
+.prompt-image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.prompt-image-item img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.prompt-image-item p {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  color: #444;
+}
+
+/* ===== How-To Section ===== */
+
+.promptset-howto-section {
+  background-color: #fefefe;
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.prompt-guidelines {
+  text-align: left;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding-left: 1.5rem;
+}
+
+.prompt-guidelines li {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+/* ===== Footer Grid ===== */
+
+.promptset-footer-wave {
+  background-color: #f4f5f9;
+  padding: 60px 20px;
+}
+
+.promptset-footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer-grid-item {
+  max-width: 280px;
+  text-align: center;
+}
+
+.footer-grid-item img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* ===== Scroll Animation ===== */
+
+.animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== Promo View: Prompt Set (Responsive) ===== */
+
+@media screen and (max-width: 1600px) {
+  .promptset-video-wrapper video {
+    max-width: 600px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .promptset-hero-container,
+  .promptset-benefits-section,
+  .promptset-example-section,
+  .promptset-howto-section,
+  .promptset-footer-wave {
+    padding: 40px 3rem;
+  }
+  .prompt-image-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .promptset-video-wrapper video {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .promptset-features-grid,
+  .prompt-image-grid,
+  .promptset-footer-grid {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+  .promptset-heading {
+    font-size: 2rem;
+  }
+  .promptset-intro {
+    font-size: 1.1rem;
+  }
+  .promptset-howto-section {
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 635px) {
+  .promptset-heading {
+    font-size: 1.75rem;
+  }
+  .promptset-intro,
+  .promptset-howto-section p {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .promptset-hero-container,
+  .promptset-benefits-section,
+  .promptset-example-section,
+  .promptset-howto-section,
+  .promptset-footer-wave {
+    padding: 40px 2rem;
+  }
+  .promptset-video-wrapper {
+    padding: 0;
+  }
+  .prompt-guidelines {
+    padding-left: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .promptset-hero-container,
+  .promptset-benefits-section,
+  .promptset-example-section,
+  .promptset-howto-section,
+  .promptset-footer-wave {
+    padding: 30px 1.25rem;
+  }
+  .prompt-guidelines li {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .promptset-heading {
+    font-size: 1.5rem;
+  }
+  .promptset-intro {
+    font-size: 0.95rem;
+  }
+}
 
 
 
