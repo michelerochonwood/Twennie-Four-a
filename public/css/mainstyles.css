@@ -594,13 +594,59 @@ html, body {
 }
 
 
-/* ===== Promo View: Prompt Set ===== */
+/* ===== Promo View: Prompt Set (Responsive + Wave Fixes) ===== */
+
+.promo-wave-divider {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.blue-wave-bg {
+  background-color: #4e50a2;
+  position: relative;
+  padding: 80px 20px 60px;
+  z-index: 0;
+  color: white;
+}
+
+/* Reuse for the bottom curve (inverted) */
+.bottom-wave-divider {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  overflow: hidden;
+  transform: rotate(180deg);
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure full flush with no white gap */
+.promo-wave-divider svg,
+.bottom-wave-divider svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.promptset-hero-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
 
 .promptset-heading {
   text-align: center;
   font-size: 2.5rem;
   font-weight: 800;
-  color: #262262;
+  color: white;
   margin-bottom: 1rem;
 }
 
@@ -609,12 +655,12 @@ html, body {
   margin: 0 auto 2rem;
   font-size: 1.25rem;
   text-align: center;
-  color: #333;
+  color: #d4d4d4;
 }
 
 .promptset-video-wrapper {
-  max-width: 800px;
-  margin: 0 auto 3rem;
+  max-width: 700px;
+  margin: 0 auto 30px;
 }
 
 .promptset-video-wrapper video {
@@ -622,6 +668,14 @@ html, body {
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
+
+/* Bottom wave attachment example */
+.bottom-curve-wrap {
+  margin-top: -1px;
+  z-index: 1;
+  position: relative;
+}
+
 
 /* ===== Benefits Grid ===== */
 
