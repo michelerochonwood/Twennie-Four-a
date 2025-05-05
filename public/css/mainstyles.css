@@ -556,6 +556,15 @@ html, body {
   transform: translateY(0);
 }
 
+.interactive-video-wrapper video {
+  width: 100%;
+  max-width: 640px; /* Or whatever max size you want */
+  height: auto;
+  border-radius: 12px; /* Optional: soften the edges */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Optional: visual polish */
+}
+
+
 @media screen and (max-width: 900px) {
   .interactive-section {
     height: auto;
