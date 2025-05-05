@@ -545,6 +545,17 @@ html, body {
   background-color: #4a4ab2;
 }
 
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media screen and (max-width: 900px) {
   .interactive-section {
     height: auto;
