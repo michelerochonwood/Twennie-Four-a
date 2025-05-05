@@ -152,6 +152,12 @@ router.get('/sample_article', (req, res) => {
     });
 });
 
+router.get('/sample_video', (req, res) => {
+    res.render('promo_views/sample_video', {
+        layout: 'unitviewlayout'
+    });
+});
+
 
 // Export the router
 module.exports = router;
