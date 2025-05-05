@@ -146,6 +146,12 @@ router.get('/promptset_promo', (req, res) => {
     });
 });
 
+router.get('/sample_article', (req, res) => {
+    res.render('promo_views/sample_article', {
+        layout: 'unitviewlayout'
+    });
+});
+
 
 // Export the router
 module.exports = router;

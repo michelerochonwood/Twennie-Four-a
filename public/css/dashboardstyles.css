@@ -310,6 +310,7 @@ html, body {
   cursor: pointer;
   text-align: center; /* ✅ Ensures text is centered */
   transition: background-color 0.3s ease; /* ✅ Smooth transition for active state */
+  border-radius: 3px;
 }
 
 /* ✅ Active Tab State - Changes Background to #d65c6b */
