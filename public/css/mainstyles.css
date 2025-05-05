@@ -807,7 +807,7 @@ html, body {
 
 /* CTA Section */
 .promptset-cta-buttons {
-  background-color: #f4f5f9;
+
   padding: 60px 20px;
   text-align: center;
 }
@@ -862,7 +862,7 @@ html, body {
 }
 
 .promptset-cta-buttons .section-title {
-  color: white;
+  color: #262262;
   font-size: 2rem;
   margin-bottom: 2rem;
 }
