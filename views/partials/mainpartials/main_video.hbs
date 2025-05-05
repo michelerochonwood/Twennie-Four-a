@@ -9,15 +9,32 @@
       </div>
     </div>
     <div class="button-grid">
+      <button class="interactive-button">see the latest content</button>
+      <button class="interactive-button">what is a Twennie prompt?</button>
       <button class="interactive-button">read an article</button>
-      <button class="interactive-button">watch a video</button>
-      <button class="interactive-button">analyze a study</button>
       <button class="interactive-button">hear an interview</button>
       <button class="interactive-button">try a prompt</button>
-      <button class="interactive-button">meet a coach</button>
+      <button class="interactive-button">meet the Twennie founders</button>
       <button class="interactive-button">review a template</button>
       <button class="interactive-button">get a testimonial</button>
-      <button class="interactive-button">test a micro-course</button>
+      <button class="interactive-button">find out more about group memberships</button>
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // Stop observing once visible
+        }
+      });
+    }, { threshold: 0.8 }); // Element is visible when 10% is in viewport
+
+    elements.forEach(el => observer.observe(el));
+  });
+</script>
