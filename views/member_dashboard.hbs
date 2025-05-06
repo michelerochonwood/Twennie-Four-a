@@ -9,7 +9,7 @@
 
         <!-- Tab Navigation -->
         <div class="dashboard-tabs-container">
-            <button class="dashboard-tab" data-tab="membership">
+            <button class="dashboard-tab active" data-tab="membership">
                 <span class="tab-title">membership overview</span>
                 <div class="tab-arrow"></div>
             </button>
@@ -40,37 +40,36 @@
         </div>
 
         <!-- Tab Content -->
-        <div class="dashboard-tab-content" id="prompts">
-            {{#each registeredPromptSets}}
-                <section class="member-prompt-section">
-                    {{> dashboardpartials/member_prompt promptSet=this}}
-                </section>
-            {{/each}}
-        </div>
-
-        <div class="dashboard-tab-content" id="topics">
-            {{> dashboardpartials/member_topics }}
-        </div>
-
-        <div class="dashboard-tab-content" id="progress">
-            {{> dashboardpartials/member_progress }}
-        </div>
-
-        <div class="dashboard-tab-content" id="contribute">
-            {{> dashboardpartials/member_contribution }}
-        </div>
-
-        <div class="dashboard-tab-content" id="library">
-            {{> dashboardpartials/member_mylibraryunits }}
-        </div>
-
-        <div class="dashboard-tab-content" id="membership">
-            {{> dashboardpartials/member_membership }}
-        </div>
-
-        <div class="dashboard-tab-content" id="tagged">
-            {{> dashboardpartials/member_tagged_units }}
-        </div>
-    </div>
+<div class="dashboard-tab-content" id="membership" style="display: block;">
+  {{> dashboardpartials/member_membership }}
 </div>
+
+<div class="dashboard-tab-content" id="topics" style="display: none;">
+  {{> dashboardpartials/member_topics }}
+</div>
+
+<div class="dashboard-tab-content" id="prompts" style="display: none;">
+  {{#each registeredPromptSets}}
+    <section class="member-prompt-section">
+      {{> dashboardpartials/member_prompt promptSet=this}}
+    </section>
+  {{/each}}
+</div>
+
+<div class="dashboard-tab-content" id="progress" style="display: none;">
+  {{> dashboardpartials/member_progress }}
+</div>
+
+<div class="dashboard-tab-content" id="contribute" style="display: none;">
+  {{> dashboardpartials/member_contribution }}
+</div>
+
+<div class="dashboard-tab-content" id="library" style="display: none;">
+  {{> dashboardpartials/member_mylibraryunits }}
+</div>
+
+<div class="dashboard-tab-content" id="tagged" style="display: none;">
+  {{> dashboardpartials/member_tagged_units }}
+</div>
+
 
