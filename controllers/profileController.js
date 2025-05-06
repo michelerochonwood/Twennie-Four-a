@@ -190,6 +190,37 @@ const viewMemberProfile = async (req, res) => {
       }));
   
       console.log("✅ Member Earned Badges:", JSON.stringify(memberBadges, null, 2));
+
+      const [articles, videos, templates] = await Promise.all([
+        Article.find({ author: profile.memberId }).lean(),
+        Video.find({ author: profile.memberId }).lean(),
+        Template.find({ author: profile.memberId }).lean()
+      ]);
+      
+      // ✅ Normalize into a single array for the view
+      const memberUnits = [
+        ...articles.map((a) => ({
+          unitType: "Article",
+          title: a.article_title,
+          status: a.status || "draft",
+          mainTopic: a.main_topic,
+          _id: a._id
+        })),
+        ...videos.map((v) => ({
+          unitType: "Video",
+          title: v.video_title,
+          status: v.status || "draft",
+          mainTopic: v.main_topic,
+          _id: v._id
+        })),
+        ...templates.map((t) => ({
+          unitType: "Template",
+          title: t.template_title,
+          status: t.status || "draft",
+          mainTopic: t.main_topic,
+          _id: t._id
+        }))
+      ];
   
       res.render("profile_views/member_profile", {
         layout: "profilelayout",
@@ -197,7 +228,8 @@ const viewMemberProfile = async (req, res) => {
           ...profileData,
           selectedTopics
         },
-        memberBadges
+        memberBadges,
+        memberUnits // ✅ Now passed to your partial
       });
     } catch (error) {
       console.error("❌ Error fetching member profile:", error);
