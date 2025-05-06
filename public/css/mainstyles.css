@@ -4196,3 +4196,139 @@ margin-right: 5px; /* Space between icon and text */
     }
   }
 }
+
+
+/* ===== Custom Services View Styles ===== */
+
+.promo-services-section {
+  padding: 80px 20px;
+  background-color: #ffffff;
+}
+
+.promo-services-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.promo-services-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  align-items: center;
+}
+
+.promo-services-content {
+  flex: 1 1 50%;
+}
+
+.promo-services-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #262262;
+  margin-top: 1rem;
+}
+
+.promo-services-intro,
+.promo-services-intro2 {
+  font-size: 1rem;
+  margin: 1rem 0;
+  line-height: 1.6;
+  color: #555;
+}
+
+.promo-services-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.promo-services-image-container {
+  flex: 1 1 45%;
+}
+
+.promo-services-image {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.promo-services-subtitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.promo-services-blue {
+  background-color: #4e50a2;
+  padding: 80px 20px;
+  color: white;
+}
+
+.promo-services-grid-three,
+.promo-services-grid-two {
+  display: grid;
+  gap: 2rem;
+}
+
+.promo-services-grid-three {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.promo-services-grid-two {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.promo-services-grid-item {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+.promo-services-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #f4f4f4;
+}
+
+.promo-services-text strong {
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.promo-services-video {
+  background-color: #f4f5f9;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.promo-services-video-wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.promo-services-video-wrapper video {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  width: 100%;
+  height: auto;
+}
+
+/* Divider reuse */
+.promo-wave-divider,
+.bottom-wave-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.promo-wave-divider svg,
+.bottom-wave-divider svg {
+  display: block;
+  width: 100%;
+  height: 150px;
+}
