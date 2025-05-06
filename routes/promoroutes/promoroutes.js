@@ -115,7 +115,7 @@ router.get('/sample_promptset', (req, res) => {
 
 router.get('/custom_services', (req, res) => {
     res.render('promo_views/custom_services', {
-        layout: 'unitviewlayout'
+        layout: 'mainlayout'
     });
 });
 
