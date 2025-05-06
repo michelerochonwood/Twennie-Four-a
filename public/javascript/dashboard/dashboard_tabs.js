@@ -1,34 +1,37 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const allTabs = document.querySelectorAll(".dashboard-tab, .profile-tab");
-  const allContents = document.querySelectorAll(".dashboard-tab-content, .profile-tab-content");
+  const allTabs = document.querySelectorAll(".dashboard-tab");
+  const allContents = document.querySelectorAll(".dashboard-tab-content");
 
   allTabs.forEach(tab => {
     tab.addEventListener("click", function () {
-      const target = this.getAttribute("data-tab");
+      const targetId = this.getAttribute("data-tab");
 
-      // Remove active from all
+      // Deactivate all tabs
       allTabs.forEach(t => t.classList.remove("active"));
-      allContents.forEach(c => c.classList.remove("active"));
+      allContents.forEach(c => {
+        c.classList.remove("active");
+        c.style.display = "none";
+      });
 
-      // Activate clicked tab and matching content
+      // Activate clicked tab and show corresponding content
       this.classList.add("active");
-      const targetContent = document.getElementById(target);
+      const targetContent = document.getElementById(targetId);
       if (targetContent) {
         targetContent.classList.add("active");
+        targetContent.style.display = "block";
       }
     });
   });
 
-  // Only reinforce what’s already marked active in the HTML — don’t override
-  const defaultTab = document.querySelector(".dashboard-tab.active, .profile-tab.active");
-  const defaultContentId = defaultTab?.getAttribute("data-tab");
-  const defaultContent = defaultContentId ? document.getElementById(defaultContentId) : null;
-
-  // Only one should have active
-  allContents.forEach(c => c.classList.remove("active"));
-  if (defaultTab && defaultContent) {
-    defaultContent.classList.add("active");
-  }
+  // On page load: ensure only the active tab content is visible
+  allContents.forEach(c => {
+    if (!c.classList.contains("active")) {
+      c.style.display = "none";
+    } else {
+      c.style.display = "block";
+    }
+  });
 });
+
 
 
