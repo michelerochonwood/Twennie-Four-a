@@ -107,6 +107,12 @@ router.get('/sample_video', (req, res) => {
     });
 });
 
+router.get('/sample_promptset', (req, res) => {
+    res.render('promo_views/sample_promptset', {
+        layout: 'unitviewlayout'
+    });
+});
+
 
 // Export the router
 module.exports = router;
