@@ -18,11 +18,6 @@ const cloudinary = require('../utils/cloudinary'); // or your exact path
 
 
 
-
-
-
-
-
 const topicMappings = {
     'AI in Consulting': 'aiinconsulting',
     'AI in Project Management': 'aiinprojectmanagement',
@@ -191,36 +186,31 @@ const viewMemberProfile = async (req, res) => {
   
       console.log("✅ Member Earned Badges:", JSON.stringify(memberBadges, null, 2));
 
-      const [articles, videos, templates] = await Promise.all([
-        Article.find({ author: profile.memberId }).lean(),
-        Video.find({ author: profile.memberId }).lean(),
-        Template.find({ author: profile.memberId }).lean()
+      
+
+
+      const [memberArticles, memberVideos, memberPromptSets, memberInterviews, memberExercises, memberTemplates] = await Promise.all([
+        Article.find({ 'author.id': profile.memberId }),
+        Video.find({ 'author.id': profile.memberId }),
+        PromptSet.find({ 'author.id': profile.memberId }),
+        Interview.find({ 'author.id': profile.memberId }),
+        Exercise.find({ 'author.id': profile.memberId }),
+        Template.find({ 'author.id': profile.memberId }),
       ]);
       
-      // ✅ Normalize into a single array for the view
-      const memberUnits = [
-        ...articles.map((a) => ({
-          unitType: "Article",
-          title: a.article_title,
-          status: a.status || "draft",
-          mainTopic: a.main_topic,
-          _id: a._id
-        })),
-        ...videos.map((v) => ({
-          unitType: "Video",
-          title: v.video_title,
-          status: v.status || "draft",
-          mainTopic: v.main_topic,
-          _id: v._id
-        })),
-        ...templates.map((t) => ({
-          unitType: "Template",
-          title: t.template_title,
-          status: t.status || "draft",
-          mainTopic: t.main_topic,
-          _id: t._id
-        }))
-      ];
+      const memberUnits = await Promise.all(
+        [...memberArticles, ...memberVideos, ...memberPromptSets, ...memberInterviews, ...memberExercises, ...memberTemplates].map(async (unit) => {
+          const author = await resolveAuthorById(unit.author?.id || unit.author);
+          return {
+            unitType: unit.unitType || unit.constructor?.modelName || 'Unknown',
+            title: unit.article_title || unit.video_title || unit.promptset_title || unit.interview_title || unit.exercise_title || unit.template_title,
+            status: unit.status,
+            mainTopic: unit.main_topic,
+            _id: unit._id,
+            author: author.name
+          };
+        })
+      );
   
       res.render("profile_views/member_profile", {
         layout: "profilelayout",
@@ -229,8 +219,8 @@ const viewMemberProfile = async (req, res) => {
           selectedTopics
         },
         memberBadges,
-        memberUnits // ✅ Now passed to your partial
-      });
+        memberUnits // ✅ This line is critical
+      })
     } catch (error) {
       console.error("❌ Error fetching member profile:", error);
       res.status(500).send("Internal Server Error");
