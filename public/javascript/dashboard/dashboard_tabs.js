@@ -6,11 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
     tab.addEventListener("click", function () {
       const target = this.getAttribute("data-tab");
 
-      // Remove active class from all tabs and contents
+      // Remove active from all
       allTabs.forEach(t => t.classList.remove("active"));
       allContents.forEach(c => c.classList.remove("active"));
 
-      // Add active class to clicked tab and corresponding content
+      // Activate clicked tab and matching content
       this.classList.add("active");
       const targetContent = document.getElementById(target);
       if (targetContent) {
@@ -19,14 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Respect the active tab/content already set in HTML
+  // Only reinforce what’s already marked active in the HTML — don’t override
   const defaultTab = document.querySelector(".dashboard-tab.active, .profile-tab.active");
   const defaultContentId = defaultTab?.getAttribute("data-tab");
   const defaultContent = defaultContentId ? document.getElementById(defaultContentId) : null;
 
+  // Only one should have active
+  allContents.forEach(c => c.classList.remove("active"));
   if (defaultTab && defaultContent) {
-    defaultTab.classList.add("active");
     defaultContent.classList.add("active");
   }
 });
+
 
