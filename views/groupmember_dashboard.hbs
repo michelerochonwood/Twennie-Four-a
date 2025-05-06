@@ -10,10 +10,10 @@
 
         <!-- Tab Navigation (Inside the Right Container) -->
         <div class="dashboard-tabs-container">
-            <button class="dashboard-tab" data-tab="membership">
-                <span class="tab-title">membership overview</span>
-                <div class="tab-arrow"></div>
-            </button>
+<button class="dashboard-tab active" data-tab="membership">
+  <span class="tab-title">membership overview</span>
+  <div class="tab-arrow"></div>
+</button>
             <button class="dashboard-tab" data-tab="topics">
                 <span class="tab-title">my topics</span>
                 <div class="tab-arrow"></div>
@@ -45,9 +45,9 @@
         </div>
 
         <!-- Tab Content -->
-        <div class="dashboard-tab-content" id="membership">
-            {{> dashboardpartials/groupmember_membership }}
-        </div>
+<div class="dashboard-tab-content active" id="membership">
+  {{> dashboardpartials/groupmember_membership }}
+</div>
 
         <div class="dashboard-tab-content" id="topics">
             {{> dashboardpartials/groupmember_topics }}
