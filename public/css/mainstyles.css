@@ -4365,14 +4365,23 @@ margin-right: 5px; /* Space between icon and text */
 .what-is-tweenie-hero {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1.5rem;
 }
 
 .hero-text-content {
   flex: 1 1 50%;
+  min-width: 280px;
+}
+
+.hero-image-wrapper {
+  flex: 1 1 45%;
+  display: flex;
+  justify-content: center;
 }
 
 .hand-image {
@@ -4420,7 +4429,6 @@ margin-right: 5px; /* Space between icon and text */
 
 /* Section Three Styling */
 .section-three {
-  background-color: #f4f5f9;
   padding: 80px 20px;
 }
 
