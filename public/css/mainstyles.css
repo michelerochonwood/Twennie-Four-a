@@ -4550,6 +4550,23 @@ margin-right: 5px; /* Space between icon and text */
 
 
 /* ===== Responsive Adjustments ===== */
+
+@media screen and (max-width: 768px) {
+  .what-is-tweenie-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text-content,
+  .hero-image-wrapper {
+    flex: 1 1 100%;
+  }
+
+  .hand-image {
+    max-width: 80%;
+    margin-top: 2rem;
+  }
+}
 @media screen and (max-width: 1024px) {
   .what-is-tweenie-hero {
     flex-direction: column;
