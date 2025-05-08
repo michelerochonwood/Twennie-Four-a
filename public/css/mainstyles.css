@@ -4440,13 +4440,12 @@ margin-right: 5px; /* Space between icon and text */
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
   padding: 80px 20px;
-  background-color: #f4f5f9;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .culture-card {
-  background-color: white;
+  background-color: #ffffff;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
@@ -4466,7 +4465,6 @@ margin-right: 5px; /* Space between icon and text */
 /* ===== CTA Grid ===== */
 .membership-cta-grid {
   padding: 80px 20px;
-  background-color: #ffffff;
   text-align: center;
 }
 
