@@ -4,6 +4,9 @@ const profileController = require("../../controllers/profileController");
 const ensureAuthenticated = require("../../middleware/ensureAuthenticated");
 const uploadImages = require("../../middleware/multerImages"); // ✅ updated import
 
+
+
+
 // ✅ Public Profile Routes
 router.get("/member/:id", profileController.viewMemberProfile);
 router.get("/leader/:id", profileController.viewLeaderProfile);
@@ -22,6 +25,9 @@ router.post("/groupmember/:id/update", ensureAuthenticated, uploadImages.single(
 
 router.get("/group/:id/edit", ensureAuthenticated, profileController.editGroupProfile);
 router.post("/group/:id/update", ensureAuthenticated, uploadImages.single("profileImage"), profileController.updateGroupProfile);
+
+router.get("/survey", ensureAuthenticated, profileController.showProfileSurveyForm);
+router.post("/survey/submit", ensureAuthenticated, profileController.submitProfileSurvey);
 
 // ✅ Optional test upload endpoint
 router.post('/upload-profile', uploadImages.single('profileImage'), async (req, res) => {

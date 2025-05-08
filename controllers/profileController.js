@@ -15,6 +15,8 @@ const Exercise = require('../models/unit_models/exercise');
 const Template = require('../models/unit_models/template');
 const Badge = require('../models/prompt_models/promptsetcompletion');
 const cloudinary = require('../utils/cloudinary'); // or your exact path
+const ProfileSurvey = require("../models/profile_models/profile_survey");
+
 
 
 
@@ -123,6 +125,63 @@ async function resolveAuthorById(authorId) {
 // =========================
 // ✅ MEMBER PROFILES
 // =========================
+
+// ✅ Show Survey Form (shared route for all users)
+const showProfileSurveyForm = async (req, res) => {
+  try {
+    const { id } = req.session.user;
+    let user = await Member.findById(id).lean();
+
+    // fallback for group members or leaders if needed
+    if (!user) user = await GroupMember.findById(id).lean();
+    if (!user) user = await Leader.findById(id).lean();
+
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+
+    res.render("profile_views/member_profile_survey_form", {
+      layout: "profilelayout",
+      csrfToken: req.csrfToken ? req.csrfToken() : null,
+      member: {
+        name: user.username || user.name || "",
+        email: user.email || ""
+      }
+    });
+  } catch (error) {
+    console.error("❌ Error loading profile survey form:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+// ✅ Handle Survey Submission
+const submitProfileSurvey = async (req, res) => {
+  try {
+    const survey = new ProfileSurvey({
+      name: req.body.name,
+      email: req.body.email,
+      role: Array.isArray(req.body.role) ? req.body.role : [req.body.role],
+      wantsProfile: req.body.wantsProfile,
+      profileTypes: Array.isArray(req.body.profileTypes) ? req.body.profileTypes : [req.body.profileTypes],
+      profileComponents: Array.isArray(req.body.profileComponents) ? req.body.profileComponents : [req.body.profileComponents],
+      visibility: req.body.visibility,
+      connect: req.body.connect,
+      notes: req.body.notes
+    });
+
+    await survey.save();
+
+    res.render("profile_views/survey_thankyou", {
+      layout: "profilelayout",
+      memberName: req.body.name || ""
+    });
+  } catch (error) {
+    console.error("❌ Error saving profile survey:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
 
 
 const viewMemberProfile = async (req, res) => {
@@ -1097,7 +1156,9 @@ module.exports = {
     editGroupMemberProfile,
     updateGroupMemberProfile,
     editGroupProfile,
-    updateGroupProfile
+    updateGroupProfile,
+    submitProfileSurvey,
+    showProfileSurveyForm
 };
 
 
