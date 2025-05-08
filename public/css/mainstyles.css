@@ -4335,3 +4335,191 @@ margin-right: 5px; /* Space between icon and text */
   height: 150px;
 }
 
+
+/*GROUP PROMO*/
+
+/* ===== Promo Group Membership Styles ===== */
+
+.promo-container {
+  padding: 60px 20px;
+}
+
+.promo-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #262262;
+  margin-bottom: 1.5rem;
+}
+
+.promo-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.promo-text ul {
+  padding-left: 1.5rem;
+}
+
+.what-is-tweenie-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-text-content {
+  flex: 1 1 50%;
+}
+
+.hand-image {
+  flex: 1 1 40%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Blue background section */
+.blue-wave-bg {
+  background-color: #4e50a2;
+  padding: 80px 20px;
+  color: white;
+}
+
+.what-is-tweenie-features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.promo-text-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.what-is-twennie-promo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.grid-item h3 {
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.grid-item p {
+  font-size: 0.95rem;
+  color: #f4f4f4;
+}
+
+/* Section Three Styling */
+.section-three {
+  background-color: #f4f5f9;
+  padding: 80px 20px;
+}
+
+.section-three-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 3rem;
+}
+
+.section-three-text {
+  flex: 1 1 55%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.section-three-images {
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section-three-image {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Wave Dividers */
+.promo-wave-divider {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.promo-wave-divider svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Animation Trigger */
+.animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ===== Responsive Adjustments ===== */
+@media screen and (max-width: 1024px) {
+  .what-is-tweenie-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hero-text-content,
+  .hand-image {
+    flex: 1 1 100%;
+  }
+  .hand-image {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .promo-heading {
+    font-size: 1.5rem;
+  }
+  .grid-item h3 {
+    font-size: 1.1rem;
+  }
+  .grid-item p {
+    font-size: 0.85rem;
+  }
+  .section-three-text {
+    grid-template-columns: 1fr;
+  }
+  .section-three-image {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .promo-text {
+    font-size: 0.95rem;
+  }
+  .section-three-text {
+    font-size: 0.9rem;
+  }
+}
