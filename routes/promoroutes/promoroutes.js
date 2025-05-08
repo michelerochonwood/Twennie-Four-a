@@ -119,6 +119,12 @@ router.get('/custom_services', (req, res) => {
     });
 });
 
+router.get('/group_memberships', (req, res) => {
+    res.render('promo_views/group_memberships', {
+        layout: 'mainlayout'
+    });
+});
+
 
 // Export the router
 module.exports = router;
