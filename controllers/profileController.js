@@ -140,7 +140,7 @@ const showProfileSurveyForm = async (req, res) => {
       return res.status(404).send("User not found.");
     }
 
-    res.render("profile_views/member_profile_survey_form", {
+    res.render("profile_views/profile_survey_form", {
       layout: "profilelayout",
       csrfToken: req.csrfToken ? req.csrfToken() : null,
       member: {
