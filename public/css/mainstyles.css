@@ -4340,7 +4340,30 @@ margin-right: 5px; /* Space between icon and text */
 
 /* ===== Promo Group Membership Styles ===== */
 
-/* ===== Hero Grid ===== */
+/* ===== Promo Group Membership Styles (Grid-Based) ===== */
+
+.promo-container {
+  padding: 60px 20px;
+}
+
+.promo-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #262262;
+  margin-bottom: 1.5rem;
+}
+
+.promo-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.promo-text ul {
+  padding-left: 1.5rem;
+}
+
 .group-hero-section {
   padding: 60px 20px;
 }
@@ -4367,7 +4390,29 @@ margin-right: 5px; /* Space between icon and text */
   margin: 0 auto;
 }
 
-/* ===== Reporting Grid ===== */
+/* ===== Wave Dividers ===== */
+.promo-wave-divider {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  overflow: hidden;
+  line-height: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.promo-wave-divider svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ===== Blue Section ===== */
+.blue-wave-bg {
+  background-color: #4e50a2;
+  padding: 80px 20px;
+  color: white;
+}
+
 .reporting-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -4389,7 +4434,7 @@ margin-right: 5px; /* Space between icon and text */
   font-size: 0.95rem;
 }
 
-/* ===== Culture Cards ===== */
+/* ===== Culture Grid ===== */
 .membership-info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -4418,7 +4463,7 @@ margin-right: 5px; /* Space between icon and text */
   color: #555;
 }
 
-/* ===== Membership CTA Grid ===== */
+/* ===== CTA Grid ===== */
 .membership-cta-grid {
   padding: 80px 20px;
   background-color: #ffffff;
@@ -4440,21 +4485,55 @@ margin-right: 5px; /* Space between icon and text */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Responsive ===== */
-@media screen and (max-width: 500px) {
+/* ===== Button Styles ===== */
+.membership-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.membership-button {
+  font-family: "Figtree";
+  padding: 10px 20px;
+  background-color: #262262;
+  color: white;
+  font-weight: 800;
+  font-size: 1em;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.membership-button:hover {
+  background-color: #4a4ab2;
+}
+
+.form-title {
+  font-size: clamp(1.5rem, 5vw, 2.3rem);
+  font-weight: 800;
+  color: #262262;
+  margin-bottom: 1.45rem;
+  margin-top: 7rem;
+  text-align: center;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media screen and (max-width: 768px) {
   .group-hero-text {
     text-align: center;
   }
   .promo-heading {
     font-size: 1.5rem;
   }
-  .culture-card h3 {
+  .culture-card h3,
+  .reporting-grid-item h3 {
     font-size: 1.1rem;
   }
-  .culture-card p {
-    font-size: 0.85rem;
-  }
+  .culture-card p,
   .reporting-grid-item p {
     font-size: 0.85rem;
   }
 }
+
