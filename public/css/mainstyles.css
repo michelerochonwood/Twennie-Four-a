@@ -4481,6 +4481,65 @@ margin-right: 5px; /* Space between icon and text */
   transform: translateY(0);
 }
 
+.membership-form-container {
+  /* padding: 30px 5%; */
+  padding: 0 5rem;
+  font-family: 'Figtree', sans-serif;
+  text-align: center;
+  /* margin-top: 150px; */
+  margin: 7rem 0 3rem 0;
+}
+
+/* Button Container */
+.membership-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Button Styling */
+.membership-button {
+  font-family: "Figtree";
+  padding: 10px 20px;
+  background-color: #262262;
+  color: white;
+  font-weight: 800;
+  font-size: 1em;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  /* margin-top: 20px; */
+  text-decoration: none;
+  /* margin: 30px; */
+  /* text-wrap: nowrap; */
+}
+
+.membership-buttons .membership-button:nth-of-type(1) {
+  grid-area: button1;
+}
+.membership-buttons .membership-button:nth-of-type(2) {
+  grid-area: button2;
+}
+.membership-buttons .membership-button:nth-of-type(3) {
+  grid-area: button3;
+}
+
+.membership-button:hover {
+  background-color: #4e50a2;
+}
+
+.form-title {
+  /* font-size: 1.8em; */
+  font-size: clamp(1.5rem, 5vw, 2.3rem);
+  font-weight: 800;
+  color: #262262;
+  /* margin-bottom: 20px; */
+  margin-bottom: 1.45rem;
+  text-align: center;
+  margin-top: 7rem;
+}
+
 
 /* ===== Responsive Adjustments ===== */
 @media screen and (max-width: 1024px) {
