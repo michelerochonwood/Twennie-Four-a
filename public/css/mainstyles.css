@@ -4483,6 +4483,13 @@ margin-right: 5px; /* Space between icon and text */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
+.group-video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; /* optional: match your design aesthetic */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* optional */
+}
+
 /* ===== Button Styles ===== */
 .membership-buttons {
   display: flex;
