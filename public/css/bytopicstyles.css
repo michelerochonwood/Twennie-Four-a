@@ -589,3 +589,55 @@ html, body {
       }
     }
   }
+
+
+  .error-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 4px;
+}
+
+/* ERROR PAGE FOR UNIT FORMS */
+.error-container {
+  text-align: center;
+  margin: 50px auto;
+  padding: 20px;
+  max-width: 500px;
+}
+
+.error-title {
+  margin-top: 200px;
+  color: #262262;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.error-message-forms {
+  font-size: 1rem;
+  margin: 10px 0;
+  font-family: "Figtree";
+}
+
+.error-button {
+  display: block;
+  font-size: 11pt;
+  margin: 10px auto;
+  padding: 10px 20px;
+  border-radius: 99px;
+  background-color: #262262;
+  color: white;
+  font-family: "Figtree";
+  font-weight: 800;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  width: 50%;
+  margin-bottom: 100px;
+}
+
+.error-button:hover {
+  background-color: #4a4ab2;
+}
