@@ -4309,23 +4309,17 @@ margin-right: 5px; /* Space between icon and text */
   font-size: 1rem;
 }
 
-.promo-services-video {
-  background-color: #f4f5f9;
-  padding: 60px 20px;
-  text-align: center;
+.promo-services-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease;
 }
 
-.promo-services-video-wrapper {
-  max-width: 700px;
-  margin: 0 auto;
+.promo-services-link:hover {
+  transform: scale(1.02);
 }
 
-.promo-services-video-wrapper video {
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  width: 100%;
-  height: auto;
-}
 
 /* Divider reuse */
 .promo-wave-divider,
