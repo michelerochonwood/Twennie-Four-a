@@ -4249,6 +4249,14 @@ margin-right: 5px; /* Space between icon and text */
   flex: 1 1 45%;
 }
 
+.promo-services-image-container video {
+  width: 30%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 12px; /* Optional */
+}
+
+
 .promo-services-image {
   width: 100%;
   border-radius: 12px;
