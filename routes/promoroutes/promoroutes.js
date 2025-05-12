@@ -125,6 +125,12 @@ router.get('/group_memberships', (req, res) => {
     });
 });
 
+router.get('/sample_exercise', (req, res) => {
+    res.render('promo_views/sample_exercise', {
+        layout: 'mainlayout'
+    });
+});
+
 
 // Export the router
 module.exports = router;
