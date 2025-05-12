@@ -4250,7 +4250,6 @@ margin-right: 5px; /* Space between icon and text */
 }
 
 .promo-services-image-container video {
-  width: 30%;
   max-width: 500px;
   height: auto;
   border-radius: 12px; /* Optional */
