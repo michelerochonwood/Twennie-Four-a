@@ -55,7 +55,7 @@ exports.getTopicView = async (req, res) => {
             'Project Management': 'projectmanagement',
             'Workplace Culture': 'workplaceculture',
             'The Pareto Principle': 'theparetoprinciple',
-            'Career Development in Technical Consulting Services': 'careerdevelopmentintechnicalservices',
+            'Career Development in Technical Services': 'careerdevelopmentintechnicalservices',
             'Soft Skills in Technical Environments': 'softskillsintechnicalenvironments',
             'Business Development in Technical Services': 'businessdevelopmentintechnicalservices',
             'Proposal Management': 'proposalmanagement',
