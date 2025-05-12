@@ -4590,11 +4590,11 @@ margin-right: 5px; /* Space between icon and text */
 
 .exercise-download-button {
   display: inline-block;
-  background-color: #4e50a2;
+  background-color:#262262;
   color: white;
   padding: 0.75rem 1.5rem;
   font-weight: bold;
-  border-radius: 8px;
+  border-radius: 35px;
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
@@ -4609,6 +4609,8 @@ margin-right: 5px; /* Space between icon and text */
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color:#5a5552;
+  border-radius: 10px;
 }
 
 .single_exercise-duration-image-container,
