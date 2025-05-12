@@ -131,6 +131,12 @@ router.get('/sample_exercise', (req, res) => {
     });
 });
 
+router.get('/sample_template', (req, res) => {
+    res.render('promo_views/sample_template', {
+        layout: 'mainlayout'
+    });
+});
+
 
 // Export the router
 module.exports = router;
