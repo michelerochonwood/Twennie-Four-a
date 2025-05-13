@@ -4,10 +4,11 @@ const Interview = require('../models/unit_models/interview');
 const PromptSet = require('../models/unit_models/promptset');
 const Exercise = require('../models/unit_models/exercise');
 const Template = require('../models/unit_models/template');
-const Leader = require('../models/member_models/leader');
-const GroupMember = require('../models/member_models/group_member');
-const Member = require('../models/member_models/member');
+
 const moment = require('moment');
+const MemberProfile = require('../models/profile_models/member_profile');
+const GroupMemberProfile = require('../models/profile_models/groupmember_profile');
+const LeaderProfile = require('../models/profile_models/leader_profile');
 
 
 
@@ -27,19 +28,42 @@ function getUnitTypeIcon(type) {
 
 async function resolveAuthorById(authorId) {
     try {
-        let author = await Leader.findById(authorId).select('groupLeaderName profileImage');
-        if (author) return { name: author.groupLeaderName, image: author.profileImage };
+        // Leader profile
+        let profile = await LeaderProfile.findOne({ leaderId: authorId }).select('profileImage name');
+        if (profile) {
+            return {
+                name: profile.name || 'Leader',
+                image: profile.profileImage || '/images/default-avatar.png'
+            };
+        }
 
-        author = await GroupMember.findById(authorId).select('name profileImage');
-        if (author) return { name: author.name, image: author.profileImage };
+        // Group Member profile
+        profile = await GroupMemberProfile.findOne({ memberId: authorId }).select('profileImage name');
+        if (profile) {
+            return {
+                name: profile.name || 'Group Member',
+                image: profile.profileImage || '/images/default-avatar.png'
+            };
+        }
 
-        author = await Member.findById(authorId).select('name profileImage'); // ✅ not username
-        if (author) return { name: author.name, image: author.profileImage }; // ✅ not username
+        // Individual Member profile
+        profile = await MemberProfile.findOne({ memberId: authorId }).select('profileImage name');
+        if (profile) {
+            return {
+                name: profile.name || 'Member',
+                image: profile.profileImage || '/images/default-avatar.png'
+            };
+        }
     } catch (error) {
-        console.error('Error resolving author:', error);
+        console.error('Error resolving author profile:', error);
     }
-    return { name: 'Unknown Author', image: '/images/default-avatar.png' };
+
+    return {
+        name: 'Unknown Author',
+        image: '/images/default-avatar.png'
+    };
 }
+
 
 
 
