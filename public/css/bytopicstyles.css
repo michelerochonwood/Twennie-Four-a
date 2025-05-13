@@ -98,7 +98,7 @@ html, body {
   /* min-height: 250px; */
   /* margin-bottom: 100px; */
   margin-bottom: 1rem;
-  min-height: 250px;
+  min-height: 225px;
   margin-bottom: 1.5rem;
 }
 
@@ -109,12 +109,12 @@ html, body {
 
 /* Prevent other cards in the row from expanding */
 .bytopic-library-units-grid > .bytopic-library-unit-card:not(.active) {
-  height: 250px;
+  height: 225px;
 }
 
 /* Ensure only the clicked card expands */
 .bytopic-library-unit-card.active {
-  height: 620px;
+  height: auto;
 }
 
 /* SVG Header Styling */
@@ -142,7 +142,7 @@ html, body {
 
 .bytopic-card-content,
 .bytopic-library-unit-card.active .bytopic-card-content {
-  margin: 4rem 0 auto 0;
+  margin: 4rem 0 auto 0; 
 }
 
 /* Unit Type Icon */
@@ -152,7 +152,7 @@ html, body {
 
 .bytopic-unit-type-icon {
   width: 65px;
-  height: 65px;
+  height: auto;
 }
 
 /* Title */
