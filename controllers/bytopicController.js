@@ -9,7 +9,7 @@ const Template = require('../models/unit_models/template');
 const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member');
-const TopicSuggestion = require('../models/topic_suggestion'); // Adjust the path as needed
+const TopicSuggestion = require('../models/topic/topic_suggestion'); // Adjust the path as needed
 
 
 
