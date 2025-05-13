@@ -69,20 +69,21 @@ createLeader: async (req, res) => {
   
       const hashedPassword = await bcrypt.hash(password, 10);
   
-      const leader = new Leader({
-        groupName,
-        groupLeaderName,
-        professionalTitle,
-        organization,
-        username,
-        groupLeaderEmail,
-        password: hashedPassword,
-        groupSize,
-        topics: { topic1, topic2, topic3 },
-        members: [],
-        registration_code,
-        accessLevel: 'paid_leader', // ✅ Ensure access level is stored
-      });
+const leader = new Leader({
+  groupName,
+  groupLeaderName,
+  professionalTitle,
+  organization,
+  industry, // ✅ Add this line
+  username,
+  groupLeaderEmail,
+  password: hashedPassword,
+  groupSize,
+  topics: { topic1, topic2, topic3 },
+  members: [],
+  registration_code,
+  accessLevel: 'paid_leader',
+});
   
       const savedLeader = await leader.save();
       console.log('✅ Leader saved successfully:', savedLeader);
