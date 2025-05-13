@@ -172,9 +172,10 @@ exports.getTopicView = async (req, res) => {
 const libraryUnits = await Promise.all(
   allUnits.map(async (unit) => {
     const authorId = unit.author?.id || unit.author;
-    const author = authorId
-      ? await resolveAuthorById(authorId)
-      : { name: 'Unknown Author', image: '/images/default-avatar.png' };
+const authorId = unit.author?.id || unit.author;
+const author = authorId
+    ? await resolveAuthorById(authorId)
+    : { name: 'Unknown Author', image: '/images/default-avatar.png' };
 
     return {
       ...unit,
