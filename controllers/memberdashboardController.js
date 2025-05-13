@@ -10,6 +10,7 @@ const Template = require('../models/unit_models/template');
 const Tag = require('../models/tag');
 const path = require('path'); // ✅ Fix for "ReferenceError: path is not defined"
 const fs = require('fs'); // ✅ Ensure file system functions work
+const MemberProfile = require('../models/profile_models/member_profile');
 
 
 
@@ -176,8 +177,11 @@ module.exports = {
         try {
             const { id } = req.session.user;
             const userData = await Member.findById(id)
+            
             .select('username profileImage professionalTitle organization topics accessLevel')
             .lean();
+            const memberProfile = await MemberProfile.findOne({ memberId: id }).select('profileImage');
+
 
             const accessLevelLabels = {
                 free_individual: 'Free',
@@ -345,12 +349,13 @@ console.log("🔍 Selected Topics for Member Dashboard:", selectedTopics);
 return res.render("member_dashboard", {
     layout: "dashboardlayout",
     title: "Member Dashboard",
-    member: {
-        ...userData,
-        selectedTopics,
-        accessLevel: userData.accessLevel,
-        accessLevelLabel
-      },
+member: {
+  ...userData,
+  profileImage: memberProfile?.profileImage || '/images/default-avatar.png', // ✅ override
+  selectedTopics,
+  accessLevel: userData.accessLevel,
+  accessLevelLabel
+},
     memberUnits,
     memberTaggedUnits,
     registeredPromptSets,

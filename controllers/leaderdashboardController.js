@@ -13,6 +13,9 @@ const Tag = require('../models/tag');
 const path = require('path'); // ✅ Fix for "ReferenceError: path is not defined"
 const fs = require('fs'); // ✅ Ensure file system functions work
 const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion');
+const LeaderProfile = require('../models/profile_models/leader_profile');
+const GroupMemberProfile = require('../models/profile_models/groupmember_profile');
+
 
 
 
@@ -20,10 +23,21 @@ const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion
 
 
 async function resolveAuthorById(authorId) {
-    let author = await Leader.findById(authorId).select('groupLeaderName profileImage') ||
-                 await GroupMember.findById(authorId).select('name profileImage');
-    return author ? { name: author.groupLeaderName || author.name, image: author.profileImage } : { name: 'Unknown Author', image: null };
+    try {
+        // Leader profile
+        let profile = await LeaderProfile.findOne({ leaderId: authorId }).select('profileImage name');
+        if (profile) return { name: profile.name || 'Leader', image: profile.profileImage || '/images/default-avatar.png' };
+
+        // Group member profile
+        profile = await GroupMemberProfile.findOne({ memberId: authorId }).select('profileImage name');
+        if (profile) return { name: profile.name || 'Group Member', image: profile.profileImage || '/images/default-avatar.png' };
+    } catch (err) {
+        console.error('resolveAuthorById failed:', err);
+    }
+
+    return { name: 'Unknown Author', image: '/images/default-avatar.png' };
 }
+
 
 async function fetchTaggedUnits(userId) {
     try {
@@ -235,6 +249,17 @@ module.exports = {
               select: 'name profileImage professionalTitle isVerified'
             })
             .lean();
+            const leaderProfile = await LeaderProfile.findOne({ leaderId: id }).select('profileImage');
+            const resolvedGroupMembers = await Promise.all(
+  (userData.members || []).map(async (member) => {
+    const profile = await GroupMemberProfile.findOne({ memberId: member._id }).select('profileImage');
+    return {
+      ...member,
+      profileImage: profile?.profileImage || '/images/default-avatar.png'
+    };
+  })
+);
+
 
             const leader = userData; // ✅ Ensures leader is properly defined before usage
             const leaderGroupMembers = userData.members || []; // ✅ Ensures it's always an array
@@ -432,7 +457,11 @@ const formattedCompletedSets = completedRecords.map(record => ({
 return res.render('leader_dashboard', {
     layout: 'dashboardlayout',
     title: 'Leader Dashboard',
-    leader: userData,
+leader: {
+  ...userData,
+  profileImage: leaderProfile?.profileImage || '/images/default-avatar.png'
+},
+leaderGroupMembers: resolvedGroupMembers,
     leaderGroupMembers,
     maxGroupSize: userData.maxGroupSize,
     leaderUnits,
