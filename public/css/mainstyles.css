@@ -606,6 +606,19 @@ html, body {
 
 /* ===== Promo View: Prompt Set (Responsive + Wave Fixes) ===== */
 
+
+.wave-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-divider svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .promo-wave-divider {
   margin: 0;
   padding: 0;
@@ -4910,4 +4923,57 @@ margin-right: 5px; /* Space between icon and text */
 
 .error-button:hover {
   background-color: #4a4ab2;
+}
+
+
+/*NEW TOPIC*/
+
+/* ===== Topic Suggestion Form ===== */
+
+.topic-suggestion-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #f8f8ff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.topic-suggestion-form label {
+  display: block;
+  margin-top: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.topic-suggestion-form input,
+.topic-suggestion-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.topic-suggestion-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.topic-suggestion-form button {
+  margin-top: 2rem;
+  background-color: #4e50a2;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.topic-suggestion-form button:hover {
+  background-color: #3d3f87;
 }

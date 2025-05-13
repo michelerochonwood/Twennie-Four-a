@@ -9,6 +9,8 @@ const Template = require('../models/unit_models/template');
 const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member');
+const TopicSuggestion = require('../models/topic_suggestion'); // Adjust the path as needed
+
 
 
 
@@ -167,6 +169,85 @@ exports.getTopicView = async (req, res) => {
         return res.status(500).send('An internal error occurred.');
     }
 };
+
+exports.showTopicSuggestionForm = async (req, res) => {
+    const { user } = req.session;
+
+    try {
+        let memberData;
+        let memberType;
+
+        if (!user) {
+            return res.status(401).send('You must be logged in to suggest a topic.');
+        }
+
+        if (await Leader.findById(user.id)) {
+            memberData = await Leader.findById(user.id).select('groupLeaderName email groupName');
+            memberType = 'Leader';
+        } else if (await GroupMember.findById(user.id)) {
+            memberData = await GroupMember.findById(user.id).select('name email groupName');
+            memberType = 'GroupMember';
+        } else {
+            memberData = await Member.findById(user.id).select('name email');
+            memberType = 'Member';
+        }
+
+        res.render('bytopic_views/suggest_topic_form', {
+            layout: 'mainlayout',
+            csrfToken: req.csrfToken(),
+            user: {
+                name: memberData.groupLeaderName || memberData.name,
+                email: memberData.email,
+                groupName: memberData.groupName || null,
+                memberType,
+                memberId: user.id
+            }
+        });
+    } catch (error) {
+        console.error('Error loading suggest topic form:', error);
+        res.status(500).send('Could not load form.');
+    }
+};
+
+exports.submitTopicSuggestion = async (req, res) => {
+    const { name, email, groupName, topicTitle, paragraph1, paragraph2, paragraph3 } = req.body;
+    const { user } = req.session;
+
+    if (!user) {
+        return res.status(401).send('You must be logged in to submit a topic.');
+    }
+
+    try {
+        let memberType = 'Member';
+        if (await Leader.findById(user.id)) memberType = 'Leader';
+        else if (await GroupMember.findById(user.id)) memberType = 'GroupMember';
+
+        const suggestion = new TopicSuggestion({
+            suggestedBy: user.id,
+            memberType,
+            name,
+            email,
+            groupName,
+            topicTitle,
+            paragraph1,
+            paragraph2,
+            paragraph3
+        });
+
+        await suggestion.save();
+
+        res.render('bytopic_views/topic_suggestion_success', {
+            layout: 'mainlayout',
+            title: 'Thank you!',
+            message: 'Your topic suggestion has been submitted successfully.'
+        });
+    } catch (error) {
+        console.error('Error submitting topic suggestion:', error);
+        res.status(500).send('There was an error submitting your suggestion.');
+    }
+};
+
+
 
 
 

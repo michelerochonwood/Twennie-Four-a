@@ -1,0 +1,28 @@
+<form action="/topics/suggest" method="POST">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+  <label for="name">Your Name</label>
+  <input type="text" id="name" name="name" value="{{user.name}}" required>
+
+  <label for="email">Your Email</label>
+  <input type="email" id="email" name="email" value="{{user.email}}" required>
+
+  {{#if user.groupName}}
+    <label for="groupName">Group Name</label>
+    <input type="text" id="groupName" name="groupName" value="{{user.groupName}}">
+  {{/if}}
+
+  <label for="topicTitle">New Topic Title</label>
+  <input type="text" id="topicTitle" name="topicTitle" required>
+
+  <label for="paragraph1">Paragraph 1</label>
+  <textarea id="paragraph1" name="paragraph1" required></textarea>
+
+  <label for="paragraph2">Paragraph 2</label>
+  <textarea id="paragraph2" name="paragraph2" required></textarea>
+
+  <label for="paragraph3">Paragraph 3</label>
+  <textarea id="paragraph3" name="paragraph3" required></textarea>
+
+  <button type="submit">Submit Topic Suggestion</button>
+</form>
