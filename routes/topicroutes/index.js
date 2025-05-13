@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const bytopicController = require('../../controllers/bytopicController'); // Assuming it's in the controllers folder
-const { ensureAuthenticated } = require('../../middleware/ensureAuthenticated');
+const ensureAuthenticated = require('../../middleware/ensureAuthenticated');
 
 // Helper function to check if a view exists
 const viewExists = (viewPath) => {
