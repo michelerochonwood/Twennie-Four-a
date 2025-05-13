@@ -13,6 +13,9 @@ const Tag = require('../models/tag');
 const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion');
 const fs = require('fs');
 const path = require('path');
+const MemberProfile = require('../models/profile_models/member_profile');
+const GroupMemberProfile = require('../models/profile_models/groupmember_profile');
+const LeaderProfile = require('../models/profile_models/leader_profile');
 
 
 
@@ -23,10 +26,43 @@ const path = require('path');
 //resolveAuthorById is necessary for showing library units in the library unit table. We have no author property in the unit models, so the resolve function allows the library units to show the author. Don't delete any code in the library units meant to resolve the author by id.
 
 async function resolveAuthorById(authorId) {
-    let author = await GroupMember.findById(authorId).select('name profileImage') ||
-                 await Leader.findById(authorId).select('groupLeaderName profileImage');
-    return author ? { name: author.name || author.groupLeaderName, image: author.profileImage } : { name: 'Unknown Author', image: null };
+    try {
+        // Leader profile
+        let profile = await LeaderProfile.findOne({ leaderId: authorId }).select('profileImage name');
+        if (profile) {
+            return {
+                name: profile.name || 'Leader',
+                image: profile.profileImage || '/images/default-avatar.png'
+            };
+        }
+
+        // Group Member profile
+        profile = await GroupMemberProfile.findOne({ memberId: authorId }).select('profileImage name');
+        if (profile) {
+            return {
+                name: profile.name || 'Group Member',
+                image: profile.profileImage || '/images/default-avatar.png'
+            };
+        }
+
+        // Individual Member profile
+        profile = await MemberProfile.findOne({ memberId: authorId }).select('profileImage name');
+        if (profile) {
+            return {
+                name: profile.name || 'Member',
+                image: profile.profileImage || '/images/default-avatar.png'
+            };
+        }
+    } catch (error) {
+        console.error('Error resolving author profile:', error);
+    }
+
+    return {
+        name: 'Unknown Author',
+        image: '/images/default-avatar.png'
+    };
 }
+
 
 const topicMappings = {
     'AI in Consulting': 'aiinconsulting',
@@ -117,6 +153,7 @@ async function fetchTaggedUnits(userId) {
                 title: unit.article_title || "Untitled Article",
                 mainTopic: unit.main_topic || "No topic",
                 _id: unit._id
+                
             })),
             ...taggedVideos.map(unit => ({
                 unitType: 'video',
@@ -352,19 +389,21 @@ module.exports = {
                 Template.find({ 'author.id': id })
             ]);
     
-            const groupMemberUnits = await Promise.all(
-                [...memberArticles, ...memberVideos, ...memberPromptSets, ...memberInterviews, ...memberExercises, ...memberTemplates].map(async (unit) => {
-                    const author = await resolveAuthorById(unit.author?.id || unit.author); //DO NOT DELETE THIS - it is necessary for finding the authors of units
-                    return {
-                        unitType: unit.unitType || unit.constructor?.modelName || 'Unknown',
-                        title: unit.article_title || unit.video_title || unit.promptset_title || unit.interview_title || unit.exercise_title || unit.template_title,
-                        status: unit.status,
-                        mainTopic: unit.main_topic,
-                        _id: unit._id,
-                        author: author.name
-                    };
-                })
-            );
+const groupMemberUnits = await Promise.all(
+  [...memberArticles, ...memberVideos, ...memberPromptSets, ...memberInterviews, ...memberExercises, ...memberTemplates].map(async (unit) => {
+    const author = await resolveAuthorById(unit.author?.id || unit.author);
+    return {
+      unitType: unit.unitType || unit.constructor?.modelName || 'Unknown',
+      title: unit.article_title || unit.video_title || unit.promptset_title || unit.interview_title || unit.exercise_title || unit.template_title,
+      status: unit.status,
+      mainTopic: unit.main_topic,
+      _id: unit._id,
+      author: author.name,
+      authorImage: author.image // ✅ Add this line
+    };
+  })
+);
+
 
 
 const registeredPromptSets = req.session.registeredPromptSets || [];
@@ -456,22 +495,26 @@ console.log("✅ Final Leader Name Before Rendering:", leader ? leader.groupLead
 
 
         //all of these are necessary for a proper render of the dashboard. DO NOT DELETE ANY OF THESE PROPERTIES FROM THIS RENDER FUNCTION
-        return res.render('groupmember_dashboard', {
-            layout: 'dashboardlayout',
-            title: 'Group Member Dashboard',
-            groupMember: userData,
-            groupMembers,
-            maxGroupSize: userData.groupId.groupSize,
-            groupMemberUnits,
-            groupMemberTaggedUnits,
-            registeredPromptSets: groupmemberPrompts, 
-            promptSchedules,
-            currentPromptSets,
-            completedPromptSets,
-            selectedTopics,
-            leaderName: leader ? leader.groupLeaderName : "Group Leader",
-            organization: userData.organization // ✅ Add this line
-        });
+return res.render('groupmember_dashboard', {
+  layout: 'dashboardlayout',
+  title: 'Group Member Dashboard',
+  groupMember: {
+    ...userData.toObject(),
+    profileImage: groupMemberProfile?.profileImage || '/images/default-avatar.png' // ✅ override with profile image
+  },
+  groupMembers,
+  maxGroupSize: userData.groupId.groupSize,
+  groupMemberUnits,
+  groupMemberTaggedUnits,
+  registeredPromptSets: groupmemberPrompts,
+  promptSchedules,
+  currentPromptSets,
+  completedPromptSets,
+  selectedTopics,
+  leaderName: leader ? leader.groupLeaderName : "Group Leader",
+  organization: userData.organization
+});
+
         
         
         
