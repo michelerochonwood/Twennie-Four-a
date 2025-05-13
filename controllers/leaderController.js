@@ -37,22 +37,23 @@ module.exports = {
 // Handle leader form submission
 createLeader: async (req, res) => {
     try {
-      const {
-        groupName,
-        groupLeaderName,
-        professionalTitle,
-        organization,
-        username,
-        groupLeaderEmail,
-        password,
-        groupSize,
-        topic1,
-        topic2,
-        topic3,
-        members,
-        registration_code,
-        redirectTarget // ✅ Now passed from hidden field
-      } = req.body;
+const {
+  groupName,
+  groupLeaderName,
+  professionalTitle,
+  organization,
+  industry, // ✅ THIS WAS MISSING
+  username,
+  groupLeaderEmail,
+  password,
+  groupSize,
+  topic1,
+  topic2,
+  topic3,
+  members,
+  registration_code,
+  redirectTarget
+} = req.body;
   
       console.log('Parsed members:', members);
   
