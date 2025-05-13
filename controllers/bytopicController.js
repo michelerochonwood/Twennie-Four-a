@@ -144,18 +144,21 @@ exports.getTopicView = async (req, res) => {
 
         console.log(`Total Processed Units: ${allUnits.length}`);
 
-        const libraryUnits = await Promise.all(
-            allUnits.map(async (unit) => {
-                const author = unit.author?.id
-                    ? await resolveAuthorById(unit.author.id)
-                    : { name: 'Unknown Author', image: '/images/default-avatar.png' };
-                return {
-                    ...unit,
-                    authorName: author.name,
-                    authorImage: author.image || '/images/default-avatar.png',
-                };
-            })
-        );
+const libraryUnits = await Promise.all(
+  allUnits.map(async (unit) => {
+    const authorId = unit.author?.id || unit.author;
+    const author = authorId
+      ? await resolveAuthorById(authorId)
+      : { name: 'Unknown Author', image: '/images/default-avatar.png' };
+
+    return {
+      ...unit,
+      authorName: author.name,
+      authorImage: author.image || '/images/default-avatar.png',
+    };
+  })
+);
+
 
         res.render('bytopic_views/bytopic_view', {
             layout: 'bytopiclayout',
