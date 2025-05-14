@@ -242,7 +242,7 @@ module.exports = {
             console.log("Fetching dashboard for leader:", id);
 
             const userData = await Leader.findById(id)
-            .select('groupLeaderName profileImage professionalTitle organization topics members') // ✅ includes profileImage
+            .select('groupName groupLeaderName profileImage professionalTitle organization topics members')
             .populate({
               path: 'members',
               model: 'GroupMember',

@@ -16,36 +16,41 @@ const mongoose = require('mongoose');
 async function resolveAuthorById(authorId) {
   let author;
 
-  // Check Leader collection
-  author = await Leader.findById(authorId).select('name profileImage');
+  author = await Leader.findById(authorId).select('name profileImage organization groupId');
   if (author) {
     return {
       name: author.name,
-      image: author.profileImage
+      image: author.profileImage,
+      organization: author.organization || null,
+      groupId: author.groupId || null
     };
   }
 
-  // Check GroupMember collection
-  author = await GroupMember.findById(authorId).select('name profileImage');
+  author = await GroupMember.findById(authorId).select('name profileImage organization groupId');
   if (author) {
     return {
       name: author.name,
-      image: author.profileImage
+      image: author.profileImage,
+      organization: author.organization || null,
+      groupId: author.groupId || null
     };
   }
 
-  // Check Member collection
-  author = await Member.findById(authorId).select('name profileImage');
+  author = await Member.findById(authorId).select('name profileImage organization');
   if (author) {
     return {
       name: author.name,
-      image: author.profileImage
+      image: author.profileImage,
+      organization: author.organization || null
     };
   }
 
-  // No match found
-  return null;
+  return {
+    name: 'Unknown Author',
+    image: '/images/default-avatar.png'
+  };
 }
+
 
 
 
