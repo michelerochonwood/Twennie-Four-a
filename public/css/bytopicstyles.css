@@ -153,6 +153,7 @@ html, body {
 .bytopic-unit-type-icon {
   width: 65px;
   height: auto;
+  margin-top: -10px;
 }
 
 /* Title */
