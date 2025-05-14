@@ -455,24 +455,25 @@ const formattedCompletedSets = completedRecords.map(record => ({
 
 
 return res.render('leader_dashboard', {
-    layout: 'dashboardlayout',
-    title: 'Leader Dashboard',
-leader: {
-  ...userData,
-  profileImage: leaderProfile?.profileImage || '/images/default-avatar.png'
-},
-leaderGroupMembers: resolvedGroupMembers,
-    leaderGroupMembers,
-    maxGroupSize: userData.maxGroupSize,
-    leaderUnits,
-    groupMemberUnits, // ✅ Now correctly passed to the view
-    leaderTaggedUnits,
-    registeredPromptSets: leaderPrompts, 
-    promptSchedules,
-    currentPromptSets,
-    completedPromptSets: formattedCompletedSets,
-    selectedTopics
+  layout: 'dashboardlayout',
+  title: 'Leader Dashboard',
+  csrfToken: req.csrfToken(), // ✅ Add this line
+  leader: {
+    ...userData,
+    profileImage: leaderProfile?.profileImage || '/images/default-avatar.png'
+  },
+  leaderGroupMembers: resolvedGroupMembers,
+  maxGroupSize: userData.maxGroupSize,
+  leaderUnits,
+  groupMemberUnits,
+  leaderTaggedUnits,
+  registeredPromptSets: leaderPrompts,
+  promptSchedules,
+  currentPromptSets,
+  completedPromptSets: formattedCompletedSets,
+  selectedTopics
 });
+
 
 
             
