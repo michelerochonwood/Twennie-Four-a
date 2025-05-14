@@ -76,7 +76,8 @@ module.exports = {
       
           console.log('Article found:', article);
       
-          const author = await resolveAuthorById(article.author.id);
+const authorId = article.author.id || article.author; // supports both formats
+const author = await resolveAuthorById(authorId);
           if (!author) {
             console.error(`Author with ID ${article.author.id} not found.`);
             return res.status(404).render('unit_views/error', {
@@ -166,7 +167,8 @@ module.exports = {
       
           console.log('Video found:', video);
       
-          const author = await resolveAuthorById(video.author.id);
+const authorId = video.author.id || video.author;
+const author = await resolveAuthorById(authorId);
           if (!author) {
             console.error(`Author with ID ${video.author.id} not found.`);
             return res.status(404).render('unit_views/error', {
@@ -257,7 +259,8 @@ module.exports = {
       
           console.log('Interview found:', interview);
       
-          const author = await resolveAuthorById(interview.author.id);
+const authorId = interview.author.id || interview.author;
+const author = await resolveAuthorById(authorId);
           if (!author) {
             console.error(`Author with ID ${interview.author.id} not found.`);
             return res.status(404).render('unit_views/error', {
@@ -341,7 +344,9 @@ module.exports = {
     
             console.log('Prompt set found:', promptSet);
     
-            const author = await resolveAuthorById(promptSet.author.id);
+const authorId = promptSet.author.id || promptSet.author;
+const author = await resolveAuthorById(authorId);
+
             if (!author) {
                 return res.status(404).render('unit_views/error', {
                     layout: 'unitviewlayout',
@@ -463,7 +468,8 @@ module.exports = {
             }
     
             // Resolve creator details using author.id
-            const creator = await resolveAuthorById(exercise.author.id);
+const authorId = exercise.author.id || exercise.author;
+const creator = await resolveAuthorById(authorId);
             if (!creator) {
                 console.error(`Creator with ID ${exercise.author.id} not found.`);
                 return res.status(404).render('unit_views/error', {
@@ -546,7 +552,8 @@ module.exports = {
                 });
             }
     
-            const author = await resolveAuthorById(template.author.id);
+const authorId = template.author.id || template.author;
+const author = await resolveAuthorById(authorId);
             if (!author) {
                 return res.status(404).render('unit_views/error', {
                     layout: 'unitviewlayout',
