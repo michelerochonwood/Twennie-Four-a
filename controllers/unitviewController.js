@@ -8,43 +8,40 @@ const Member = require('../models/member_models/member'); // Import Member model
 const Leader = require('../models/member_models/leader'); // Import Leader model
 const GroupMember = require('../models/member_models/group_member'); // Import Group Member model
 const mongoose = require('mongoose');
-
-
+const LeaderProfile = require('../models/profile_models/leader_profile');
+const GroupMemberProfile = require('../models/profile_models/groupmember_profile');
 
 
 
 async function resolveAuthorById(authorId) {
-  let author;
-
-  author = await Leader.findById(authorId).select('name profileImage organization groupId');
-  if (author) {
+  // 1. Check leader profile
+  let profile = await LeaderProfile.findOne({ leaderId: authorId }).select('profileImage name');
+  if (profile) {
     return {
-      name: author.name,
-      image: author.profileImage,
-      organization: author.organization || null,
-      groupId: author.groupId || null
+      name: profile.name || 'Leader',
+      image: profile.profileImage || '/images/default-avatar.png'
     };
   }
 
-  author = await GroupMember.findById(authorId).select('name profileImage organization groupId');
-  if (author) {
+  // 2. Check group member profile
+  profile = await GroupMemberProfile.findOne({ memberId: authorId }).select('profileImage name');
+  if (profile) {
     return {
-      name: author.name,
-      image: author.profileImage,
-      organization: author.organization || null,
-      groupId: author.groupId || null
+      name: profile.name || 'Group Member',
+      image: profile.profileImage || '/images/default-avatar.png'
     };
   }
 
-  author = await Member.findById(authorId).select('name profileImage organization');
-  if (author) {
+  // 3. Check member profile (optional)
+  profile = await MemberProfile.findOne({ memberId: authorId }).select('profileImage name');
+  if (profile) {
     return {
-      name: author.name,
-      image: author.profileImage,
-      organization: author.organization || null
+      name: profile.name || 'Member',
+      image: profile.profileImage || '/images/default-avatar.png'
     };
   }
 
+  // 4. Fallback
   return {
     name: 'Unknown Author',
     image: '/images/default-avatar.png'
