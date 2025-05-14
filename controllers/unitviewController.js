@@ -410,6 +410,7 @@ viewPromptset: async (req, res) => {
 
     res.render('unit_views/single_promptset', {
       layout: 'unitviewlayout',
+        csrfToken: req.csrfToken(), 
       _id: promptSet._id.toString(),
       promptset_title: promptSet.promptset_title,
       short_summary: promptSet.short_summary,
