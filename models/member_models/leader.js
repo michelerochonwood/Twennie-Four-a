@@ -65,6 +65,14 @@ const leaderSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters']
   },
+  billingAddress: {
+  line1: { type: String },
+  line2: { type: String },
+  city: { type: String },
+  province: { type: String }, // use `state` if you're not in Canada
+  postalCode: { type: String },
+  country: { type: String, default: 'CA' } // or 'US' if applicable
+},
   groupSize: {
     type: Number,
     required: [true, 'Group size is required'],

@@ -46,6 +46,12 @@ const {
   username,
   groupLeaderEmail,
   password,
+  line1,
+  line2,
+  city,
+  province,
+  postalCode,
+  country,
   groupSize,
   topic1,
   topic2,
@@ -75,7 +81,7 @@ const leader = new Leader({
   groupLeaderName,
   professionalTitle,
   organization,
-  industry, // ✅ Add this line
+  industry,
   username,
   groupLeaderEmail,
   password: hashedPassword,
@@ -84,7 +90,16 @@ const leader = new Leader({
   members: [],
   registration_code,
   accessLevel: 'paid_leader',
+  billingAddress: {
+    line1,
+    line2,
+    city,
+    province,
+    postalCode,
+    country
+  }
 });
+
   
       const savedLeader = await leader.save();
       console.log('✅ Leader saved successfully:', savedLeader);
@@ -185,14 +200,23 @@ const leader = new Leader({
         const unitAmount = groupSizeInt * 1700; // $17 per member in CAD cents
       
         // ✅ Create Stripe Customer with metadata
-        const customer = await stripe.customers.create({
-          email: groupLeaderEmail,
-          name: groupLeaderName,
-          metadata: {
-            leaderId: savedLeader._id.toString(),
-            groupName: groupName
-          }
-        });
+const customer = await stripe.customers.create({
+  email: groupLeaderEmail,
+  name: groupLeaderName,
+  metadata: {
+    leaderId: savedLeader._id.toString(),
+    groupName: groupName
+  },
+  address: {
+    line1,
+    line2,
+    city,
+    state: province,
+    postal_code: postalCode,
+    country
+  }
+});
+
       
         // ✅ Save Stripe customer ID in Leader document
         savedLeader.stripeCustomerId = customer.id;

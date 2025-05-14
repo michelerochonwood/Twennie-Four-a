@@ -29,6 +29,38 @@
       <input type="text" id="organization" name="organization" placeholder="This should be the name of your organization." required>
     </div>
 
+    <!-- Billing Address Fields (required by Stripe for tax calculation) -->
+<div class="form-field">
+  <label for="line1">Billing Address Line 1</label>
+  <input type="text" id="line1" name="line1" placeholder="123 Main St" required>
+</div>
+
+<div class="form-field">
+  <label for="line2">Billing Address Line 2 (optional)</label>
+  <input type="text" id="line2" name="line2" placeholder="Unit, Suite, etc.">
+</div>
+
+<div class="form-field">
+  <label for="city">City</label>
+  <input type="text" id="city" name="city" required>
+</div>
+
+<div class="form-field">
+  <label for="province">Province</label>
+  <input type="text" id="province" name="province" required>
+</div>
+
+<div class="form-field">
+  <label for="postalCode">Postal Code</label>
+  <input type="text" id="postalCode" name="postalCode" required>
+</div>
+
+<div class="form-field">
+  <label for="country">Country</label>
+  <input type="text" id="country" name="country" value="CA" required>
+</div>
+
+
     <!-- NEW: Industry field -->
     <div class="form-field">
       <label for="industry">Industry</label>
