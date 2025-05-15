@@ -81,12 +81,18 @@ module.exports = {
 
       // Optional enhancement (estimate remaining time from targetDate)
       let timeRemaining = 'TBD';
-      if (registration?.targetCompletionDate) {
-        const now = new Date();
-        const deadline = new Date(registration.targetCompletionDate);
-        const daysLeft = Math.max(0, Math.ceil((deadline - now) / (1000 * 60 * 60 * 24)));
-        timeRemaining = `${daysLeft} days`;
-      }
+if (registration?.targetCompletionDate) {
+  const now = new Date();
+  const deadline = new Date(registration.targetCompletionDate);
+
+  const daysLeft = Math.max(0, Math.ceil((deadline - now) / (1000 * 60 * 60 * 24)));
+  const weeksLeft = Math.ceil(daysLeft / 7);
+
+  timeRemaining = weeksLeft > 0
+    ? `${weeksLeft} week${weeksLeft === 1 ? '' : 's'}`
+    : 'less than a week';
+}
+
 
       // ✅ Final Prompt Case
       if (progress.completedPrompts.length === 20) {
