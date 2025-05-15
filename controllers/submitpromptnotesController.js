@@ -82,7 +82,7 @@ module.exports = {
 
         await markPromptSetAsCompleted(memberId, promptSetId, progress.notes);
 
-        return res.render('unit_views/notessuccess', {
+        return res.render('prompt_views/notessuccess', {
           layout: 'unitviewlayout',
           title: 'Notes Posted',
           remainingPrompts: 0,
@@ -100,7 +100,7 @@ module.exports = {
       }
 
       // ✅ In-progress (1–19) prompts
-      return res.render('unit_views/notessuccess', {
+      return res.render('prompt_views/notessuccess', {
         layout: 'unitviewlayout',
         title: 'Notes Posted',
         remainingPrompts,
