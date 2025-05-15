@@ -4,12 +4,12 @@
     <p class="leader-prompt-set-title"><strong>{{promptSet.promptSetTitle}}</strong> - {{promptSet.mainTopic}}</p>
     <p class="leader-prompt-purpose"><strong>Purpose of this prompt set:</strong> {{promptSet.purpose}}</p>
 
-    {{#if promptSchedule}}
-    <p class="leader-prompt-schedule">
-        To stay on schedule with this prompt set, Twennie recommends you complete this prompt by
-        <p class="leader-prompt-schedule-date">{{promptSchedule.recommendedCompletionDate}}</p>
-    </p>
-    {{/if}}
+{{#if promptSchedule}}
+  <p class="leader-prompt-schedule">
+    To stay on schedule with this prompt set, Twennie recommends you complete this prompt by:
+  </p>
+  <p class="leader-prompt-schedule-date">{{promptSchedule.recommendedCompletionDate}}</p>
+{{/if}}
 
     <div class="leader-prompt-card">
         <div class="leader-prompt-border">
