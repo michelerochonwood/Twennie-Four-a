@@ -1,4 +1,7 @@
 const PromptSetProgress = require('../models/prompt_models/promptsetprogress');
+const PromptSet = require('../models/unit_models/promptset');
+const PromptSetRegistration = require('../models/prompt_models/promptsetregistration');
+const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion');
 const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member');
@@ -17,6 +20,7 @@ module.exports = {
         });
       }
 
+      // Fetch or initialize progress
       let progress = await PromptSetProgress.findOne({ memberId, promptSetId });
 
       if (!progress) {
@@ -40,14 +44,51 @@ module.exports = {
       // Determine dashboard path
       const leader = await Leader.findById(memberId);
       const groupMember = await GroupMember.findById(memberId);
-
       const dashboardPath = leader
         ? '/dashboard/leader'
         : groupMember
         ? '/dashboard/groupmember'
         : '/dashboard/member';
 
-      res.redirect(dashboardPath);
+      // Fetch prompt set details
+      const promptSet = await PromptSet.findById(promptSetId);
+      if (!promptSet) {
+        return res.status(404).render('unit_views/error', {
+          layout: 'unitviewlayout',
+          title: 'Error',
+          errorMessage: 'Prompt set not found.',
+        });
+      }
+
+      // Fetch registration to get targetCompletionDate
+      const registration = await PromptSetRegistration.findOne({ memberId, promptSetId });
+      const targetDate = registration?.targetCompletionDate
+        ? new Date(registration.targetCompletionDate)
+        : null;
+
+      const today = new Date();
+      const remainingDays = targetDate
+        ? Math.max(0, Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24)))
+        : 'Unknown';
+
+      const remainingPrompts = 21 - (progress.completedPrompts?.length || 0);
+
+      // Fetch completion record to get badge info
+      const completionRecord = await PromptSetCompletion.findOne({ memberId, promptSetId });
+      const badgeName = completionRecord?.earnedBadge?.name || promptSet.earnedBadge?.name || 'Default Badge';
+      const badgeImage = completionRecord?.earnedBadge?.image || promptSet.earnedBadge?.image || '/images/default-badge.png';
+
+      // Render the getstarted view
+      return res.render('prompt_views/getstarted', {
+        layout: 'dashboardlayout',
+        title: 'Get Started | Twennie',
+        remainingPrompts,
+        targetDate: targetDate ? targetDate.toDateString() : 'Not Set',
+        timeRemaining: typeof remainingDays === 'number' ? `${remainingDays} days` : 'Unknown',
+        badgeName,
+        badgeImage,
+        dashboard: dashboardPath
+      });
 
     } catch (error) {
       console.error("❌ Error starting prompt set:", error);
@@ -59,4 +100,5 @@ module.exports = {
     }
   }
 };
+
 
