@@ -26,11 +26,10 @@
         <p class="leader-prompt-text">{{promptSet.promptText}}</p>
     </div>
 <!-- DEBUG OUTPUT -->
-<p>promptSetId in hidden field: {{promptSet.promptSetId}}</p>
-<p>csrfToken in hidden field: {{csrfToken}}</p>
-    <form action="/promptsetnotes/submit-prompt-notes" method="POST" class="leader-prompt-form">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <input type="hidden" name="promptSetId" value="{{promptSet.promptSetId}}{{promptSet._id}}">
+
+<form action="/promptsetnotes/submit-prompt-notes" method="POST" enctype="application/x-www-form-urlencoded">
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="promptSetId" value="{{promptSet.promptSetId}}">
 
 
         <label for="notes" class="leader-prompt-notes-label">Record your notes here:</label>
