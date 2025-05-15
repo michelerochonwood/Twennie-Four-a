@@ -2120,6 +2120,12 @@ html, body {
   resize: vertical;
 }
 
+.leader-prompt-notes-label,
+.leader-prompt-notes {
+  display: block;
+  width: 100%;
+}
+
 .leader-prompt-submit {
   /* width: 100%; */
   background-color: #262262;
