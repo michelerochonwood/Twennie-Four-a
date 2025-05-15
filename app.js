@@ -265,6 +265,7 @@ app.use('/membertopics', require('./routes/membertopicroutes'));
 app.use('/notes', require('./routes/notesroutes'));
 app.use('/reports', require('./routes/reportingroutes'));
 app.use('/latest', require('./routes/latestroutes'));
+app.use('/promptsetstart', require('./routes/promptsetstart'));
 
 // ✅ CSRF Error handler
 app.use((err, req, res, next) => {

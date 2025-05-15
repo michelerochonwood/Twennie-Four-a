@@ -53,7 +53,7 @@ module.exports = {
         progress = new PromptSetProgress({
           memberId,
           promptSetId,
-          currentPromptIndex: 0,
+          currentPromptIndex: 1,
           completedPrompts: [],
           notes: []
         });
