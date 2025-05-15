@@ -2126,6 +2126,14 @@ html, body {
   width: 100%;
 }
 
+.leader-prompt-notes-label {
+  margin-bottom: 0.3rem;
+}
+
+.leader-prompt-notes {
+  margin-top: 0;
+}
+
 .leader-prompt-submit {
   /* width: 100%; */
   background-color: #262262;

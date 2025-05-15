@@ -112,7 +112,34 @@ res.render('unit_views/notes_success', {
             }
 
             // ✅ If not final prompt, redirect to success page
-            res.redirect('/promptsetnotes/notessuccess');
+const promptSet = await PromptSet.findById(promptSetId);
+if (!promptSet) {
+  return res.status(404).render('unit_views/error', {
+    layout: 'unitviewlayout',
+    title: 'Prompt Set Not Found',
+    errorMessage: `The prompt set could not be found after note submission.`,
+  });
+}
+
+const remainingPrompts = 20 - progress.completedPrompts.length;
+const targetDate = progress.targetCompletionDate?.toDateString?.() || 'not set';
+const timeRemaining = 'TBD';
+
+res.render('unit_views/notes_success', {
+  layout: 'unitviewlayout',
+  title: 'Notes Posted',
+  remainingPrompts,
+  targetDate,
+  timeRemaining,
+  badgeName: promptSet.badge?.name || 'a Twennie Badge',
+  badgeImage: promptSet.badge?.image || '/images/default-badge.png',
+  dashboard: membershipType === 'leader'
+    ? '/dashboard/leader'
+    : membershipType === 'group_member'
+    ? '/dashboard/groupmember'
+    : '/dashboard/member'
+});
+
 
         } catch (error) {
             console.error("❌ Error saving prompt notes:", error);
