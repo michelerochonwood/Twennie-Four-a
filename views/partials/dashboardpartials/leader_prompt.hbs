@@ -3,6 +3,8 @@
     <h2 class="leader-prompt-title">{{promptSet.frequency}} prompt</h2>
     <p class="leader-prompt-set-title"><strong>{{promptSet.promptSetTitle}}</strong> - {{promptSet.mainTopic}}</p>
     <p class="leader-prompt-purpose"><strong>Purpose of this prompt set:</strong> {{promptSet.purpose}}</p>
+    <p style="color: red;">DEBUG: promptIndex = {{promptSet.promptIndex}}</p>
+    
 
     {{#if promptSchedule}}
       <p class="leader-prompt-schedule">
@@ -33,7 +35,7 @@
       <form action="/promptsetnotes/start" method="POST">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <input type="hidden" name="promptSetId" value="{{promptSet.promptSetId}}">
-        <button type="submit" class="leader-prompt-submit">Get started completing prompts</button>
+        <button type="submit" class="leader-prompt-submit">get started completing prompts</button>
       </form>
 
     {{!-- ✅ PROMPT 1 to 20 --}}
