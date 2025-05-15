@@ -1,5 +1,6 @@
 const PromptSet = require('../models/unit_models/promptset');
 const PromptSetProgress = require('../models/prompt_models/promptsetprogress');
+const PromptSetRegistration = require('../models/prompt_models/promptsetregistration');
 const { markPromptSetAsCompleted } = require('../controllers/promptsetcompletionController');
 const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
@@ -42,6 +43,9 @@ module.exports = {
         });
       }
 
+      // ✅ Fetch registration to get target date
+      const registration = await PromptSetRegistration.findOne({ memberId, promptSetId });
+
       let progress = await PromptSetProgress.findOne({ memberId, promptSetId });
 
       if (!progress) {
@@ -73,8 +77,16 @@ module.exports = {
       });
 
       const remainingPrompts = 20 - progress.completedPrompts.length;
-      const targetDate = progress.targetCompletionDate?.toDateString?.() || 'not set';
-      const timeRemaining = 'TBD'; // You can enhance this later
+      const targetDate = registration?.targetCompletionDate?.toDateString?.() || 'not set';
+
+      // Optional enhancement (estimate remaining time from targetDate)
+      let timeRemaining = 'TBD';
+      if (registration?.targetCompletionDate) {
+        const now = new Date();
+        const deadline = new Date(registration.targetCompletionDate);
+        const daysLeft = Math.max(0, Math.ceil((deadline - now) / (1000 * 60 * 60 * 24)));
+        timeRemaining = `${daysLeft} days`;
+      }
 
       // ✅ Final Prompt Case
       if (progress.completedPrompts.length === 20) {
@@ -122,6 +134,7 @@ module.exports = {
     }
   }
 };
+
 
 
 
