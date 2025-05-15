@@ -59,11 +59,11 @@
         </div>
 
         <div class="dashboard-tab-content" id="prompts">
-            {{#each registeredPromptSets}}
-                <section class="leader-prompt-section">
-                    {{> dashboardpartials/leader_prompt promptSet=this}}
-                </section>
-            {{/each}}
+{{#each registeredPromptSets}}
+  <section class="leader-prompt-section">
+    {{> dashboardpartials/leader_prompt promptSet=this csrfToken=../csrfToken }}
+  </section>
+{{/each}}
         </div>
 
         <div class="dashboard-tab-content" id="progress">
