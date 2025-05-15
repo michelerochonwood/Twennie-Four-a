@@ -25,10 +25,13 @@
         <p class="leader-prompt-headline">{{promptSet.promptHeadline}}</p>
         <p class="leader-prompt-text">{{promptSet.promptText}}</p>
     </div>
-
+<!-- DEBUG OUTPUT -->
+<p>promptSetId in hidden field: {{promptSet.promptSetId}}</p>
+<p>csrfToken in hidden field: {{csrfToken}}</p>
     <form action="/promptsetnotes/submit-prompt-notes" method="POST" class="leader-prompt-form">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <input type="hidden" name="promptSetId" value="{{promptSet.promptSetId}}">
+        <input type="hidden" name="promptSetId" value="{{promptSet.promptSetId}}{{promptSet._id}}">
+
 
         <label for="notes" class="leader-prompt-notes-label">Record your notes here:</label>
         <textarea name="notes" id="notes" class="leader-prompt-notes" placeholder="Write your notes here..." required></textarea>
