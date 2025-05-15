@@ -2,7 +2,6 @@ const PromptSetProgress = require('../models/prompt_models/promptsetprogress');
 const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
 const Member = require('../models/member_models/member');
-const PromptSetRegistration = require('../models/prompt_models/promptsetregistration');
 
 module.exports = {
   startPromptSet: async (req, res) => {
@@ -29,19 +28,24 @@ module.exports = {
           notes: []
         });
         await progress.save();
-        console.log(`✅ Initialized progress for user ${memberId}, starting at Prompt 1`);
+        console.log(`✅ New progress initialized for user ${memberId}, starting at Prompt 1`);
+      } else if (progress.currentPromptIndex === 0) {
+        progress.currentPromptIndex = 1;
+        await progress.save();
+        console.log(`🔁 Progress updated to skip Prompt 0 for user ${memberId}`);
       } else {
-        console.log(`ℹ️ Progress already exists for user ${memberId}`);
+        console.log(`ℹ️ User ${memberId} already started this set at Prompt ${progress.currentPromptIndex}`);
       }
 
-      // Determine dashboard path based on user type
+      // Determine dashboard path
       const leader = await Leader.findById(memberId);
       const groupMember = await GroupMember.findById(memberId);
-      const member = await Member.findById(memberId);
 
-      let dashboardPath = '/dashboard/member';
-      if (leader) dashboardPath = '/dashboard/leader';
-      else if (groupMember) dashboardPath = '/dashboard/groupmember';
+      const dashboardPath = leader
+        ? '/dashboard/leader'
+        : groupMember
+        ? '/dashboard/groupmember'
+        : '/dashboard/member';
 
       res.redirect(dashboardPath);
 
@@ -55,3 +59,4 @@ module.exports = {
     }
   }
 };
+
