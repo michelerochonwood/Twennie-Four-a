@@ -3503,3 +3503,78 @@ box-shadow: none !important;
 .error-button:hover {
   background-color: #4a4ab2;
 }
+
+.success-container {
+  max-width: 700px;
+  margin: 4rem auto;
+  padding: 2.5rem;
+  background-color: #f0fdf4;
+  border: 2px solid #34d399;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(52, 211, 153, 0.2);
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #065f46;
+}
+
+.success-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #047857;
+}
+
+.success-message {
+  font-size: 1.125rem;
+  margin: 1rem 0;
+  line-height: 1.6;
+}
+
+.success-badge-display {
+  margin: 2rem 0;
+}
+
+.success-badge-display img {
+  height: 120px;
+  width: auto;
+  border-radius: 8px;
+  border: 2px solid #34d399;
+  box-shadow: 0 4px 8px rgba(52, 211, 153, 0.3);
+}
+
+.success-button {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.75rem 2rem;
+  background-color: #34d399;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.success-button:hover {
+  background-color: #10b981;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .success-container {
+    padding: 1.5rem;
+  }
+
+  .success-title {
+    font-size: 2rem;
+  }
+
+  .success-message {
+    font-size: 1rem;
+  }
+
+  .success-badge-display img {
+    height: 100px;
+  }
+}
