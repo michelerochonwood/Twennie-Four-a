@@ -219,6 +219,14 @@ async function getLeaderPromptSchedule(leaderId, promptSetId) {
 
     // Fetch progress and determine remaining prompts
     const progress = await PromptSetProgress.findOne({ memberId: leaderId, promptSetId });
+
+    if (!progress) {
+  console.warn(`⚠️ No progress found for promptSetId ${registration.promptSetId}. Showing Prompt 0 fallback.`);
+  progress = {
+    currentPromptIndex: 0,
+    completedPrompts: []
+  };
+}
     const remainingPrompts = progress && progress.completedPrompts ? 21 - progress.completedPrompts.length : 21;
 
     const spread = remainingPrompts > 0 ? Math.floor(remainingDays / remainingPrompts) : 0;
