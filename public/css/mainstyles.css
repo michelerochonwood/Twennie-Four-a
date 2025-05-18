@@ -1961,6 +1961,39 @@ html, body {
 .membership-price-area     { grid-area: price; display: flex; flex-direction: column; align-items: center; margin-top: auto; }
 
 
+/* General image styling */
+.membership-icon img,
+.membership-icon3 img,
+.membership-icon5 img {
+  display: block;
+  margin: 0 auto;
+  max-width: 160px;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Optional hover effect for fun */
+.membership-icon img:hover,
+.membership-icon3 img:hover,
+.membership-icon5 img:hover {
+  transform: scale(1.05);
+}
+
+/* If you want to style individually (optional, not required if you use general rules above) */
+.free-member-image {
+  max-width: 150px;
+}
+
+.full-member-image {
+  max-width: 150px;
+}
+
+.fullgroup-member-image {
+  max-width: 150px;
+}
+
+
+
 .details-button {
 padding: 15px 30px;
 background-color: #262262;
