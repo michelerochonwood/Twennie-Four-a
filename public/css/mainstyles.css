@@ -4977,3 +4977,20 @@ margin-right: 5px; /* Space between icon and text */
 .topic-suggestion-form button:hover {
   background-color: #3d3f87;
 }
+
+
+.suggest-topic-button {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #4e50a2;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.suggest-topic-button:hover {
+  background-color: #3d3f8c;
+}
