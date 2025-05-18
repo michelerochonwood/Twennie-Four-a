@@ -642,3 +642,19 @@ html, body {
 .error-button:hover {
   background-color: #4a4ab2;
 }
+
+.suggest-topic-button {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #4e50a2;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 78px;
+  transition: background-color 0.3s ease;
+}
+
+.suggest-topic-button:hover {
+  background-color: #3d3f8c;
+}
