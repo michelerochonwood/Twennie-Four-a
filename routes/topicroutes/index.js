@@ -12,11 +12,9 @@ const viewExists = (viewPath) => {
     return fs.existsSync(fullPath);
 };
 
-// ✅ Suggest topic form (GET)
-router.get('/topics/suggest', ensureAuthenticated, bytopicController.showTopicSuggestionForm);
+router.get('/suggest', ensureAuthenticated, bytopicController.showTopicSuggestionForm);
+router.post('/suggest', ensureAuthenticated, bytopicController.submitTopicSuggestion);
 
-// ✅ Handle topic suggestion submission (POST)
-router.post('/topics/suggest', ensureAuthenticated, bytopicController.submitTopicSuggestion);
 
 // Dynamic rendering of individual static topic pages
 router.get('/single_topic_:topicName', (req, res) => {
