@@ -1939,6 +1939,28 @@ html, body {
   text-decoration: none;
 }
 
+.membership-grid-inner {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto auto;
+  grid-template-areas:
+    "icon"
+    "title"
+    "subtitle"
+    "benefits"
+    "altplan"
+    "price";
+  height: 100%;
+  gap: 1rem;
+}
+
+.membership-icon-area      { grid-area: icon; display: flex; justify-content: center; }
+.membership-title-area     { grid-area: title; text-align: center; }
+.membership-subtitle-area  { grid-area: subtitle; text-align: center; }
+.membership-benefits-area  { grid-area: benefits; }
+.membership-alt-plan-area  { grid-area: altplan; }
+.membership-price-area     { grid-area: price; display: flex; flex-direction: column; align-items: center; margin-top: auto; }
+
+
 .details-button {
 padding: 15px 30px;
 background-color: #262262;
