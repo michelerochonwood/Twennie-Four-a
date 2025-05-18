@@ -220,6 +220,37 @@ html, body {
   transition: opacity 1s ease-in-out;
 }
 
+.twennie-tagline-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 1.2s ease-out both;
+}
+
+.bluey-home-tagline {
+  max-width: 140px;
+  height: auto;
+  margin-right: 1rem;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInUp 1.2s ease-out 0.2s forwards;
+}
+
+/* Adjust for mobile */
+@media screen and (max-width: 768px) {
+  .twennie-tagline-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .bluey-home-tagline {
+    margin-right: 0;
+  }
+}
+
+
 @media screen and (max-width: 1466px) {
   .testimonial-overlay {
     top: unset;
