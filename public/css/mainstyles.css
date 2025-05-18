@@ -4994,3 +4994,50 @@ margin-right: 5px; /* Space between icon and text */
 .suggest-topic-button:hover {
   background-color: #3d3f8c;
 }
+
+
+/* Container styling for spacing */
+.suggest-topic-form {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-family: "Figtree", sans-serif;
+}
+
+/* Styled submit button */
+.submit-topic-btn {
+  background-color: #4a4ab2;
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 999px;
+  font-family: "Figtree", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.submit-topic-btn:hover {
+  background-color: #38389e;
+}
+
+.form-header {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #262262;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-helper-text {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
