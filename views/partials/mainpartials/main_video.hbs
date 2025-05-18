@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
         observer.unobserve(entry.target); // Stop observing once visible
       }
     });
-  }, { threshold: 0.2 }); // Element is visible when 20% in viewport
+  }, { threshold: 0.3 }); // Element is visible when 20% in viewport
 
   elements.forEach(el => observer.observe(el));
 });
