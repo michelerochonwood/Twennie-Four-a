@@ -68,7 +68,7 @@ module.exports = {
       }
 
       progress.notes.push(notes);
-      progress.currentPromptIndex = Math.min(progress.currentPromptIndex + 1, 20);
+      progress.currentPromptIndex = progress.currentPromptIndex + 1;
       await progress.save();
 
       console.log(`✅ Progress saved:`, {
@@ -95,7 +95,7 @@ if (registration?.targetCompletionDate) {
 
 
       // ✅ Final Prompt Case
-      if (progress.completedPrompts.length === 20) {
+      if (progress.currentPromptIndex > 20) {
         console.log(`🎉 All 20 prompts complete. Marking as completed.`);
 
         await markPromptSetAsCompleted(memberId, promptSetId, progress.notes);
