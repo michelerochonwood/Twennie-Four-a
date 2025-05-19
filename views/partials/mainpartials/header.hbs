@@ -179,60 +179,60 @@
 
       <!-- End of Header -->
 
-        <div class="sidebar-nav">
-          {{#if user}}            
-            {{!-- <span class="user-greeting">Hi, {{user.username}}</span> --}}
-            {{!-- <a href="{{dashboardLink}}" class="nav-square" style="width: 75px; height: 75px;"></a> --}}
-            <a href="{{dashboardLink}}" class="nav-square" style="width: 90px; height: 90px">
-              {{!-- <img src="/icons/dashboardicon.svg" alt="Dashboard" style="width: 50px;"> --}}
-              <img src="https://www.twennie.com/icons/dashboardicon.svg" alt="Dashboard" style="width: 50px; margin-top: 15px;">
-              <span class="nav-text" style="font-size: 0.9rem;">learning dashboard</span>
-            </a>
-            
-          {{/if}}
-          <a href="/topics" class="nav-square">
-            <img src="https://www.twennie.com/icons/topicsicon.svg" alt="Topics">
-            <span class="nav-text">topics</span>
-          </a>
-              <a href="/latest" class="nav-square">
-              <img src="https://www.twennie.com/icons/latesticon.svg" alt="Latest">
-              <span class="nav-text">latest</span>
-            </a>
+<div class="sidebar-nav">
 
-          {{#if user}}
-            <a href="/auth/logout" class="nav-square logout">
-              <img src="https://www.twennie.com/icons/logouticon.svg" alt="Logout">
-              <span class="nav-text">log out</span>
-            </a>
-          {{else}}
+  {{#if user}}
+    <!-- Dashboard for logged-in user -->
+    <a href="{{dashboardLink}}" class="nav-square" style="width: 90px; height: 90px;">
+      <img src="https://www.twennie.com/icons/dashboardicon.svg" alt="Dashboard" style="width: 50px; margin-top: 15px;">
+      <span class="nav-text" style="font-size: 0.9rem;">learning dashboard</span>
+    </a>
 
+    <!-- Shared links -->
+    <a href="/topics" class="nav-square">
+      <img src="https://www.twennie.com/icons/topicsicon.svg" alt="Topics">
+      <span class="nav-text">topics</span>
+    </a>
+    <a href="/latest" class="nav-square">
+      <img src="https://www.twennie.com/icons/latesticon.svg" alt="Latest">
+      <span class="nav-text">latest</span>
+    </a>
 
-  <!-- LOGIN MOVED TO THE TOP -->
-  <a href="/auth/login" class="nav-square">
-    <img src="https://www.twennie.com/icons/loginicon.svg" alt="Login">
-    <span class="nav-text">login</span>
-  </a>
+    <!-- Log out for user -->
+    <a href="/auth/logout" class="nav-square logout">
+      <img src="https://www.twennie.com/icons/logouticon.svg" alt="Logout">
+      <span class="nav-text">log out</span>
+    </a>
 
-  <!-- Keep other links as they were -->
-  <a href="/topics" class="nav-square">
-    <img src="https://www.twennie.com/icons/topicsicon.svg" alt="Topics">
-    <span class="nav-text">topics</span>
-  </a>
+  {{else}}
+    <!-- Login moved to top -->
+<a href="/auth/login" class="nav-square" style="width: 90px; height: 90px;">
+  <img src="https://www.twennie.com/icons/loginicon.svg" alt="Login" style="width: 50px; margin-top: 15px;">
+  <span class="nav-text" style="font-size: 0.9rem;">login</span>
+</a>
 
-  <a href="/latest" class="nav-square">
-    <img src="https://www.twennie.com/icons/latesticon.svg" alt="Latest">
-    <span class="nav-text">latest</span>
-  </a>
+    <!-- Shared links for logged-out users -->
+    <a href="/topics" class="nav-square">
+      <img src="https://www.twennie.com/icons/topicsicon.svg" alt="Topics">
+      <span class="nav-text">topics</span>
+    </a>
+    <a href="/latest" class="nav-square">
+      <img src="https://www.twennie.com/icons/latesticon.svg" alt="Latest">
+      <span class="nav-text">latest</span>
+    </a>
 
-  <a href="/member/choose" class="nav-square">
-    <img src="https://www.twennie.com/icons/becomeamembericon.svg" alt="Become a Member">
-    <span class="nav-text">join</span>
-  </a>
+    <!-- Unique links for logged-out users -->
+    <a href="/member/choose" class="nav-square">
+      <img src="https://www.twennie.com/icons/becomeamembericon.svg" alt="Become a Member">
+      <span class="nav-text">join</span>
+    </a>
+    <a href="/what_is_twennie" class="nav-square">
+      <img src="https://www.twennie.com/icons/whatistwennieicon.svg" alt="What is Twennie?">
+      <span class="nav-text">what is twennie?</span>
+    </a>
+  {{/if}}
 
-  <a href="/what_is_twennie" class="nav-square">
-    <img src="https://www.twennie.com/icons/whatistwennieicon.svg" alt="Info">
-    <span class="nav-text"></span>
-  </a>
-{{/if}}
+</div>
+
 
         </div>
