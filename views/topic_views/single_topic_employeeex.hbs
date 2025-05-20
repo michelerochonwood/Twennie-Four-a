@@ -2,38 +2,40 @@
 <div class="topic-page-wrapper">
   <div class="topic-main-area">
     <div class="topic-header">
-      
-      {{!-- Left Side of Topic Header --}}
       <div>
         <h1 class="topic-title">Employee Experience</h1>
-        <a href="/bytopic/Employee Experience" class="single-topic-resource-btn">
-          <button class="topic-resource-btn">TWENNIE'S RESOURCES ON THIS TOPIC</button>
-        </a>
       </div>
 
-      <!-- Mobile Sidebar Toggle Button (Right Side of Topic Header) -->
+      <!-- Mobile Sidebar Toggle Button -->
       <div class="more-topics">
-        <p>More Topics</p>
+        <p>more topics</p>
         <ion-icon name="newspaper-outline" id="mobile-sidebar-btn"></ion-icon>
       </div>
-
     </div>
-
-
-    {{!-- <a href="#" class="tag-this-unit-link">
-      tag this topic
-      <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.48 36.66" class="tag-icon">
-        <g id="Layer_1-2" data-name="Layer 1">
-          <path class="cls-1" d="M38.77,21.12L16.05.56C15.65.19,15.13,0,14.59,0L2.12.16c-1.18.01-2.12.97-2.12,2.15v11.2c0,.63.28,1.24.77,1.64l24.95,21c.9.76,2.24.65,3.01-.24l10.23-11.8c.77-.88.69-2.22-.18-3ZM6.28,8.87c-1.57,0-2.84-1.27-2.84-2.84s1.27-2.84,2.84-2.84,2.84,1.27,2.84,2.84-1.27,2.84-2.84,2.84Z"/>
-        </g>
-      </svg>
-    </a> --}}
 
     <!-- Subtopics Partial -->
     {{> topicpartials/employeeex_topic }}
 
+    <!-- Bluey + CTA -->
+    <div class="topic-resource-cta-wrapper">
+      <img src="/images/blueydown.png" alt="Bluey pointing down" class="bluey-cta-img" style="margin-bottom: 5px;">
+      <a href="/bytopic/Employee Experience" class="single-topic-resource-btn">
+        <button class="topic-resource-btn" style="margin-bottom: 20px">
+          let me show you what twennie has on this topic
+        </button>
+      </a>
+    </div>
 
   </div>
 
   {{> topicpartials/topics_column_partial}}
 </div>
+
+<script>
+  function toggleCard(element) {
+    let card = element.closest('.bytopic-library-unit-card');
+    card.classList.toggle('active');
+    let arrow = element.querySelector('.bytopic-arrow-icon');
+    arrow.classList.toggle('open');
+  }
+</script>
