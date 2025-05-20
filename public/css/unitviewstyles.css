@@ -207,6 +207,7 @@ html, body {
     margin-bottom: 30px;
     margin-top: 30px;
     text-align: left;
+    font-weight: 300;
   }
 
   .single_article-content p {
