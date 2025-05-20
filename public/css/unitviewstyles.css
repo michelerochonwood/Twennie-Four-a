@@ -989,8 +989,8 @@ html, body {
 
 /* Bouncing + flipping main arrow */
 .view-promptset-main-arrow {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   display: inline-block;
   animation: bounceArrow 1.8s ease-in-out infinite;
   transition: transform 0.3s ease;
@@ -1010,6 +1010,17 @@ html, body {
   }
 }
 
+.view-promptset-main-hidden-content {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.view-promptset-main-hidden-content.active {
+  display: flex;
+}
 
 
 
