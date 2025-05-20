@@ -85,18 +85,22 @@ helpers: {
     return icons[unitType] || '/icons/default.svg';
   },
 
-  getDurationImage: (unitType) => {
-    const baseURL = 'https://www.twennie.com/images/';
-    const map = {
-      article: '5mins.svg',
-      video: '10mins.svg',
-      interview: '10mins.svg',
-      promptset: '20mins.svg',
-      exercise: '30mins.svg',
-      template: '30mins.svg',
-    };
-    return baseURL + (map[unitType] || '5mins.svg');
-  },
+getDurationImage: (unitType) => {
+  const baseURL = 'https://www.twennie.com/images/';
+  const map = {
+    article: '5mins.svg',
+    video: '10mins.svg',
+    interview: '10mins.svg',
+    promptset: '20mins.svg',
+    exercise: '30mins.svg',
+    template: '30mins.svg',
+  };
+  if (!map[unitType]) {
+    console.warn(`⚠️ Unrecognized unitType for duration image: ${unitType}`);
+  }
+  return baseURL + (map[unitType] || '5mins.svg');
+},
+
 
   capitalize: (str) =>
     typeof str === 'string' ? str.charAt(0).toUpperCase() + str.slice(1) : '',

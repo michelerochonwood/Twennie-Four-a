@@ -26,7 +26,15 @@
 
 <!-- Duration Image -->
 <div class="bytopic-duration-image-container" style="text-align: center;">
-  <img src="{{getDurationImage this.type}}" alt="duration" class="bytopic-duration-image">
+  <p style="color:red; font-size: 0.7rem;">TYPE: {{this.type}}</p>
+<p style="color:red; font-size: 0.7rem;">Image: {{getDurationImage this.type}}</p>
+
+  <img 
+  src="{{getDurationImage this.type}}" 
+  onerror="this.onerror=null; this.src='/images/placeholder.svg'" 
+  alt="duration" 
+  class="bytopic-duration-image"
+>
 </div>
 
 
