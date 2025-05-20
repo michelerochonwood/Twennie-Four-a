@@ -689,10 +689,18 @@ html, body {
   }
 }
 
+.bytopic-duration-image-container {
+  min-height: 30px;
+  text-align: center;
+}
+
 .bytopic-duration-image {
-  max-height: 70px;
-  width: auto;
   display: inline-block;
+  max-height: 40px;
+  width: auto;
+  height: auto;
+  min-height: 20px; /* Force it to occupy some height */
   margin: 0 auto;
 }
+
 
