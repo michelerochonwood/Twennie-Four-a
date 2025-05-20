@@ -978,45 +978,38 @@ html, body {
   /* grid-column: span 3; */
 }
 
-/* Toggle Arrow Styling */
+/* Main toggle wrapper */
 .view-promptset-main-toggle {
   text-align: center;
   cursor: pointer;
-  margin-top: 20px;
-  transition: transform 0.3s ease;
+  margin: 20px auto 0 auto;
   width: 200px;
-  margin: 0 auto;
-}
-
-.view-promptset-main-toggle,
-.single_article-toggle {
   transition: transform 0.3s ease;
 }
 
-.main-toggle-arrow {
-  width: 30px;
-  height: 30px;
-  display: inline-block;
-}
-
-/* Bouncing and flipping arrows */
-.view-promptset-main-arrow,
-.view-promptset-sidebar-arrow {
+/* Bouncing + flipping main arrow */
+.view-promptset-main-arrow {
   width: 24px;
   height: 24px;
+  display: inline-block;
   animation: bounceArrow 1.8s ease-in-out infinite;
   transition: transform 0.3s ease;
 }
 
-.view-promptset-main-toggle.open .view-promptset-main-arrow,
-.view-promptset-sidebar-toggle.open .view-promptset-sidebar-arrow {
+.view-promptset-main-toggle.open .view-promptset-main-arrow {
   transform: rotate(180deg);
 }
 
+/* Bounce animation */
 @keyframes bounceArrow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
 }
+
 
 
 
