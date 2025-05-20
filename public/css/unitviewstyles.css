@@ -1011,17 +1011,18 @@ html, body {
 }
 
 .view-promptset-main-hidden-content {
-  display: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  transition: all 0.3s ease-in-out;
 }
 
+/* When active, allow space to expand */
 .view-promptset-main-hidden-content.active {
-  display: flex;
+  max-height: 5000px; /* large enough to fit content */
 }
-
 
 
 /* Hidden Content for Main Section */
