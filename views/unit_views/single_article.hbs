@@ -7,7 +7,9 @@
 
     <!-- Toggle + Content -->
     {{#if isAuthenticated}}
-      <div class="single_article-toggle" onclick="toggleArticleContent(this)" data-authorized="true">
+<div class="single_article-toggle" 
+     onclick="toggleArticleContent(this)" 
+     data-authorized="{{isAuthorizedToViewFullContent}}">
         <svg class="single_article-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
           <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
           <g><polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/></g>
@@ -115,3 +117,16 @@
 </div> <!-- Closing .single_article-container -->
 
 
+<script>
+  function toggleArticleContent(element) {
+  const isAuthorized = element.dataset.authorized === "true";
+  const content = element.nextElementSibling;
+
+  if (isAuthorized) {
+    content.classList.toggle('hidden');
+    element.classList.toggle('open'); // rotate the arrow if needed
+  } else {
+    alert("You don't have access to view the full content of this unit.");
+  }
+}
+</script>
