@@ -376,6 +376,8 @@ html, body {
   }
   
 .single_article-arrow-icon {
+  width: 100px;
+  height: auto;
   animation: bounceArrow 1.8s ease-in-out infinite;
   transition: transform 0.3s ease;
 }
