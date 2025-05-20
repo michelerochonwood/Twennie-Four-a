@@ -989,8 +989,8 @@ html, body {
 
 /* Bouncing + flipping main arrow */
 .view-promptset-main-arrow {
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   display: inline-block;
   animation: bounceArrow 1.8s ease-in-out infinite;
   transition: transform 0.3s ease;
