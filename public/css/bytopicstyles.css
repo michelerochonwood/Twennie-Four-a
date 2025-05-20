@@ -98,7 +98,7 @@ html, body {
   /* min-height: 250px; */
   /* margin-bottom: 100px; */
   margin-bottom: 1rem;
-  min-height: 400px;
+  min-height: 350px;
   margin-bottom: 1.5rem;
 }
 
@@ -114,7 +114,7 @@ html, body {
 
 /* Ensure only the clicked card expands */
 .bytopic-library-unit-card.active {
-  height: 700px;
+  height: 800px;
 }
 
 /* SVG Header Styling */
@@ -700,6 +700,7 @@ html, body {
   margin: 0 auto;
   height: auto;
   margin-top: -30px;
+  margin-bottom: 20px;
 }
 
 
