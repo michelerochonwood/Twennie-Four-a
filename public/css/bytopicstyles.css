@@ -696,11 +696,9 @@ html, body {
 
 .bytopic-duration-image {
   display: inline-block;
-  max-height: 70px;
-  width: auto;
-  height: auto;
-  min-height: 20px; /* Force it to occupy some height */
+  width: 70px;
   margin: 0 auto;
+  height: auto;
 }
 
 
