@@ -5,21 +5,28 @@
     <p class="single_article-short-summary"><strong>{{short_summary}}</strong></p>
     <p class="single_article-long-summary">{{full_summary}}</p>
 
-<div class="single_article-toggle" onclick="toggleArticleContent(this)" 
-     data-authorized="{{isAuthorizedToViewFullContent}}">
-  <svg class="single_article-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
-    <defs>
-      <style>.cls-1 { fill: #4e50a2; }</style>
-    </defs>
-    <g>
-      <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-    </g>
-  </svg>
-</div>
+{{#if isAuthenticated}}
+  <div class="single_article-toggle" onclick="toggleArticleContent(this)" data-authorized="true">
+    <svg class="single_article-arrow-icon" ...>...</svg>
+  </div>
 
-    <!-- Hidden Article Content (Initially Collapsed) -->
-    <div class="single_article-content hidden">
-      {{{formatContent article_content}}}
+  <div class="single_article-content hidden">
+    {{{formatContent article_content}}}
+
+    <!-- Notes form, tags, etc. go here -->
+  </div>
+{{else}}
+  <div class="single_article-toggle" data-authorized="false" onclick="toggleArticleContent(this)">
+    <svg class="single_article-arrow-icon" ...>...</svg>
+  </div>
+
+  <div class="single_article-content hidden">
+    <div class="unauthorized-message">
+      <p>You must be logged in to view the full content of this article.</p>
+      <a href="/auth/login" class="login-link">Log in to access</a>
+    </div>
+  </div>
+{{/if}}
 
       <!-- Tag This Unit -->
       <div class="single_unit-tag-container">
