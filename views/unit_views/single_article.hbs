@@ -87,13 +87,14 @@
     </div>
     <p class="single_article-title-sidebar">{{article_title}}</p>
 
-    <!-- Toggle Arrow for Expanding Sidebar Details -->
-    <div class="single_article-sidebar-toggle" onclick="toggleSidebarContent(this)">
-      <svg class="single_article-sidebar-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
-        <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
-        <g><polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/></g>
-      </svg>
-    </div>
+
+<!-- Toggle Arrow for Expanding Sidebar Details -->
+<div class="single_article-sidebar-toggle" onclick="toggleSidebarContent(this)">
+  <svg class="single_article-sidebar-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
+    <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
+    <g><polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/></g>
+  </svg>
+</div>
 
     <!-- Hidden Sidebar Details (Initially Collapsed) -->
     <div class="single_article-sidebar-content hidden">
@@ -129,4 +130,17 @@
     alert("You don't have access to view the full content of this unit.");
   }
 }
+
+function toggleSidebarContent(element) {
+  let sidebarContent = element.nextElementSibling;
+  console.log("Sidebar content element:", sidebarContent);
+
+  if (sidebarContent) {
+    sidebarContent.classList.toggle('hidden');
+    element.classList.toggle('open');
+  } else {
+    console.warn("Sidebar content not found — check HTML structure.");
+  }
+}
+
 </script>
