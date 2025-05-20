@@ -561,6 +561,52 @@ html, body {
   align-items: start;
 } */
 
+.single_video-arrow-icon,
+.single_video-sidebar-arrow-icon {
+  width: 40px;
+  height: 40px;
+  animation: bounceArrow 1.8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.single_video-toggle.open .single_video-arrow-icon,
+.single_video-sidebar-toggle.open .single_video-sidebar-arrow-icon {
+  transform: rotate(180deg);
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.single_interview-arrow-icon,
+.single_interview-sidebar-arrow-icon {
+  width: 24px;
+  height: 24px;
+  animation: bounceArrow 1.8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.single_interview-toggle.open .single_interview-arrow-icon,
+.single_interview-sidebar-toggle.open .single_interview-sidebar-arrow-icon {
+  transform: rotate(180deg);
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+
+
 .single_video-container,
 .single_interview-container,
 .single_exercise-container,
@@ -952,6 +998,26 @@ html, body {
   height: 30px;
   display: inline-block;
 }
+
+/* Bouncing and flipping arrows */
+.view-promptset-main-arrow,
+.view-promptset-sidebar-arrow {
+  width: 24px;
+  height: 24px;
+  animation: bounceArrow 1.8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.view-promptset-main-toggle.open .view-promptset-main-arrow,
+.view-promptset-sidebar-toggle.open .view-promptset-sidebar-arrow {
+  transform: rotate(180deg);
+}
+
+@keyframes bounceArrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
 
 
 /* Hidden Content for Main Section */

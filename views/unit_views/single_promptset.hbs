@@ -20,7 +20,7 @@
 
 
 <!-- Toggle Arrow for Expanding Main Section -->
-<div class="view-promptset-main-toggle" onclick="toggleMainSection(this)">
+<div class="view-promptset-main-toggle" onclick="togglePromptsetMain(this)" data-authorized="{{isAuthorizedToViewFullContent}}">
 <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
   <defs>
     <style>
@@ -497,7 +497,7 @@
     <p class="view-promptset-summary">{{full_summary}}</p>
 
     <!-- Down Arrow for Expanding Sidebar -->
-<div class="view-promptset-sidebar-toggle" onclick="toggleSidebar(this)">
+<div class="view-promptset-sidebar-toggle" onclick="togglePromptsetSidebar(this)" data-authorized="{{isAuthorizedToViewFullContent}}">
 <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
   <defs>
     <style>
@@ -539,22 +539,32 @@
 
 
 <script>
-  function toggleSidebar(element) {
-  let sidebar = element.closest('.promptset-right-sidebar');
-  sidebar.classList.toggle('active');
+function togglePromptsetMain(element) {
+  const isAuthorized = element.dataset.authorized === "true";
+  const hiddenContent = element.nextElementSibling;
 
-  let arrow = element.querySelector('.bytopic-arrow-icon');
-  arrow.classList.toggle('open');
+  if (isAuthorized) {
+    hiddenContent.classList.toggle("active");
+    element.classList.toggle("open");
+  } else {
+    alert("You don’t have access to view this content.");
+  }
+}
+
+function togglePromptsetSidebar(element) {
+  const isAuthorized = element.dataset.authorized === "true";
+  const sidebar = element.closest(".promptset-right-sidebar");
+  const hiddenContent = sidebar.querySelector(".view-promptset-hidden-content");
+
+  if (isAuthorized) {
+    hiddenContent.classList.toggle("active");
+    element.classList.toggle("open");
+  } else {
+    alert("You don’t have access to view this sidebar content.");
+  }
 }
 </script>
 
-<script>
-function toggleMainSection(element) {
-  let mainSection = element.nextElementSibling;
-  mainSection.classList.toggle('active');
-  element.classList.toggle('open');
-}
-</script>
 
 
 

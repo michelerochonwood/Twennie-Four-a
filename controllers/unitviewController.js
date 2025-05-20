@@ -215,24 +215,26 @@ viewVideo: async (req, res) => {
     console.log("🔓 Authorized to view full content:", isAuthorizedToViewFullContent);
 
     // 5. Render the view
-    res.render('unit_views/single_video', {
-      layout: 'unitviewlayout',
-      _id: video._id.toString(),
-      video_title: video.video_title,
-      short_summary: video.short_summary,
-      full_summary: video.full_summary,
-      video_content: video.video_content || '', // for iframe embedding
-      video_url: video.video_url || '/images/valuegroupcont.png', // fallback preview image
-      author: {
-        name: author.name || 'Unknown Author',
-        image: author.image || '/images/default-avatar.png',
-      },
-      main_topic: video.main_topic,
-      secondary_topics: video.secondary_topics,
-      sub_topic: video.sub_topic,
-      isOwner,
-      isAuthorizedToViewFullContent
-    });
+res.render('unit_views/single_video', {
+  layout: 'unitviewlayout',
+  _id: video._id.toString(),
+  video_title: video.video_title,
+  short_summary: video.short_summary,
+  full_summary: video.full_summary,
+  video_content: video.video_content || '', // for iframe embedding
+  video_url: video.video_url || '/images/valuegroupcont.png', // fallback preview image
+  author: {
+    name: author.name || 'Unknown Author',
+    image: author.image || '/images/default-avatar.png',
+  },
+  main_topic: video.main_topic,
+  secondary_topics: video.secondary_topics,
+  sub_topic: video.sub_topic,
+  isOwner,
+  isAuthorizedToViewFullContent,
+  isAuthenticated: req.isAuthenticated() // ✅ ensures toggle works
+});
+
 
   } catch (err) {
     console.error('💥 Error fetching video:', err.stack || err.message);
@@ -278,36 +280,21 @@ viewInterview: async (req, res) => {
       });
     }
 
-    // 3. Check if current user is the owner
+    // 3. Check if the current user is the owner
     const isOwner = req.user && req.user.id.toString() === authorId.toString();
     console.log(`👑 Is owner: ${isOwner}`);
 
-    // 4. Determine access based on visibility
+    // 4. Determine access based on membership level
     let isAuthorizedToViewFullContent = false;
 
-    if (interview.visibility === 'all_members') {
-      isAuthorizedToViewFullContent = true;
-    } else {
-      const isOrgMatch =
-        interview.visibility === 'organization_only' &&
-        req.user.organization &&
-        author.organization &&
-        req.user.organization === author.organization;
+    const isGroupOrLeader =
+      req.user?.membershipType === 'groupmember' || req.user?.membershipType === 'leader';
 
-      const isTeamMatch =
-        interview.visibility === 'team_only' &&
-        req.user.groupId &&
-        author.groupId &&
-        req.user.groupId.toString() === author.groupId.toString();
+    const isPaidOrContributor =
+      req.user?.accessLevel === 'paid_individual' || req.user?.accessLevel === 'contributor_individual';
 
-      isAuthorizedToViewFullContent = isOwner || isOrgMatch || isTeamMatch;
+    isAuthorizedToViewFullContent = isOwner || isGroupOrLeader || isPaidOrContributor;
 
-      console.log("🔒 Access breakdown:");
-      console.log("• isOrgMatch:", isOrgMatch);
-      console.log("• isTeamMatch:", isTeamMatch);
-    }
-
-    console.log("📌 Visibility:", interview.visibility);
     console.log("🔓 Authorized to view full content:", isAuthorizedToViewFullContent);
 
     // 5. Render the view
@@ -327,7 +314,8 @@ viewInterview: async (req, res) => {
       secondary_topics: interview.secondary_topics,
       sub_topic: interview.sub_topic,
       isOwner,
-      isAuthorizedToViewFullContent
+      isAuthorizedToViewFullContent,
+      isAuthenticated: req.isAuthenticated()
     });
 
   } catch (err) {
@@ -339,6 +327,7 @@ viewInterview: async (req, res) => {
     });
   }
 },
+
 
       
     
@@ -453,11 +442,12 @@ viewPromptset: async (req, res) => {
         name: author.name || 'Unknown Author',
         image: author.image || '/images/default-avatar.png',
       },
-      isOwner,
-      isLeader,
-      isAuthorizedToViewFullContent,
-      groupMembers,
-    });
+  isOwner,
+  isLeader,
+  isAuthenticated: req.isAuthenticated(), // ✅ Add this line
+  isAuthorizedToViewFullContent,
+  groupMembers
+});
 
   } catch (err) {
     console.error('Error fetching prompt set:', err.stack || err.message);
