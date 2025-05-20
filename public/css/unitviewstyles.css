@@ -375,24 +375,46 @@ html, body {
     display: none;
   }
   
-  .single_article-arrow-icon {
-    transition: transform 0.3s ease-in-out;
-    cursor: pointer;
-  }
-  
-  .single_article-arrow-icon.open {
-    transform: rotate(180deg);
-  }
+.single_article-arrow-icon {
+  animation: bounceArrow 1.8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
 
-  .single_article-sidebar-toggle {
-    width: 50px;
-    margin: 0 auto;
-  }
+/* Rotate arrow if needed (optional for "open" effect) */
+.single_article-toggle.open .single_article-arrow-icon {
+  transform: rotate(180deg);
+}
 
-  .single_article-toggle {
-    width: 100px;
-    margin: 0 auto;
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
   }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.single_article-sidebar-arrow-icon {
+  width: 40px;
+  height: 40px;
+  animation: bounceArrow 1.8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+/* Optional: Flip arrow on open (you can toggle .open on parent if you want) */
+.single_article-sidebar-toggle.open .single_article-sidebar-arrow-icon {
+  transform: rotate(180deg);
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
 
 /* NOTES SECTION IN UNIT VIEW */
 .single_article-notes-container, 

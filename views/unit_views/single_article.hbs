@@ -7,19 +7,15 @@
 
 <div class="single_article-toggle" onclick="toggleArticleContent(this)" 
      data-authorized="{{isAuthorizedToViewFullContent}}">
-      <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
-        <defs>
-          <style>
-            .cls-1 {
-              fill: #4e50a2;
-            }
-          </style>
-        </defs>
-        <g id="Layer_1-2" data-name="Layer 1">
-          <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-        </g>
-      </svg>
-    </div>
+  <svg class="single_article-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
+    <defs>
+      <style>.cls-1 { fill: #4e50a2; }</style>
+    </defs>
+    <g>
+      <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
+    </g>
+  </svg>
+</div>
 
     <!-- Hidden Article Content (Initially Collapsed) -->
     <div class="single_article-content hidden">
@@ -80,20 +76,17 @@
     <p class="single_article-title-sidebar">{{article_title}}</p>
 
     <!-- Toggle Arrow for Expanding Sidebar Details -->
-    <div class="single_article-sidebar-toggle" onclick="toggleSidebarContent(this)">
-      <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
-        <defs>
-          <style>
-            .cls-1 {
-              fill: #4e50a2;
-            }
-          </style>
-        </defs>
-        <g id="Layer_1-2" data-name="Layer 1">
-          <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-        </g>
-      </svg>
-    </div>
+<div class="single_article-sidebar-toggle" onclick="toggleSidebarContent(this)">
+  <svg class="single_article-sidebar-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
+    <defs>
+      <style>.cls-1 { fill: #4e50a2; }</style>
+    </defs>
+    <g>
+      <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
+    </g>
+  </svg>
+</div>
+
 
     <!-- Hidden Sidebar Details (Initially Collapsed) -->
     <div class="single_article-sidebar-content hidden">
@@ -130,6 +123,18 @@ function toggleArticleContent(element) {
 function toggleSidebarContent(element) {
   let sidebarContent = element.nextElementSibling;
   sidebarContent.classList.toggle('hidden');
+}
+
+function toggleArticleContent(element) {
+  const isAuthorized = element.dataset.authorized === "true";
+  const content = element.nextElementSibling;
+
+  if (isAuthorized) {
+    content.classList.toggle('hidden');
+    element.classList.toggle('open'); // for rotation
+  } else {
+    alert("You don't have access to view the full content of this unit.");
+  }
 }
 </script>
 
