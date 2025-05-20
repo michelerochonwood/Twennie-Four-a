@@ -962,7 +962,7 @@ html, body {
   display: flex;
   gap: 20px;
   padding: 0 10%;
-  align-items: start;
+  align-items: flex-start;
   /* margin-top: 200px; */
   text-align: center;
   min-height: 120vh;
@@ -1021,18 +1021,14 @@ html, body {
 
 
 /* Hidden Content for Main Section */
-.view-promptset-main-hidden-content {
-  display: none;
+.view-promptset-sidebar-content {
+  display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  transition: all 0.3s ease-in-out;
 }
 
-/* Show hidden content when active */
-.view-promptset-main-hidden-content.active {
-  display: flex;
-}
+
 
 /* Ensure the arrow rotates */
 .view-promptset-main-toggle.open {
@@ -1051,31 +1047,8 @@ html, body {
   align-items: center;
 }
 
-.view-promptset-sidebar-toggle {
-  font-size: 1.5rem;
-  color: #4a4ab2;
-  cursor: pointer;
-  text-align: center;
-  margin-top: 10px;
-  transition: transform 0.3s ease;
-}
 
-.view-promptset-sidebar-toggle.open {
-  transform: rotate(180deg);
-}
 
-.view-promptset-hidden-content {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  transition: all 0.3s ease-in-out;
-}
-
-/* Show when active */
-.promptset-right-sidebar.active .view-promptset-hidden-content {
-  display: flex;
-}
 
 .view-promptset-title {
   /* font-size: 1.5rem; */
@@ -1252,20 +1225,8 @@ html, body {
   margin-bottom: 40px;
 }
 
-.promptset-right-sidebar.active .view-promptset-sidebar-toggle {
-  transform: rotate(-180deg);
-}
 
-.view-promptset-sidebar-arrow {
-  width: 24px;
-  height: 24px;
-  animation: bounceArrow 1.8s ease-in-out infinite;
-  transition: transform 0.3s ease;
-}
 
-.view-promptset-sidebar-toggle.open .view-promptset-sidebar-arrow {
-  transform: rotate(180deg);
-}
 
 /* Responsive Design */
 /* @media (max-width: 1024px) {

@@ -496,24 +496,11 @@
     <p class="view-promptset-sidebar-title">{{promptset_title}}</p>
     <p class="view-promptset-summary">{{full_summary}}</p>
 
-    <!-- Down Arrow for Expanding Sidebar -->
-<div class="view-promptset-sidebar-toggle" onclick="togglePromptsetSidebar(this)" data-authorized="{{isAuthorizedToViewFullContent}}">
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #4e50a2;
-      }
-    </style>
-  </defs>
-  <g id="Layer_1-2" data-name="Layer 1">
-    <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-  </g>
-</svg>
-</div>
 
-    <!-- Hidden Content (Initially Collapsed) -->
-    <div class="view-promptset-hidden-content">
+
+
+<!-- Sidebar Content (Always Visible) -->
+<div class="view-promptset-sidebar-content">
       <div class="view-promptset-author">
         <img src="{{#if author.image}}{{author.image}}{{else}}/images/default-avatar.png{{/if}}" alt="Author Image" class="view-promptset-author-image">
         <p class="view-promptset-author-name">AUTHOR: <br>{{author.name}}</p>
@@ -551,18 +538,8 @@ function togglePromptsetMain(element) {
   }
 }
 
-function togglePromptsetSidebar(element) {
-  const isAuthorized = element.dataset.authorized === "true";
-  const sidebar = element.closest(".promptset-right-sidebar");
-  const hiddenContent = sidebar.querySelector(".view-promptset-hidden-content");
 
-  if (isAuthorized) {
-    hiddenContent.classList.toggle("active");
-    element.classList.toggle("open");
-  } else {
-    alert("You don’t have access to view this sidebar content.");
-  }
-}
+
 </script>
 
 
