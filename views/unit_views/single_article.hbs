@@ -136,5 +136,11 @@ function toggleArticleContent(element) {
     alert("You don't have access to view the full content of this unit.");
   }
 }
+
+function toggleSidebarContent(element) {
+  let sidebarContent = element.nextElementSibling;
+  sidebarContent.classList.toggle('hidden');
+  element.classList.toggle('open'); // triggers rotation if needed
+}
 </script>
 
