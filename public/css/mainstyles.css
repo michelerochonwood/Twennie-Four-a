@@ -2739,6 +2739,34 @@ line-height: 1.5;
 
 /* Twennie Resource Button Styling */
 
+
+.topic-resource-btn {
+  background-color: #262262;
+  font-family: "Figtree", sans-serif;
+  border-radius: 99px;
+  padding: 10px 15px;
+  font-weight: 800;
+  color: white;
+  text-decoration: none;
+  font-size: 0.7rem;
+  border: none;
+  width: 100%; /* Match the width of the single topic link */
+  text-align: center;
+  cursor: pointer;
+  margin-top: auto;
+  transition: all 0.3s ease-in-out;
+}
+
+.topic-resource-btn:hover {
+  background-color: #4a4ab2;
+}
+
+.single-topic-resource-btn {
+  display: block; /* Ensures button is properly aligned */
+  text-align: center;
+  /* margin-top: 10px; */
+}
+
 .topic-resource-cta-wrapper {
   margin-top: 3rem;
   display: flex;
@@ -2754,34 +2782,6 @@ line-height: 1.5;
   margin-top: -15px;
   z-index: 2;
   position: relative;
-}
-
-.topic-resource-btn {
-  background-color: #262262;
-  font-family: "Figtree", sans-serif;
-  border-radius: 99px;
-  padding: 15px 30px;
-  font-weight: 800;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  z-index: 1;
-  text-decoration: none;
-}
-
-.topic-resource-btn:hover {
-  background-color: #4a4ab2;
-}
-
-.single-topic-resource-btn {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 1rem;
-  text-align: center;
-  /* margin-top: 10px; */
 }
 
 
