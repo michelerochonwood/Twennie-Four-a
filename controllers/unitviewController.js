@@ -118,24 +118,25 @@ viewArticle: async (req, res) => {
     console.log("🔓 Authorized to view full content:", isAuthorizedToViewFullContent);
 
     // 5. Render the view
-    res.render('unit_views/single_article', {
-      layout: 'unitviewlayout',
-      _id: article._id.toString(),
-      article_title: article.article_title,
-      short_summary: article.short_summary,
-      full_summary: article.full_summary,
-      article_content: article.article_content,
-      article_image: '/images/default-article.png',
-      author: {
-        name: author.name || 'Unknown Author',
-        image: author.image || '/images/default-avatar.png',
-      },
-      main_topic: article.main_topic,
-      secondary_topics: article.secondary_topics,
-      sub_topic: article.sub_topic,
-      isOwner,
-      isAuthorizedToViewFullContent
-    });
+res.render('unit_views/single_article', {
+  layout: 'unitviewlayout',
+  _id: article._id.toString(),
+  article_title: article.article_title,
+  short_summary: article.short_summary,
+  full_summary: article.full_summary,
+  article_content: article.article_content,
+  article_image: '/images/default-article.png',
+  author: {
+    name: author.name || 'Unknown Author',
+    image: author.image || '/images/default-avatar.png',
+  },
+  main_topic: article.main_topic,
+  secondary_topics: article.secondary_topics,
+  sub_topic: article.sub_topic,
+  isOwner,
+  isAuthorizedToViewFullContent,
+  isAuthenticated: req.isAuthenticated(), // ✅ This line fixes your toggle logic
+});
 
   } catch (err) {
     console.error('💥 Error fetching article:', err.stack || err.message);
