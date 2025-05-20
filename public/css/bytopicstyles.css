@@ -668,8 +668,8 @@ html, body {
 }
 
 .bytopic-arrow-icon {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   animation: bounceArrow 1.8s ease-in-out infinite;
   transition: transform 0.3s ease;
 }
