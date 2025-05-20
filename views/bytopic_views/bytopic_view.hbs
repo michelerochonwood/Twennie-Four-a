@@ -24,18 +24,11 @@
         <!-- Card Content Container -->
         <div class="bytopic-card-content">
 
-          <!-- Duration Image -->
-          <div class="bytopic-duration-image-container" style="text-align: center;">
-            {{#if (eq this.type "article")}}
-              <img src="https://www.twennie.com/images/5mins.svg" alt="5 mins" class="bytopic-duration-image">
-            {{else if (or (eq this.type "video") (eq this.type "interview"))}}
-              <img src="https://www.twennie.com/images/10mins.svg" alt="10 mins" class="bytopic-duration-image">
-            {{else if (eq this.type "promptset")}}
-              <img src="https://www.twennie.com/images/20mins.svg" alt="20 mins" class="bytopic-duration-image">
-            {{else if (or (eq this.type "exercise") (eq this.type "template"))}}
-              <img src="https://www.twennie.com/images/30mins.svg" alt="30 mins" class="bytopic-duration-image">
-            {{/if}}
-          </div>
+<!-- Duration Image -->
+<div class="bytopic-duration-image-container" style="text-align: center;">
+  <img src="{{getDurationImage this.type}}" alt="duration" class="bytopic-duration-image">
+</div>
+
 
           <!-- Unit Type Icon -->
           <div class="bytopic-unit-type-icon-container">

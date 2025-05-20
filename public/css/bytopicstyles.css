@@ -689,3 +689,11 @@ html, body {
   }
 }
 
+.bytopic-duration-image {
+  max-height: 40px;
+  width: auto;
+  display: inline-block;
+  margin: 0 auto;
+  background-color: rgba(255, 0, 0, 0.1); /* temporary visual cue */
+}
+
