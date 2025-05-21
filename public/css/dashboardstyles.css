@@ -2305,7 +2305,7 @@ html, body {
 
 /* Badge Image */
 .leader-progress-badge-img {
-  width: 50px;
+  width: 70px;
   height: auto;
   object-fit: contain;
   margin-bottom: 5px;
