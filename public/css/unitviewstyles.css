@@ -984,7 +984,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  margin-top: -200px; /* ✅ Pull it upward */
+  margin-top: -500px; /* ✅ Pull it upward */
   padding-top: 60px; /* ✅ Still preserve content spacing */
 }
 
