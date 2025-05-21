@@ -985,8 +985,6 @@ html, body {
   align-items: center;
   width: 30%;
   margin: 0 auto;
-  margin-top: -500px; /* ✅ Pull it upward */
-  padding-top: 600px; /* ✅ Still preserve content spacing */
 }
 
 /* Always-visible Sidebar Content */
