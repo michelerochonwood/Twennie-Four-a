@@ -359,21 +359,21 @@ if (!isCompleted) {
             
             // ✅ Fetch prompt set progress from MongoDB (No session-based tracking)
 
+// ✅ First fetch completed prompt sets
+const completedRecords = await PromptSetCompletion.find({ memberId: id }).populate('promptSetId');
+
+// ✅ Then fetch in-progress prompt records
 const progressRecords = await PromptSetProgress.find({ memberId: id }).populate('promptSetId');
 
-let currentPromptSets = [];
-
-// Process progress records to build currentPromptSets only
 const completedIds = new Set(completedRecords.map(record => record.promptSetId._id.toString()));
+
+let currentPromptSets = [];
 
 if (progressRecords.length > 0) {
   progressRecords.forEach(record => {
     const promptSetId = record.promptSetId._id.toString();
-
-    // ✅ Only include progress records NOT already completed
     if (!completedIds.has(promptSetId)) {
       const progressPercentage = (record.completedPrompts?.length / 20) * 100 || 0;
-
       currentPromptSets.push({
         promptSetTitle: record.promptSetId.promptset_title,
         frequency: record.promptSetId.suggested_frequency,
@@ -384,6 +384,7 @@ if (progressRecords.length > 0) {
     }
   });
 }
+
 
 
             
@@ -460,8 +461,7 @@ console.log("Selected Topics for Leader:", selectedTopics);
 
 
 // Now fetch completed prompt set records directly from the PromptSetCompletion collection
-const completedRecords = await PromptSetCompletion.find({ memberId: id })
-    .populate('promptSetId');
+
 
 // Map the completion records to a formatted array
 const formattedCompletedSets = completedRecords.map(record => ({
