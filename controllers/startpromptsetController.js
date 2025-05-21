@@ -79,16 +79,22 @@ module.exports = {
       const badgeImage = completionRecord?.earnedBadge?.image || promptSet.earnedBadge?.image || '/images/default-badge.png';
 
       // Render the getstarted view
-      return res.render('prompt_views/getstarted', {
-        layout: 'dashboardlayout',
-        title: 'Get Started | Twennie',
-        remainingPrompts,
-        targetDate: targetDate ? targetDate.toDateString() : 'Not Set',
-        timeRemaining: typeof remainingDays === 'number' ? `${remainingDays} days` : 'Unknown',
-        badgeName,
-        badgeImage,
-        dashboard: dashboardPath
-      });
+return res.render('prompt_views/getstarted', {
+  layout: 'dashboardlayout',
+  title: 'Get Started | Twennie',
+
+  // ✅ Add these to match the Handlebars view
+  promptSetTitle: promptSet.promptset_title,
+  frequency: registration?.frequency || 'unspecified',
+  targetCompletionDate: targetDate ? targetDate.toDateString() : 'Not Set',
+
+  // ✅ Retain these as-is
+  remainingPrompts,
+  timeRemaining: typeof remainingDays === 'number' ? `${remainingDays} days` : 'Unknown',
+  badgeName,
+  badgeImage,
+  dashboard: dashboardPath
+});
 
     } catch (error) {
       console.error("❌ Error starting prompt set:", error);
