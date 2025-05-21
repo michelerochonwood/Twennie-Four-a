@@ -2,159 +2,125 @@ const PromptSet = require('../models/unit_models/promptset');
 const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion');
 const Leader = require('../models/member_models/leader');
 const GroupMember = require('../models/member_models/group_member');
-const Member = require('../models/member_models/member'); // ✅ Added Member model
-
-
-
-
+const Member = require('../models/member_models/member');
 
 module.exports = {
-    // ✅ Mark a Prompt Set as Completed for Leaders, Group Members, and Members
-    markPromptSetAsCompleted: async (memberId, promptSetId, notes) => {
+  markPromptSetAsCompleted: async (memberId, promptSetId, notes) => {
+    try {
+      console.log(`🏁 Marking prompt set ${promptSetId} as completed for member ${memberId}`);
 
-        try {
-            console.log(`Marking prompt set ${promptSetId} as completed for member ${memberId}`);
+      const user = await Leader.findById(memberId) || 
+                   await GroupMember.findById(memberId) || 
+                   await Member.findById(memberId);
 
-            // ✅ Check if the user is a Leader, Group Member, or Member
-            let user = await Leader.findById(memberId) || 
-                       await GroupMember.findById(memberId) || 
-                       await Member.findById(memberId);
+      if (!user) {
+        console.error(`❌ No user found for ID: ${memberId}`);
+        return;
+      }
 
-            if (!user) {
-                console.error(`❌ User not found for ID: ${memberId}`);
-                return;
-            }
+      const membershipType = user.membershipType || "member";
 
-            const membershipType = user.membershipType || "member"; // ✅ Default to "member" if not set
-            console.log(`User identified as: ${membershipType}`);
+      const existingCompletion = await PromptSetCompletion.findOne({ memberId, promptSetId });
+      if (existingCompletion) {
+        console.warn(`⚠️ Already completed: promptSetId ${promptSetId}, memberId ${memberId}`);
+        return;
+      }
 
-            // ✅ Ensure the completion record does not already exist
-            const existingCompletion = await PromptSetCompletion.findOne({ memberId, promptSetId });
-            if (existingCompletion) {
-                console.warn(`⚠️ Completion record already exists for ${membershipType} ${memberId}, promptSetId ${promptSetId}`);
-                return;
-            }
+      const promptSet = await PromptSet.findById(promptSetId);
+      if (!promptSet) {
+        console.error(`❌ Prompt Set not found: ${promptSetId}`);
+        return;
+      }
 
-            // ✅ Fetch the prompt set details
-            const promptSet = await PromptSet.findById(promptSetId);
-            if (!promptSet) {
-                console.error(`❌ Prompt Set not found for ID: ${promptSetId}`);
-                return;
-            }
+      const completion = new PromptSetCompletion({
+        memberId,
+        memberType: membershipType,
+        promptSetId,
+        earnedBadge: {
+          image: promptSet.badge?.image || '/images/default-badge.png',
+          name: promptSet.badge?.name || 'a Twennie Badge'
+        },
+        notes
+      });
 
-            // ✅ Save the completion record
-            const completion = new PromptSetCompletion({
-                memberId,
-                memberType: membershipType,
-                promptSetId,
-                earnedBadge: promptSet.badge || { image: "/badges/basic/basic1.png", name: "Default Badge" },
-                notes
-            });
-
-            await completion.save();
-            console.log(`✅ Completion record saved for ${membershipType} - ${promptSet.promptset_title}`);
-
-        } catch (error) {
-            console.error("❌ Error saving completion record:", error);
-        }
-    },
-
-    // ✅ Fetch All Completed Prompt Sets for a Member (Leader, Group Member, or Member)
-    getCompletedPromptSets: async (req, res) => {
-
-        try {
-            const memberId = req.user?.id;
-            if (!memberId) {
-                console.error("❌ Unauthorized access attempt.");
-                return res.status(401).json({ success: false, errorMessage: "Unauthorized. Please log in." });
-            }
-
-            console.log(`Fetching completed prompt sets for member: ${memberId}`);
-
-            // ✅ Fetch completed prompt sets for the user
-            const completedSets = await PromptSetCompletion.find({ memberId })
-            .populate('promptSetId')
-            .select('promptSetId completedAt'); // ✅ Fetch `completedAt`
-        
-
-            if (!completedSets.length) {
-                console.log(`ℹ️ No completed prompt sets found for ${memberId}`);
-                return res.json({ success: true, completedPromptSets: [] });
-            }
-            const formattedCompletedSets = completedSets.map(set => ({
-                promptSetTitle: set.promptSetId.promptset_title,
-                mainTopic: set.promptSetId.main_topic,
-                completedAt: new Date(set.completedAt).toDateString(), // Formats the date
-                badge: set.promptSetId.badge // this should contain both image and name
-            }));
-            
-            res.json({ success: true, completedPromptSets: formattedCompletedSets });
-            
-
-        } catch (error) {
-            console.error("❌ Error fetching completed prompt sets:", error);
-            res.status(500).json({ success: false, errorMessage: "Failed to fetch completed prompt sets." });
-        }
-    },
-
-    // ✅ Render the Completion Success Page with Correct Data
-    promptsetCompleteSuccess: async (req, res) => {
-
-        try {
-            console.log("📌 Rendering prompt set completion success page");
-
-            // ✅ Extract parameters from the request
-            const { promptSetId } = req.query;
-
-            if (!promptSetId) {
-                console.error("❌ No promptSetId provided for completion success.");
-                return res.status(400).render('error', { 
-                    title: "Error", 
-                    errorMessage: "Invalid request. No prompt set ID provided."
-                });
-            }
-
-            // ✅ Fetch the prompt set details from MongoDB
-            const promptSet = await PromptSet.findById(promptSetId);
-            if (!promptSet) {
-                console.error(`❌ Prompt Set not found for ID: ${promptSetId}`);
-                return res.status(404).render('error', { 
-                    title: "Error", 
-                    errorMessage: "Prompt set not found."
-                });
-            }
-
-            console.log(`✅ Found prompt set: ${promptSet.promptset_title}`);
-
-            // ✅ Determine Dashboard Path for All User Types
-            let dashboardPath = '/dashboard';
-            if (req.user?.membershipType === 'leader') {
-                dashboardPath = '/dashboard/leader';
-            } else if (req.user?.membershipType === 'group_member') {
-                dashboardPath = '/dashboard/groupmember';
-            } else {
-                dashboardPath = '/dashboard/member'; // ✅ Ensure members redirect properly
-            }
-
-            // ✅ Render the completion success page
-            res.render('prompt_views/promptsetcompletesuccess', {
-                layout: 'unitviewlayout',
-                title: promptSet.promptset_title || "Unknown Title",
-                purpose: promptSet.purpose || "No description available",
-                badge: promptSet.badge?.image || "/default/badge.png",  // URL for the image
-                badgeName: promptSet.badge?.name || "No badge",         // Badge name
-                dashboard: dashboardPath
-            });
-
-        } catch (error) {
-            console.error("❌ Error rendering completion success page:", error);
-            res.status(500).render('error', { 
-                title: "Error", 
-                errorMessage: "Failed to load completion success page."
-            });
-        }
+      await completion.save();
+      console.log(`✅ Prompt set marked complete: ${promptSet.promptset_title} for ${membershipType}`);
+    } catch (error) {
+      console.error("❌ Error saving prompt set completion:", error);
     }
+  },
+
+  getCompletedPromptSets: async (req, res) => {
+    try {
+      const memberId = req.user?.id;
+      if (!memberId) {
+        return res.status(401).json({ success: false, errorMessage: "Unauthorized. Please log in." });
+      }
+
+      console.log(`📚 Fetching completed sets for: ${memberId}`);
+
+      const completions = await PromptSetCompletion.find({ memberId }).populate('promptSetId');
+
+      const formatted = completions.map(entry => ({
+        promptSetTitle: entry.promptSetId?.promptset_title || 'Unknown Title',
+        mainTopic: entry.promptSetId?.main_topic || 'No Topic',
+        completedAt: entry.completedAt ? new Date(entry.completedAt).toDateString() : 'Date Unknown',
+        badge: {
+          name: entry.earnedBadge?.name || 'a Twennie Badge',
+          image: entry.earnedBadge?.image || '/images/default-badge.png'
+        }
+      }));
+
+      return res.json({ success: true, completedPromptSets: formatted });
+    } catch (error) {
+      console.error("❌ Failed to fetch completed prompt sets:", error);
+      return res.status(500).json({ success: false, errorMessage: "Unable to fetch completed prompt sets." });
+    }
+  },
+
+  promptsetCompleteSuccess: async (req, res) => {
+    try {
+      const { promptSetId } = req.query;
+
+      if (!promptSetId) {
+        return res.status(400).render('error', {
+          title: 'Error',
+          errorMessage: 'Missing promptSetId. Try again.'
+        });
+      }
+
+      const promptSet = await PromptSet.findById(promptSetId);
+      if (!promptSet) {
+        return res.status(404).render('error', {
+          title: 'Error',
+          errorMessage: 'Prompt set not found.'
+        });
+      }
+
+      const dashboardPath = req.user?.membershipType === 'leader'
+        ? '/dashboard/leader'
+        : req.user?.membershipType === 'group_member'
+        ? '/dashboard/groupmember'
+        : '/dashboard/member';
+
+      return res.render('prompt_views/promptsetcompletesuccess', {
+        layout: 'unitviewlayout',
+        title: promptSet.promptset_title || 'Prompt Set Complete',
+        purpose: promptSet.purpose || 'No purpose listed',
+        badge: promptSet.badge?.image || '/images/default-badge.png',
+        badgeName: promptSet.badge?.name || 'a Twennie Badge',
+        dashboard: dashboardPath
+      });
+    } catch (error) {
+      console.error("❌ Error loading completion success view:", error);
+      return res.status(500).render('error', {
+        title: 'Error',
+        errorMessage: 'There was a problem displaying your completion page.'
+      });
+    }
+  }
 };
+
 
 
 

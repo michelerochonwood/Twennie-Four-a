@@ -12,12 +12,12 @@ module.exports = {
       const { notes, promptSetId } = req.body;
       const memberId = req.user?.id;
 
-      if (!memberId) {
-        return res.status(401).json({ error: "Unauthorized. Please log in." });
-      }
-
-      if (!notes || !promptSetId) {
-        return res.status(400).json({ error: "Notes and promptSetId are required." });
+      if (!memberId || !promptSetId || !notes) {
+        return res.status(400).render('unit_views/error', {
+          layout: 'unitviewlayout',
+          title: 'Error',
+          errorMessage: 'Missing notes, user, or prompt set ID.',
+        });
       }
 
       console.log(`📝 Submitting notes for member ${memberId}, promptSetId: ${promptSetId}`);
@@ -28,28 +28,30 @@ module.exports = {
         (await Member.findById(memberId));
 
       if (!user) {
-        return res.status(404).json({ error: "User not found." });
+        return res.status(404).render('unit_views/error', {
+          layout: 'unitviewlayout',
+          title: 'Error',
+          errorMessage: 'User not found.',
+        });
       }
 
       const membershipType = user.membershipType || "member";
-      console.log(`👤 User type: ${membershipType}`);
 
       const promptSet = await PromptSet.findById(promptSetId);
       if (!promptSet) {
         return res.status(404).render('unit_views/error', {
           layout: 'unitviewlayout',
           title: 'Prompt Set Not Found',
-          errorMessage: `The prompt set could not be found after note submission.`,
+          errorMessage: 'The prompt set could not be found.',
         });
       }
 
-      // ✅ Fetch registration to get target date
       const registration = await PromptSetRegistration.findOne({ memberId, promptSetId });
+      const targetDate = registration?.targetCompletionDate?.toDateString?.() || 'Not Set';
 
       let progress = await PromptSetProgress.findOne({ memberId, promptSetId });
 
       if (!progress) {
-        console.warn(`⚠️ No progress record found for ${memberId}. Creating new.`);
         progress = new PromptSetProgress({
           memberId,
           promptSetId,
@@ -57,67 +59,47 @@ module.exports = {
           completedPrompts: [],
           notes: []
         });
-        await progress.save();
       }
 
       if (!Array.isArray(progress.completedPrompts)) progress.completedPrompts = [];
       if (!Array.isArray(progress.notes)) progress.notes = [];
 
-      if (!progress.completedPrompts.includes(progress.currentPromptIndex)) {
-        progress.completedPrompts.push(progress.currentPromptIndex);
+      const currentPrompt = progress.currentPromptIndex;
+
+      if (!progress.completedPrompts.includes(currentPrompt)) {
+        progress.completedPrompts.push(currentPrompt);
       }
 
       progress.notes.push(notes);
-      progress.currentPromptIndex = progress.currentPromptIndex + 1;
+
+      const isFinalPrompt = currentPrompt === 20;
+      progress.currentPromptIndex = Math.min(currentPrompt + 1, 20); // Cap at 20
       await progress.save();
 
-      console.log(`✅ Progress saved:`, {
-        completedPrompts: progress.completedPrompts,
-        currentPromptIndex: progress.currentPromptIndex
+      console.log("✅ Progress saved:", {
+        currentPrompt: currentPrompt,
+        nextPromptIndex: progress.currentPromptIndex,
+        completed: progress.completedPrompts.length
       });
 
       const remainingPrompts = 20 - progress.completedPrompts.length;
-      const targetDate = registration?.targetCompletionDate?.toDateString?.() || 'not set';
 
-      // Optional enhancement (estimate remaining time from targetDate)
       let timeRemaining = 'TBD';
-if (registration?.targetCompletionDate) {
-  const now = new Date();
-  const deadline = new Date(registration.targetCompletionDate);
-
-  const daysLeft = Math.max(0, Math.ceil((deadline - now) / (1000 * 60 * 60 * 24)));
-  const weeksLeft = Math.ceil(daysLeft / 7);
-
-  timeRemaining = weeksLeft > 0
-    ? `${weeksLeft} week${weeksLeft === 1 ? '' : 's'}`
-    : 'less than a week';
-}
-
-
-      // ✅ Final Prompt Case
-      if (progress.currentPromptIndex > 20) {
-        console.log(`🎉 All 20 prompts complete. Marking as completed.`);
-
-        await markPromptSetAsCompleted(memberId, promptSetId, progress.notes);
-
-        return res.render('prompt_views/notessuccess', {
-          layout: 'unitviewlayout',
-          title: 'Notes Posted',
-          remainingPrompts: 0,
-          targetDate,
-          timeRemaining,
-          badgeName: promptSet.badge?.name || 'a Twennie Badge',
-          badgeImage: promptSet.badge?.image || '/images/default-badge.png',
-          dashboard:
-            membershipType === 'leader'
-              ? '/dashboard/leader'
-              : membershipType === 'group_member'
-              ? '/dashboard/groupmember'
-              : '/dashboard/member'
-        });
+      if (registration?.targetCompletionDate) {
+        const now = new Date();
+        const deadline = new Date(registration.targetCompletionDate);
+        const daysLeft = Math.max(0, Math.ceil((deadline - now) / (1000 * 60 * 60 * 24)));
+        const weeksLeft = Math.ceil(daysLeft / 7);
+        timeRemaining = weeksLeft > 0 ? `${weeksLeft} week${weeksLeft === 1 ? '' : 's'}` : 'less than a week';
       }
 
-      // ✅ In-progress (1–19) prompts
+      if (isFinalPrompt && progress.completedPrompts.length >= 20) {
+        console.log("🎯 Final prompt completed. Marking prompt set as complete.");
+        await markPromptSetAsCompleted(memberId, promptSetId, progress.notes);
+
+        return res.redirect(`/promptsetcomplete/success?promptSetId=${promptSetId}`);
+      }
+
       return res.render('prompt_views/notessuccess', {
         layout: 'unitviewlayout',
         title: 'Notes Posted',
@@ -136,10 +118,15 @@ if (registration?.targetCompletionDate) {
 
     } catch (error) {
       console.error("❌ Error saving prompt notes:", error);
-      res.status(500).json({ error: "Internal server error." });
+      res.status(500).render('unit_views/error', {
+        layout: 'unitviewlayout',
+        title: 'Error',
+        errorMessage: 'An error occurred while submitting your notes.',
+      });
     }
   }
 };
+
 
 
 
