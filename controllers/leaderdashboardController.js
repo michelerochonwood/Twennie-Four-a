@@ -364,19 +364,25 @@ const progressRecords = await PromptSetProgress.find({ memberId: id }).populate(
 let currentPromptSets = [];
 
 // Process progress records to build currentPromptSets only
+const completedIds = new Set(completedRecords.map(record => record.promptSetId._id.toString()));
+
 if (progressRecords.length > 0) {
-    progressRecords.forEach(record => {
-        if (record.completedPrompts?.length < 20) {
-            const progressPercentage = (record.completedPrompts?.length / 20) * 100 || 0;
-            currentPromptSets.push({
-                promptSetTitle: record.promptSetId.promptset_title,
-                frequency: record.promptSetId.suggested_frequency,
-                progress: `${progressPercentage}%`,
-                targetCompletionDate: record.promptSetId.target_completion_date || "Not Set",
-                promptIndex: record.currentPromptIndex || 0
-            });
-        }
-    });
+  progressRecords.forEach(record => {
+    const promptSetId = record.promptSetId._id.toString();
+
+    // ✅ Only include progress records NOT already completed
+    if (!completedIds.has(promptSetId)) {
+      const progressPercentage = (record.completedPrompts?.length / 20) * 100 || 0;
+
+      currentPromptSets.push({
+        promptSetTitle: record.promptSetId.promptset_title,
+        frequency: record.promptSetId.suggested_frequency,
+        progress: `${progressPercentage}%`,
+        targetCompletionDate: record.promptSetId.target_completion_date || "Not Set",
+        promptIndex: record.currentPromptIndex || 0
+      });
+    }
+  });
 }
 
 
