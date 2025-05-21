@@ -75,26 +75,31 @@ module.exports = {
 
       // Fetch completion record to get badge info
       const completionRecord = await PromptSetCompletion.findOne({ memberId, promptSetId });
-      const badgeName = completionRecord?.earnedBadge?.name || promptSet.earnedBadge?.name || 'Default Badge';
-      const badgeImage = completionRecord?.earnedBadge?.image || promptSet.earnedBadge?.image || '/images/default-badge.png';
+const badgeName = completionRecord?.earnedBadge?.name || promptSet.badge?.name || 'Default Badge';
+const badgeImage = completionRecord?.earnedBadge?.image || promptSet.badge?.image || '/images/default-badge.png';
 
       // Render the getstarted view
 return res.render('prompt_views/getstarted', {
   layout: 'dashboardlayout',
   title: 'Get Started | Twennie',
 
-  // ✅ Add these to match the Handlebars view
+  // ✅ Displayed values in the view
   promptSetTitle: promptSet.promptset_title,
   frequency: registration?.frequency || 'unspecified',
   targetCompletionDate: targetDate ? targetDate.toDateString() : 'Not Set',
 
-  // ✅ Retain these as-is
+  // ✅ Progress details
   remainingPrompts,
   timeRemaining: typeof remainingDays === 'number' ? `${remainingDays} days` : 'Unknown',
-  badgeName,
-  badgeImage,
+
+  // ✅ Badge (from completion if it exists, fallback to promptSet.badge)
+  badgeName: completionRecord?.earnedBadge?.name || promptSet.badge?.name || 'Default Badge',
+  badgeImage: completionRecord?.earnedBadge?.image || promptSet.badge?.image || '/images/default-badge.png',
+
+  // ✅ Navigation
   dashboard: dashboardPath
 });
+
 
     } catch (error) {
       console.error("❌ Error starting prompt set:", error);
