@@ -6,7 +6,7 @@ const promptsetcompleteController = require('../../controllers/promptsetcompleti
 router.get('/completed/:memberId', promptsetcompleteController.getCompletedPromptSets);
 
 // Route for rendering the completion success page
-router.get('/promptsetcompletesuccess', promptsetcompleteController.promptsetCompleteSuccess);
+router.get('/success', promptsetcompleteController.promptsetCompleteSuccess);
 
 module.exports = router;
 
