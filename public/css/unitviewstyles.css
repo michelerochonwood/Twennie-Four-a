@@ -977,7 +977,6 @@ html, body {
 
 /* Sidebar */
 .promptset-right-sidebar {
-  flex: 30%;
   background: rgb(188, 188, 188);
   border-radius: 15px;
   padding: 20px;
@@ -985,7 +984,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  margin-top: -40px; /* ✅ Pull it upward */
+  margin-top: -200px; /* ✅ Pull it upward */
   padding-top: 60px; /* ✅ Still preserve content spacing */
 }
 
