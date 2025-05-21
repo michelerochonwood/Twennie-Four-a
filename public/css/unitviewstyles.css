@@ -955,30 +955,62 @@ html, body {
 }
 
 
-/* View Prompt Set Container */
+/* Prompt Set Container Layout */
 .view-promptset-container {
-  /* display: grid;
-  grid-template-columns: repeat(4, 1fr); */
   display: flex;
   gap: 20px;
   padding: 0 10%;
-  align-items: start;
-  /* margin-top: 200px; */
+  align-items: flex-start;
   text-align: center;
   min-height: 120vh;
   margin: 7rem auto 3rem auto;
   max-width: 1600px;
 }
 
-/* Left Section */
+/* Main Column */
 .promptset-view-left {
-  display: flex;
   flex: 70%;
+  display: flex;
   flex-direction: column;
-  /* grid-column: span 3; */
 }
 
-/* Main toggle wrapper */
+/* Sidebar */
+.promptset-right-sidebar {
+  flex: 30%;
+  background: rgb(188, 188, 188);
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* Always-visible Sidebar Content */
+.view-promptset-sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Page Title and Description */
+.view-promptset-title {
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  color: #4a4ab2;
+  font-weight: 800;
+  margin: 0 auto;
+}
+
+.view-promptset-description {
+  width: 60%;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #5a5552;
+  margin: 20px auto 0 auto;
+}
+
+/* Toggle Wrapper */
 .view-promptset-main-toggle {
   text-align: center;
   cursor: pointer;
@@ -987,7 +1019,7 @@ html, body {
   transition: transform 0.3s ease;
 }
 
-/* Bouncing + flipping main arrow */
+/* Arrow Styling */
 .view-promptset-main-arrow {
   width: 70px;
   height: 70px;
@@ -1000,89 +1032,26 @@ html, body {
   transform: rotate(180deg);
 }
 
-/* Bounce animation */
+/* Arrow Animation */
 @keyframes bounceArrow {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(6px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
+/* Hidden Main Content (Prompt Cards, Register, Assign) */
 .view-promptset-main-hidden-content {
   max-height: 0;
   overflow: hidden;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   transition: max-height 0.5s ease;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
 }
 
-/* When active, allow space to expand */
 .view-promptset-main-hidden-content.active {
-  max-height: 5000px; /* large enough to fit content */
+  max-height: 5000px;
 }
 
-
-/* Hidden Content for Main Section */
-.view-promptset-sidebar-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-
-
-/* Ensure the arrow rotates */
-.view-promptset-main-toggle.open {
-  transform: rotate(180deg);
-}
-
-/* Sidebar */
-.promptset-right-sidebar {
-  flex: 30%;
-  background: rgb(188, 188, 188);
-  border-radius: 15px;
-  padding: 20px;
-  /* width: 100%; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-
-.view-promptset-hidden-content {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  transition: all 0.3s ease-in-out;
-}
-
-/* Show when active */
-.promptset-right-sidebar.active .view-promptset-hidden-content {
-  display: flex;
-}
-
-.view-promptset-title {
-  /* font-size: 1.5rem; */
-  font-size: clamp(1.4rem, 5vw, 1.8rem);
-  color:#4a4ab2;
-  font-weight: 800;
-  margin: 0 auto;
-}
-
-.view-promptset-description {
-  width: 60%;
-  font-size: 0.9rem;
-  font-weight: 800;
-  margin: 0 auto;
-  color:#5a5552;
-  margin-top: 20px;
-}
 
 
 /* Prompt Cards Grid */
