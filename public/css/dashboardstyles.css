@@ -2292,15 +2292,33 @@ html, body {
   animation: spinProgress 1.5s ease-out forwards; /* Adjusted speed as needed */
 }
 
-
-/* Badge Placeholder */
+/* Badge Container */
 .leader-progress-badge {
-  width: 50px;
-  height: 50px;
-  background: #ccc;
-  border-radius: 50%;
-  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
 }
+
+/* Badge Image */
+.leader-progress-badge-img {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 5px;
+}
+
+/* Badge Label */
+.leader-progress-badge-name {
+  font-size: 10px;
+  font-weight: bold;
+  color: #4a4ab2;
+  text-align: center;
+}
+
 
 .leader-dashboard-subtitles {
   color:#262262;
