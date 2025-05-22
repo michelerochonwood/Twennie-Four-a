@@ -155,8 +155,7 @@ async function getPromptSchedule(memberId, promptSetId) {
     targetDate = new Date(targetDate);
     const remainingDays = Math.max(0, Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24)));
     // ✅ First fetch completed prompt sets
-const completedRecords = await PromptSetCompletion.find({ memberId: id }).populate('promptSetId');
-const completedIds = new Set(completedRecords.map(record => record.promptSetId._id.toString()));
+const completedRecords = await PromptSetCompletion.find({ memberId }).populate('promptSetId');
 
 
 
