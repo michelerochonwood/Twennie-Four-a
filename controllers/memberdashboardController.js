@@ -361,24 +361,26 @@ console.log("🔍 Selected Topics for Member Dashboard:", selectedTopics);
 
 
 return res.render("member_dashboard", {
-    layout: "dashboardlayout",
-    title: "Member Dashboard",
-member: {
-  ...userData,
-  profileImage: memberProfile?.profileImage || '/images/default-avatar.png', // ✅ override
-  selectedTopics,
-  accessLevel: userData.accessLevel,
-  accessLevelLabel
-},
-    memberUnits,
-    memberTaggedUnits,
-    registeredPromptSets,
-    promptSet: registeredPromptSets[0] || null,
-    memberPromptSchedule: promptSchedules[0] || null,
-    promptSchedules,
-    currentPromptSets,
-    completedPromptSets: formattedCompletedSets
+  layout: "dashboardlayout",
+  title: "Member Dashboard",
+  csrfToken: req.csrfToken(), // ✅ This is required!
+  member: {
+    ...userData,
+    profileImage: memberProfile?.profileImage || '/images/default-avatar.png',
+    selectedTopics,
+    accessLevel: userData.accessLevel,
+    accessLevelLabel
+  },
+  memberUnits,
+  memberTaggedUnits,
+  registeredPromptSets,
+  promptSet: registeredPromptSets[0] || null,
+  memberPromptSchedule: promptSchedules[0] || null,
+  promptSchedules,
+  currentPromptSets,
+  completedPromptSets: formattedCompletedSets
 });
+
 
 
 
