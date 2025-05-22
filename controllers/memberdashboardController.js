@@ -11,6 +11,7 @@ const Tag = require('../models/tag');
 const path = require('path'); // ✅ Fix for "ReferenceError: path is not defined"
 const fs = require('fs'); // ✅ Ensure file system functions work
 const MemberProfile = require('../models/profile_models/member_profile');
+const PromptSetCompletion = require('../models/prompt_models/promptsetcompletion');
 
 
 
@@ -153,6 +154,11 @@ async function getPromptSchedule(memberId, promptSetId) {
     const today = new Date();
     targetDate = new Date(targetDate);
     const remainingDays = Math.max(0, Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24)));
+    // ✅ First fetch completed prompt sets
+const completedRecords = await PromptSetCompletion.find({ memberId: id }).populate('promptSetId');
+const completedIds = new Set(completedRecords.map(record => record.promptSetId._id.toString()));
+
+
 
     const progress = await PromptSetProgress.findOne({ memberId, promptSetId });
     const remainingPrompts = progress ? 20 - progress.completedPrompts.length : 20;
@@ -256,33 +262,42 @@ console.log(`   Retrieved Text:`, promptSet["Prompt0"]);
             );
 
             // ✅ Fetch completed prompt sets
-            const progressRecords = await PromptSetProgress.find({ memberId: id }).populate('promptSetId');
+// ✅ Fetch completed prompt sets
+// ✅ First fetch completed prompt sets
+const completedRecords = await PromptSetCompletion.find({ memberId: id }).populate('promptSetId');
+const completedIds = new Set(completedRecords.map(record => record.promptSetId._id.toString()));
 
-            let currentPromptSets = [], completedPromptSets = [];
+// ✅ Then fetch in-progress prompt records
+const progressRecords = await PromptSetProgress.find({ memberId: id }).populate('promptSetId');
 
-            if (progressRecords.length > 0) {
-                progressRecords.forEach(record => {
-                    const progressPercentage = (record.completedPrompts?.length / 20) * 100 || 0; 
-                    const promptSetData = {
-                        promptSetTitle: record.promptSetId.promptset_title,
-                        frequency: record.promptSetId.suggested_frequency,
-                        progress: `${progressPercentage}%`,
-                        targetCompletionDate: record.promptSetId.target_completion_date || "Not Set",
-                        promptIndex: record.currentPromptIndex || 0
-                    };
+let currentPromptSets = [];
 
-                    if (record.completedPrompts?.length >= 20) {
-                        completedPromptSets.push({
-                            promptSetTitle: record.promptSetId.promptset_title,
-                            frequency: record.promptSetId.suggested_frequency,
-                            mainTopic: record.promptSetId.main_topic,
-                            badge: "placeholder-badge"
-                        });
-                    } else {
-                        currentPromptSets.push(promptSetData);
-                    }
-                });
-            }
+if (progressRecords.length > 0) {
+    progressRecords.forEach(record => {
+        const promptSetId = record.promptSetId._id.toString();
+        if (!completedIds.has(promptSetId)) {
+            const progressPercentage = (record.completedPrompts?.length / 20) * 100 || 0;
+            currentPromptSets.push({
+                promptSetTitle: record.promptSetId.promptset_title,
+                frequency: record.promptSetId.suggested_frequency,
+                progress: `${progressPercentage}%`,
+                targetCompletionDate: record.promptSetId.target_completion_date || "Not Set",
+                promptIndex: record.currentPromptIndex || 0
+            });
+        }
+    });
+}
+
+// ✅ Format completed sets for view
+const formattedCompletedSets = completedRecords.map(record => ({
+    promptSetTitle: record.promptSetId.promptset_title,
+    frequency: record.promptSetId.suggested_frequency,
+    mainTopic: record.promptSetId.main_topic,
+    completedAt: record.completedAt ? new Date(record.completedAt).toDateString() : "Unknown Date",
+    badge: record.earnedBadge
+}));
+
+
 
             console.log("Final session before rendering:", req.session);
 
@@ -363,7 +378,7 @@ member: {
     memberPromptSchedule: promptSchedules[0] || null,
     promptSchedules,
     currentPromptSets,
-    completedPromptSets
+    completedPromptSets: formattedCompletedSets
 });
 
 
