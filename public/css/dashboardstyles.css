@@ -2603,27 +2603,28 @@ box-shadow: none !important;
   color:#262262;
 }
 
+/* Member Progress Container */
 .member-progress-container {
   display: flex;
   flex-direction: column;
-  gap: 22.5px; /* Reduced from 30px */
-  padding: 15px; /* Reduced from 20px */
+  gap: 22.5px;
+  padding: 15px;
 }
 
 /* Section Title */
 .member-progress-current-title {
-  font-size: 15px; /* Reduced from 20px */
+  font-size: 15px;
   font-weight: bold;
   color: #262262;
   text-align: center;
-  margin-bottom: 11.25px; /* Reduced from 15px */
+  margin-bottom: 11.25px;
 }
 
 /* Current Prompt Sets Grid */
 .member-progress-current {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px; /* Reduced from 20px */
+  gap: 15px;
   justify-content: center;
   align-items: start;
 }
@@ -2631,106 +2632,99 @@ box-shadow: none !important;
 /* Individual Progress Grid Item */
 .member-progress-grid {
   background: rgb(230, 230, 230);
-  padding: 11.25px; /* Reduced from 15px */
-  border-radius: 7.5px; /* Reduced from 10px */
+  padding: 11.25px;
+  border-radius: 7.5px;
   text-align: center;
-  box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.2); /* Adjusted shadow */
+  box-shadow: 0 1.5px 3.75px rgba(0, 0, 0, 0.2);
 }
 
+/* Progress Title */
+.member-progress-title {
+  font-size: 13.5px;
+  font-weight: bold;
+  color: #262262;
+}
+
+/* Target Sentence */
+.member-progress-target {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #666;
+  width: 45%;
+  margin: 0 auto;
+}
+
+/* Progress SVG */
 .member-progress-svg {
   width: 90px;
   height: 90px;
   display: block;
   margin: 10px auto;
-  animation: spinProgress 1.5s ease-out forwards; /* Adjust speed as needed */
+  animation: spinProgress 1.5s ease-out forwards;
 }
 
-/* Progress Title and Frequency */
-.member-progress-title {
-  font-size: 13.5px; /* Reduced from 18px */
-  font-weight: bold;
-  color: #262262;
+/* Completed Prompt Sets Section */
+.member-progress-completed {
+  margin-top: 15px;
 }
 
 .member-progress-completed-title {
   font-size: 1rem;
   font-weight: 800;
-  color:#262262;
+  color: #262262;
   text-align: center;
 }
 
+.member-progress-completed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11.25px;
+  padding-top: 7.5px;
+}
 
+.member-progress-completed-card {
+  background-color: rgb(230, 230, 230);
+  padding: 11.25px;
+  border-radius: 7.5px;
+  text-align: center;
+  box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.2);
+}
 
-/* Target Date */
-.member-progress-target {
-  font-size: 10.5px; /* Reduced from 14px */
+.member-progress-completed-main-topic,
+.member-progress-completed-date {
+  font-size: 10.5px;
   font-weight: 500;
-  color: #666;
-  width: 45%; /* Reduced from 60% */
+  color: #444;
+}
+
+/* Badge */
+.member-progress-badge {
+  width: 50px;
+  height: 50px;
+  background: #ccc;
+  border-radius: 50%;
+  margin: 10px auto;
+}
+
+.member-progress-badge-img {
+  width: 50px;
+  height: auto;
   margin: 0 auto;
 }
 
-
-.member-prompt-container {
-  width: 100%;
-  max-width: 450px; /* Reduced from 600px */
-  margin: 15px auto; /* Reduced from 20px */
-  padding: 15px; /* Reduced from 20px */
-  background: rgb(230, 230, 230);
-  border-radius: 6px; /* Reduced from 8px */
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Adjusted shadow */
+.member-progress-badge-name {
+  font-size: 10px;
+  font-weight: bold;
+  color: #4e50a2;
   text-align: center;
 }
 
-.member-prompt-title {
-  font-size: 1rem; /* Reduced from 1.5rem */
-  font-weight: 800;
-  color: #262262;
-  margin-bottom: 7.5px; /* Reduced from 10px */
+/* Animation for SVG */
+@keyframes spinProgress {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(1350deg); }
 }
 
-.member-prompt-set-title {
-  font-size: 1rem; /* Reduced from 1rem */
-  font-weight: 700;
-  color: #4a4ab2;
-  margin-bottom: 15px; /* Reduced from 20px */
-}
-
-.member-prompt-purpose {
-  font-size: 1rem;
-}
-
-/* Prompt Card */
-.member-prompt-card {
-  background-color: rgb(188, 188, 188);
-  border-radius: 0 0 11.25px 11.25px; /* Reduced from 15px */
-  color: black;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: hidden;
-  position: relative;
-}
-
-/* Headline Formatting */
-.member-prompt-headline {
-  font-size: 0.75rem; /* Reduced from 1rem */
-  font-weight: 800;
-  color: #4a4ab2;
-  text-align: left;
-  padding: 7.5px 11.25px; /* Reduced from 10px 15px */
-  margin-top: 25px; /* Reduced from 100px */
-}
-
-/* Prompt Text Formatting */
-.member-prompt-text {
-  font-size: 0.6375rem; /* Reduced from 0.85rem */
-  padding: 7.5px 11.25px; /* Reduced from 10px 15px */
-  color: #333;
-  line-height: 1.4;
-  margin-top: -7.5px; /* Reduced from -10px */
-}
 
 
 /* Title Above the Card */
