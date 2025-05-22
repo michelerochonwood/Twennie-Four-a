@@ -320,7 +320,7 @@ module.exports = {
             console.log(`Total prompt sets found for member ${id}: ${memberRegistrations.length}`);
 
 
-            let currentPromptSets = [], completedPromptSets = [];
+
     
             let groupmemberPrompts = [];
             let promptSchedules = [];
@@ -430,7 +430,6 @@ req.session.save(err => {
 
 
 // Fetch prompt set progress - DO NOT DELETE, this ensures correct progress tracking
-const progressRecords = await PromptSetProgress.find({ memberId: id }).populate('promptSetId');
 
 
 
@@ -467,40 +466,52 @@ if (progressRecords.length > 0) {
 console.log("Group Member Prompts Data:", JSON.stringify(groupmemberPrompts, null, 2));
 console.log("All session keys before rendering:", Object.keys(req.session));
 
-const completedRecords = await PromptSetCompletion.find({ memberId: id })
-  .populate('promptSetId');
+const completedRecords = await PromptSetCompletion.find({ memberId: id }).populate('promptSetId');
+const completedIds = new Set(completedRecords.map(record => record.promptSetId._id.toString()));
 
-// Map the completion records to a formatted array
+// ✅ Fetch progress records
+const progressRecords = await PromptSetProgress.find({ memberId: id }).populate('promptSetId');
+
+let currentPromptSets = [];
+
+if (progressRecords.length > 0) {
+  progressRecords.forEach(record => {
+    const promptSetId = record.promptSetId._id.toString();
+    if (!completedIds.has(promptSetId)) {
+      const progressPercentage = (record.completedPrompts?.length / 20) * 100 || 0;
+      currentPromptSets.push({
+        promptSetTitle: record.promptSetId.promptset_title,
+        frequency: record.promptSetId.suggested_frequency,
+        progress: `${progressPercentage}%`,
+        targetCompletionDate: record.promptSetId.target_completion_date || "Not Set",
+        promptIndex: record.currentPromptIndex || 0
+      });
+    }
+  });
+}
+
+// ✅ Format completed sets for display
 const formattedCompletedSets = completedRecords.map(record => ({
   promptSetTitle: record.promptSetId.promptset_title,
   frequency: record.promptSetId.suggested_frequency,
   mainTopic: record.promptSetId.main_topic,
   completedAt: record.completedAt ? new Date(record.completedAt).toDateString() : "Unknown Date",
-  badge: record.earnedBadge // should now contain an object { image, name }
+  badge: record.earnedBadge // ✅ Uses actual badge object with name + image
 }));
 
 console.log("Group Data for Leader Lookup:", JSON.stringify(userData.groupId, null, 2));
 
-
 const leader = await Leader.findOne({ _id: userData.groupId._id }).select('groupLeaderName');
-
-console.log("🔍 Leader Found:", leader);
-
-
-
-
-console.log("🔍 Checking groupId:", userData.groupId);
 
 console.log("✅ Final Leader Name Before Rendering:", leader ? leader.groupLeaderName : "Not Found");
 
-
-        //all of these are necessary for a proper render of the dashboard. DO NOT DELETE ANY OF THESE PROPERTIES FROM THIS RENDER FUNCTION
+// ✅ Final render
 return res.render('groupmember_dashboard', {
   layout: 'dashboardlayout',
   title: 'Group Member Dashboard',
   groupMember: {
     ...userData.toObject(),
-    profileImage: groupMemberProfile?.profileImage || '/images/default-avatar.png' // ✅ override with profile image
+    profileImage: groupMemberProfile?.profileImage || '/images/default-avatar.png'
   },
   groupMembers,
   maxGroupSize: userData.groupId.groupSize,
@@ -509,7 +520,7 @@ return res.render('groupmember_dashboard', {
   registeredPromptSets: groupmemberPrompts,
   promptSchedules,
   currentPromptSets,
-  completedPromptSets,
+  completedPromptSets: formattedCompletedSets,
   selectedTopics,
   leaderName: leader ? leader.groupLeaderName : "Group Leader",
   organization: userData.organization
