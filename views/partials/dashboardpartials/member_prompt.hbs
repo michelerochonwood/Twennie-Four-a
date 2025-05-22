@@ -48,7 +48,7 @@
     {{else}}
         <!-- ✅ Prompt Start Form for Members -->
         <form action="/promptsetstart/start" method="POST">
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <input type="hidden" name="_csrf" value="{{@root.csrfToken}}">
             <input type="hidden" name="promptSetId" value="{{promptSet.promptSetId}}">
             <button type="submit" class="member-prompt-submit">get started completing prompts</button>
         </form>
