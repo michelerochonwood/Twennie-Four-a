@@ -3656,15 +3656,15 @@ box-shadow: none !important;
 }
 
 /* Confetti Canvas */
-#confetti-canvas {
-  position: fixed;
-  pointer-events: none;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
+  #confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    pointer-events: none;
+    z-index: 0;
+  }
 
 /* Bluey Video */
 .promptset-complete-video-container {
@@ -3676,10 +3676,10 @@ box-shadow: none !important;
 }
 
 .promptset-complete-video {
-  max-width: 300px;
-  width: 50%;
+  width: 200px;
+  max-width: 90%;
   height: auto;
-  border-radius: 20px;
-  z-index: 1;
+  border-radius: 12px;
+
 }
 

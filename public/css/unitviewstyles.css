@@ -1873,6 +1873,16 @@ label {
   background-color: #4a4ab2;
 }
 
+  #confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    pointer-events: none;
+    z-index: 0;
+  }
+
 
 /*Single Template Page Styles*/
 /* Single Template Page Styles */
