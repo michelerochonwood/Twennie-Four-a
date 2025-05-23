@@ -1711,13 +1711,12 @@ html, body {
 
 
 /* Animation for Progress SVG */
-@keyframes spinProgress {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(1800deg);
-  }
+@keyframes spinInPlace {
+  0%   { transform: rotateZ(0deg); }
+  25%  { transform: rotateZ(360deg); }
+  50%  { transform: rotateZ(720deg); }
+  75%  { transform: rotateZ(1080deg); }
+  100% { transform: rotateZ(0deg); }
 }
 
 /* Apply animation to the progress SVGs */
@@ -1726,7 +1725,7 @@ html, body {
   height: 90px;
   display: block;
   margin: 10px auto;
-  animation: spinProgress 1.5s ease-out forwards; /* Adjust speed as needed */
+  animation: spinInPlace 1.5s ease-out;
 }
 
 /* Badge Placeholder */
@@ -2298,22 +2297,21 @@ html, body {
 }
 
 /* Animation for Progress SVG */
-@keyframes spinProgress {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(1350deg); /* Reduced from 1800deg */
-  }
+@keyframes spinInPlace {
+  0%   { transform: rotateZ(0deg); }
+  25%  { transform: rotateZ(360deg); }
+  50%  { transform: rotateZ(720deg); }
+  75%  { transform: rotateZ(1080deg); }
+  100% { transform: rotateZ(0deg); }
 }
 
 /* Apply animation to the progress SVGs */
 .leader-progress-svg {
-  width: 75px; /* Reduced from 100px */
-  height: 75px; /* Reduced from 100px */
+  width: 90px;
+  height: 90px;
   display: block;
-  margin: 7.5px auto; /* Reduced from 10px */
-  animation: spinProgress 1.5s ease-out forwards; /* Adjusted speed as needed */
+  margin: 10px auto;
+  animation: spinInPlace 1.5s ease-out;
 }
 
 /* Badge Container */
@@ -2678,13 +2676,21 @@ box-shadow: none !important;
   margin: 0 auto;
 }
 
+@keyframes spinInPlace {
+  0%   { transform: rotateZ(0deg); }
+  25%  { transform: rotateZ(360deg); }
+  50%  { transform: rotateZ(720deg); }
+  75%  { transform: rotateZ(1080deg); }
+  100% { transform: rotateZ(0deg); }
+}
+
 /* Progress SVG */
 .member-progress-svg {
   width: 90px;
   height: 90px;
   display: block;
   margin: 10px auto;
-  animation: spinProgress 1.5s ease-out forwards;
+  animation: spinInPlace 1.5s ease-out;
 }
 
 /* Completed Prompt Sets Section */
