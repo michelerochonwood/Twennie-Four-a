@@ -90,3 +90,26 @@
 
 </div> <!-- End Profile Main -->
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabButtons = document.querySelectorAll(".profile-tab");
+    const tabContents = document.querySelectorAll(".profile-tab-content");
+
+    tabButtons.forEach(button => {
+      button.addEventListener("click", function () {
+        const target = this.getAttribute("data-tab");
+
+        // Deactivate all tabs and contents
+        tabButtons.forEach(btn => btn.classList.remove("active"));
+        tabContents.forEach(content => content.classList.remove("active"));
+
+        // Activate the clicked tab and its corresponding content
+        this.classList.add("active");
+        const activeContent = document.getElementById(target);
+        if (activeContent) activeContent.classList.add("active");
+      });
+    });
+  });
+</script>
+
+

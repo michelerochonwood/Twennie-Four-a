@@ -73,3 +73,24 @@
 
 
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabButtons = document.querySelectorAll(".profile-tab");
+    const tabContents = document.querySelectorAll(".profile-tab-content");
+
+    tabButtons.forEach(button => {
+      button.addEventListener("click", function () {
+        const target = this.getAttribute("data-tab");
+
+        // Remove active class from all buttons and content blocks
+        tabButtons.forEach(btn => btn.classList.remove("active"));
+        tabContents.forEach(tab => tab.classList.remove("active"));
+
+        // Activate the clicked button and its corresponding content
+        this.classList.add("active");
+        const content = document.getElementById(target);
+        if (content) content.classList.add("active");
+      });
+    });
+  });
+</script>
