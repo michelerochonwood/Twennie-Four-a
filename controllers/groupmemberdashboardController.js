@@ -134,8 +134,9 @@ const topicViewMappings = {
 //we have used lean here and it doesn't appear to have caused problems, but lean caused problems elsewhere, so don't use it
 async function fetchTaggedUnits(userId) {
     try {
-        const tags = await Tag.find({ createdBy: userId }).lean();
+        const tags = await Tag.find({ assignedTo: userId }).lean(); // 🔍 Filter based on assignedTo
         if (!tags.length) return [];
+
         const unitIds = tags.flatMap(tag => tag.associatedUnits);
 
         const [taggedArticles, taggedVideos, taggedPromptSets, taggedInterviews, taggedExercises, taggedTemplates] = await Promise.all([
@@ -146,14 +147,13 @@ async function fetchTaggedUnits(userId) {
             Exercise.find({ _id: { $in: unitIds } }).lean(),
             Template.find({ _id: { $in: unitIds } }).lean(),
         ]);
-            //this return code is necessary for showing tags correctly - do not abbreviate this
+
         return [
             ...taggedArticles.map(unit => ({
-                unitType: 'article', 
+                unitType: 'article',
                 title: unit.article_title || "Untitled Article",
                 mainTopic: unit.main_topic || "No topic",
                 _id: unit._id
-                
             })),
             ...taggedVideos.map(unit => ({
                 unitType: 'video',
@@ -191,6 +191,7 @@ async function fetchTaggedUnits(userId) {
         return [];
     }
 }
+
 
 
 //everything in this function, getPromptSchedule, is necessary - rewrite it exactly as it is without deleting anything

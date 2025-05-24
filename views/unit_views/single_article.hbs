@@ -19,6 +19,34 @@
       <div class="single_article-content hidden">
         {{{formatContent article_content}}}
 
+
+        {{#if isLeader}}
+<div class="assign-tag-form">
+  <h4>Assign a tag to group members:</h4>
+  <form id="assignTagForm" onsubmit="submitAssignedTag(event)">
+    <input type="hidden" name="_csrf" value="{{@root.csrfToken}}">
+    <input type="hidden" id="unitId" value="{{_id}}">
+    <input type="hidden" id="unitType" value="article">
+
+    <label for="tagName">Tag name:</label>
+    <input type="text" id="tagName" name="tagName" required>
+
+    <label for="instructions">Instructions for tagged group members:</label>
+    <textarea id="instructions" name="instructions" rows="3"></textarea>
+
+    <fieldset>
+      <legend>Select group members:</legend>
+      {{#each groupMembers}} <!-- You need to pass groupMembers to the view -->
+        <label>
+          <input type="checkbox" name="assignedTo" value="{{_id}}"> {{name}}
+        </label><br>
+      {{/each}}
+    </fieldset>
+
+    <button type="submit">assign tag</button>
+  </form>
+</div>
+{{/if}}
         <!-- Tag This Unit -->
         <div class="single_unit-tag-container">
           <form id="tagForm" onsubmit="tagUnit(event)">
@@ -33,6 +61,8 @@
             </a>
           </form>
         </div>
+
+
 
         <!-- Notes Form (If User is a Group Member or Leader) -->
         {{#if isGroupMemberOrLeader}}
@@ -142,5 +172,43 @@ function toggleSidebarContent(element) {
     console.warn("Sidebar content not found — check HTML structure.");
   }
 }
+
+async function submitAssignedTag(event) {
+  event.preventDefault();
+
+  const tagName = document.getElementById('tagName').value;
+  const unitId = document.getElementById('unitId').value;
+  const unitType = document.getElementById('unitType').value;
+  const instructions = document.getElementById('instructions').value;
+  const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+  const assignedTo = Array.from(document.querySelectorAll('input[name="assignedTo"]:checked'))
+                          .map(cb => cb.value);
+
+  const response = await fetch('/tags/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken
+    },
+    body: JSON.stringify({
+      name: tagName,
+      itemId: unitId,
+      itemType: unitType,
+      assignedTo,
+      instructions,
+      _csrf: csrfToken
+    })
+  });
+
+  const result = await response.json();
+  if (response.ok) {
+    alert('Tag assigned successfully!');
+    location.reload();
+  } else {
+    alert(result.message || 'Error assigning tag.');
+  }
+}
+
 
 </script>

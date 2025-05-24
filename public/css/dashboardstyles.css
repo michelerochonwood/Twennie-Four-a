@@ -320,7 +320,7 @@ html, body {
 
 .dashboard-tab .tab-arrow {
   position: absolute;
-  bottom: -10px;
+  bottom: -12px;
   left: 10px;
   width: 0; 
   height: 0; 

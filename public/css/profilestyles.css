@@ -105,6 +105,7 @@ html, body {
   background-color: #5a5552;
   color: white;
   border: none;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: right;

@@ -24,10 +24,20 @@ const tagSchema = new mongoose.Schema({
     type: String,
     enum: ['article', 'video', 'interview', 'promptset', 'exercise', 'template'], // Unit types
   },
+  assignedTo: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'GroupMember'
+},
+notes: {
+  type: String,
+  trim: true,
+  default: ''
+},
   associatedTopics: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Topic',
   }],
+
 
 }, { timestamps: true }); // Automatically add createdAt and updatedAt fields
 
