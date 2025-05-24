@@ -178,12 +178,17 @@ app.use('/badges', require('./routes/badgesroutes'));
 const csrfProtection = csrf();
 
 app.use((req, res, next) => {
-  const contentType = req.headers['content-type'] || '';
-  if (contentType.startsWith('multipart/form-data')) {
-    return next(); // 🔥 Skip CSRF globally for multipart requests
+  // ✅ Skip CSRF for this specific verification route
+  if (
+    req.method === 'POST' &&
+    req.path === '/member/group/verify-registration-code'
+  ) {
+    return next(); // ✅ Skip CSRF for this route only
   }
+
   csrfProtection(req, res, next);
 });
+
 
 
 
