@@ -33,7 +33,6 @@ res.render('member_form_views/verifymember', {
   layout: 'memberformlayout',
   title: 'Verify Group Membership',
   groups,
-  csrfToken: req.csrfToken() // ✅ REQUIRED for form security
 });
 
         } catch (err) {
