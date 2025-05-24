@@ -88,15 +88,15 @@ document.addEventListener("DOMContentLoaded", function () {
 const csrfToken = this.querySelector('input[name="_csrf"]').value;
 
 fetch("/member/group/verify-registration-code", {
-    method: "POST",
-    headers: { 
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ 
-        groupId, 
-        registration_code: inputCode, 
-        _csrf: csrfToken 
-    })
+  method: "POST",
+  headers: { 
+    "Content-Type": "application/json",
+    "X-CSRF-Token": csrfToken
+  },
+  body: JSON.stringify({ 
+    groupId, 
+    registration_code: inputCode 
+  })
 })
 .then(response => response.json())
 .then(data => {
