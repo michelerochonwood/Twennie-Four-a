@@ -29,11 +29,13 @@ module.exports = {
 
             console.log('Fetched groups with members:', JSON.stringify(groups, null, 2));
 
-            res.render('member_form_views/verifymember', {
-                layout: 'memberformlayout',
-                title: 'Verify Group Membership',
-                groups,
-            });
+res.render('member_form_views/verifymember', {
+  layout: 'memberformlayout',
+  title: 'Verify Group Membership',
+  groups,
+  csrfToken: req.csrfToken() // ✅ REQUIRED for form security
+});
+
         } catch (err) {
             console.error('Error rendering verify member form:', err.message);
             res.status(500).render('member_form_views/error', {
