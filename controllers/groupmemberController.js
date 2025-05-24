@@ -76,37 +76,44 @@ verifyMember: async (req, res) => {
 },
 
 verifyRegistrationCode: async (req, res) => {
+  try {
+    const { groupId, registration_code } = req.body;
 
-    try {
-        const { groupId, registration_code } = req.body;
-
-        console.log(`🔎 Verifying registration code for Group ID: ${groupId}`);
-        console.log(`🔎 Received registration code: ${registration_code}`);
-
-        // Find the leader for the group to get the stored registration code
-        const leader = await Leader.findById(groupId);
-
-        if (!leader) {
-            console.error(`❌ No leader found for Group ID: ${groupId}`);
-            return res.status(400).json({ valid: false, error: "Group not found." });
+    const groups = await Leader.aggregate([
+      {
+        $lookup: {
+          from: 'groupmembers',
+          localField: '_id',
+          foreignField: 'groupId',
+          as: 'members'
         }
+      }
+    ]);
 
-        console.log(`✅ Stored registration code: ${leader.registration_code}`);
+    const leader = await Leader.findById(groupId);
 
-        if (leader.registration_code !== registration_code) {
-            console.error(`❌ Invalid registration code for Group ID: ${groupId}`);
-            return res.status(400).json({ valid: false, error: "Invalid registration code." });
-        }
+    groups.forEach(group => {
+      group.verified = group._id.toString() === groupId && leader && leader.registration_code === registration_code;
+      group.error = group._id.toString() === groupId && !group.verified;
+    });
 
-        console.log(`✅ Registration code verified successfully for Group ID: ${groupId}`);
+    return res.render('member_form_views/verifymember', {
+      layout: 'memberformlayout',
+      title: 'Verify Group Membership',
+      groups,
+      csrfToken: req.csrfToken()
+    });
 
-        // Send a success response
-        res.json({ valid: true });
-    } catch (err) {
-        console.error("❌ Error verifying registration code:", err.message);
-        res.status(500).json({ valid: false, error: "Server error during verification." });
-    }
+  } catch (err) {
+    console.error("❌ Error verifying registration code:", err);
+    res.status(500).render("member_form_views/error", {
+      layout: "memberformlayout",
+      title: "Error",
+      errorMessage: "An error occurred during verification."
+    });
+  }
 },
+
 
 
     
