@@ -134,7 +134,11 @@ if (req.user?.membershipType === 'leader') {
     groupMembers = leader.groupId.members;
   }
 }
-
+console.log("Current user:", req.user);
+console.log("Access decision: isOwner?", isOwner);
+console.log("Org match?", isOrgMatch);
+console.log("Team match?", isTeamMatch);
+console.log("Final decision:", isAuthorizedToViewFullContent);
 
     // 5. Render the view
 res.render('unit_views/single_article', {
@@ -154,7 +158,7 @@ res.render('unit_views/single_article', {
   sub_topic: article.sub_topic,
   isOwner,
   isAuthorizedToViewFullContent,
-  isAuthenticated: req.isAuthenticated(),
+isAuthenticated: !!req.user,
   isGroupMemberOrLeader:
     req.user?.membershipType === 'leader' || req.user?.membershipType === 'group_member',
   groupMembers, // Only defined if the user is a leader
