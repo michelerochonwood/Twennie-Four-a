@@ -92,27 +92,30 @@ verifyRegistrationCode: async (req, res) => {
 
     const leader = await Leader.findById(groupId);
 
+    // Flag verification status per group
     groups.forEach(group => {
-      group.verified = group._id.toString() === groupId && leader && leader.registration_code === registration_code;
-      group.error = group._id.toString() === groupId && !group.verified;
+      const isMatch = group._id.toString() === groupId;
+      group.verified = isMatch && leader && leader.registration_code === registration_code;
+      group.error = isMatch && !group.verified;
     });
 
-    return res.render('member_form_views/verifymember', {
-      layout: 'memberformlayout',
-      title: 'Verify Group Membership',
+    return res.status(200).render("member_form_views/verifymember", {
+      layout: "memberformlayout",
+      title: "Verify Group Membership",
       groups,
       csrfToken: req.csrfToken()
     });
 
   } catch (err) {
-    console.error("❌ Error verifying registration code:", err);
-    res.status(500).render("member_form_views/error", {
+    console.error("❌ Error verifying registration code:", err.message);
+    return res.status(500).render("member_form_views/error", {
       layout: "memberformlayout",
       title: "Error",
-      errorMessage: "An error occurred during verification."
+      errorMessage: "An error occurred while verifying the registration code."
     });
   }
 },
+
 
 
 
