@@ -117,6 +117,25 @@ viewArticle: async (req, res) => {
     console.log("📌 Visibility:", article.visibility);
     console.log("🔓 Authorized to view full content:", isAuthorizedToViewFullContent);
 
+
+  // Add this before rendering the view
+let groupMembers = [];
+if (req.user?.membershipType === 'leader') {
+  const leader = await Leader.findById(req.user.id).populate({
+    path: 'groupId',
+    populate: {
+      path: 'members',
+      model: 'GroupMember',
+      select: 'name _id'
+    }
+  });
+
+  if (leader && leader.groupId && leader.groupId.members) {
+    groupMembers = leader.groupId.members;
+  }
+}
+
+
     // 5. Render the view
 res.render('unit_views/single_article', {
   layout: 'unitviewlayout',
@@ -135,8 +154,13 @@ res.render('unit_views/single_article', {
   sub_topic: article.sub_topic,
   isOwner,
   isAuthorizedToViewFullContent,
-  isAuthenticated: req.isAuthenticated(), // ✅ This line fixes your toggle logic
+  isAuthenticated: req.isAuthenticated(),
+  isGroupMemberOrLeader:
+    req.user?.membershipType === 'leader' || req.user?.membershipType === 'group_member',
+  groupMembers, // Only defined if the user is a leader
+  csrfToken: req.csrfToken()
 });
+
 
   } catch (err) {
     console.error('💥 Error fetching article:', err.stack || err.message);
