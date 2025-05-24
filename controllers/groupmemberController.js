@@ -104,7 +104,6 @@ verifyRegistrationCode: async (req, res) => {
       layout: "memberformlayout",
       title: "Verify Group Membership",
       groups,
-      csrfToken: req.csrfToken()
     });
 
   } catch (err) {

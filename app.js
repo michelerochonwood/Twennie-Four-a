@@ -178,16 +178,23 @@ app.use('/badges', require('./routes/badgesroutes'));
 const csrfProtection = csrf();
 
 app.use((req, res, next) => {
-  // ✅ Skip CSRF for this specific verification route
+  const skipPaths = ['/member/group/verify-registration-code'];
+
   if (
     req.method === 'POST' &&
-    req.path === '/member/group/verify-registration-code'
+    skipPaths.includes(req.path)
   ) {
-    return next(); // ✅ Skip CSRF for this route only
+    return next(); // ✅ Skip CSRF ONLY for this route
   }
 
-  csrfProtection(req, res, next);
+  const contentType = req.headers['content-type'] || '';
+  if (contentType.startsWith('multipart/form-data')) {
+    return next(); // ✅ Still skip file uploads
+  }
+
+  csrfProtection(req, res, next); // ✅ CSRF for everything else
 });
+
 
 
 
