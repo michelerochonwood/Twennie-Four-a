@@ -1,166 +1,119 @@
 <h1 class="form-title">find your group</h1>
-<div class="verify-form-container">
-    <div class="groups-list">
-        {{#each groups}}
-        <div class="group-card">
-            <div class="group-header">
-                <h3>{{this.groupName}}</h3>
-                <button class="dropdown-btn" data-group="{{this._id}}">
-                    <span></span>
-                    <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99" class="dropdown-arrow">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #4e50a2;
-      }
-    </style>
-  </defs>
-  <g id="Layer_1-2" data-name="Layer 1">
-    <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-  </g>
-</svg>
-                </button>
-            </div>
-            
-<form class="registration-form" data-group="{{this._id}}">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <label for="registration-code-{{this._id}}">enter your group's registration code</label>
-    <input type="text" id="registration-code-{{this._id}}" name="registration_code" required>
-    <button type="submit" class="submit-registration">verify</button>
-</form>
-                <p class="error-message" id="error-{{this._id}}" style="display: none;">Invalid registration code. Try again.</p>
-                <p class="success-message" id="success-{{this._id}}" style="display: none; color: green; font-weight: bold;">Registration Code Verified!</p>
-                <button class="expand-members-btn" data-group="{{this._id}}" style="display: none;">
-                    <span>find my name</span>
-                                        <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99" class="dropdown-arrow">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #4e50a2;
-      }
-    </style>
-  </defs>
-  <g id="Layer_1-2" data-name="Layer 1">
-    <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-  </g>
-</svg>
-                </button>
-            </div>
-            
-            <div class="group-details" id="group-details-{{this._id}}" style="display: none;">
-                <p>Leader: {{this.groupLeaderName}}</p>
-                <p>Members:</p>
-                <ul class="members-list">
-                    {{#if this.members.length}}
-                        {{#each this.members}}
-                            <li>
-                                {{this.name}}
-<a href="/member/group/complete-registration?memberName={{this.name}}&memberEmail={{this.email}}&groupId={{../_id}}&groupName={{../groupName}}" 
-   class="select-member-btn">
-    this is me
-</a>
 
-                            </li>
-                        {{/each}}
-                    {{else}}
-                        <li>No members found for this group.</li>
-                    {{/if}}
-                </ul>
-            </div>
-        </div>
-        {{/each}}
+<div class="verify-form-container">
+  <div class="groups-list">
+    {{#each groups}}
+    <div class="group-card">
+      <div class="group-header">
+        <h3>{{this.groupName}}</h3>
+        <button class="dropdown-btn" data-group="{{this._id}}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99" class="dropdown-arrow">
+            <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
+            <g><polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/></g>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Registration Code Form -->
+      <form class="registration-form" data-group="{{this._id}}">
+        <input type="hidden" name="_csrf" value="{{@root.csrfToken}}">
+        <label for="registration-code-{{this._id}}">enter your group's registration code</label>
+        <input type="text" id="registration-code-{{this._id}}" name="registration_code" required>
+        <button type="submit" class="submit-registration">verify</button>
+      </form>
+
+      <!-- Success / Error Messages -->
+      <p class="error-message" id="error-{{this._id}}" style="display: none;">Invalid registration code. Try again.</p>
+      <p class="success-message" id="success-{{this._id}}" style="display: none; color: green; font-weight: bold;">Registration Code Verified!</p>
+
+      <!-- Expand Button -->
+      <button class="expand-members-btn" data-group="{{this._id}}" style="display: none;">
+        <span>find my name</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99" class="dropdown-arrow">
+          <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
+          <g><polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/></g>
+        </svg>
+      </button>
+
+      <!-- Members List -->
+      <div class="group-details" id="group-details-{{this._id}}" style="display: none;">
+        <p>Leader: {{this.groupLeaderName}}</p>
+        <p>Members:</p>
+        <ul class="members-list">
+          {{#if this.members.length}}
+            {{#each this.members}}
+              <li>
+                {{this.name}}
+                <a 
+                  href="/member/group/complete-registration?memberName={{this.name}}&memberEmail={{this.email}}&groupId={{../_id}}&groupName={{../groupName}}" 
+                  class="select-member-btn">this is me</a>
+              </li>
+            {{/each}}
+          {{else}}
+            <li>No members found for this group.</li>
+          {{/if}}
+        </ul>
+      </div>
     </div>
+    {{/each}}
+  </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Handle registration code verification
-    document.querySelectorAll(".registration-form").forEach(form => {
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
-            
-            const groupId = this.getAttribute("data-group");
-            const inputCode = document.getElementById(`registration-code-${groupId}`).value;
-            const errorMessage = document.getElementById(`error-${groupId}`);
-            const successMessage = document.getElementById(`success-${groupId}`);
-            const groupDetails = document.getElementById(`group-details-${groupId}`);
+  // Handle group code verification
+  document.querySelectorAll(".registration-form").forEach(form => {
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
 
+      const groupId = this.getAttribute("data-group");
+      const code = document.getElementById(`registration-code-${groupId}`).value;
+      const error = document.getElementById(`error-${groupId}`);
+      const success = document.getElementById(`success-${groupId}`);
+      const details = document.getElementById(`group-details-${groupId}`);
+      const expandButton = document.querySelector(`.expand-members-btn[data-group="${groupId}"]`);
+      const csrf = this.querySelector('input[name="_csrf"]').value;
 
-
-
-const csrfToken = this.querySelector('input[name="_csrf"]').value;
-
-console.log("🔐 CSRF for group:", csrfToken);
-
-fetch("/member/group/verify-registration-code", {
-  method: "POST",
-  headers: { 
-    "Content-Type": "application/json",
-    "X-CSRF-Token": csrfToken
-  },
-  body: JSON.stringify({ 
-    groupId, 
-    registration_code: inputCode 
-  })
-})
-.then(response => response.json())
-
-.then(data => {
-    if (data.valid) {
-        successMessage.style.display = "block";
-        errorMessage.style.display = "none";
-        groupDetails.style.display = "block";
-
-        const expandButton = document.querySelector(`.expand-members-btn[data-group="${groupId}"]`);
-if (expandButton) {
-  expandButton.style.display = "block";
-}
-
-    } else {
-        errorMessage.style.display = "block";
-        successMessage.style.display = "none";
-        groupDetails.style.display = "none";
-    }
-})
-.catch(error => console.error("Error verifying registration code:", error));
-
+      try {
+        const res = await fetch("/member/group/verify-registration-code", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrf
+          },
+          body: JSON.stringify({
+            groupId,
+            registration_code: code
+          })
         });
+
+        const data = await res.json();
+
+        if (data.valid) {
+          success.style.display = "block";
+          error.style.display = "none";
+          details.style.display = "block";
+          if (expandButton) expandButton.style.display = "block";
+        } else {
+          error.style.display = "block";
+          success.style.display = "none";
+          details.style.display = "none";
+        }
+      } catch (err) {
+        console.error("❌ Error verifying registration code:", err);
+      }
     });
+  });
 
-    // Handle dropdown opening
-    document.querySelectorAll(".dropdown-btn").forEach(button => {
-        button.addEventListener("click", function () {
-            const groupId = this.getAttribute("data-group");
-            const dropdown = document.getElementById(`dropdown-${groupId}`);
-            dropdown.style.display = "block";
-        });
+  // Optional: Dropdown for group toggle (if needed)
+  document.querySelectorAll(".dropdown-btn").forEach(button => {
+    button.addEventListener("click", function () {
+      const groupId = this.getAttribute("data-group");
+      const target = document.getElementById(`group-details-${groupId}`);
+      if (target) target.style.display = "block";
     });
-
-    // Handle member selection
-    document.querySelectorAll(".member-select-form").forEach(form => {
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-
-            fetch("/member/group/verify", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.valid) {
-                    console.log("✅ Member verification successful:", data.member);
-                    window.location.href = "/member/group/completemember"; // Redirect to final registration step
-                } else {
-                    console.error("❌ Error verifying member:", data.error);
-                }
-            })
-            .catch(error => console.error("❌ Error:", error));
-        });
-    });
+  });
 });
-
-
 </script>
+
 
