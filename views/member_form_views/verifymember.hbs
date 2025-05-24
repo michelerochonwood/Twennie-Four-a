@@ -61,21 +61,24 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  // Handle group code verification
+  // Handle registration code verification
   document.querySelectorAll(".registration-form").forEach(form => {
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
 
       const groupId = this.getAttribute("data-group");
-      const code = document.getElementById(`registration-code-${groupId}`).value;
-      const error = document.getElementById(`error-${groupId}`);
-      const success = document.getElementById(`success-${groupId}`);
-      const details = document.getElementById(`group-details-${groupId}`);
+      const inputCode = document.getElementById(`registration-code-${groupId}`).value;
+      const errorMessage = document.getElementById(`error-${groupId}`);
+      const successMessage = document.getElementById(`success-${groupId}`);
+      const groupDetails = document.getElementById(`group-details-${groupId}`);
       const expandButton = document.querySelector(`.expand-members-btn[data-group="${groupId}"]`);
-      const csrf = this.querySelector('input[name="_csrf"]').value;
+
+      // ✅ Use meta tag for CSRF token
+      const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+      console.log("🔐 CSRF Token used:", csrf);
 
       try {
-        const res = await fetch("/member/group/verify-registration-code", {
+        const response = await fetch("/member/group/verify-registration-code", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -83,21 +86,21 @@ document.addEventListener("DOMContentLoaded", function () {
           },
           body: JSON.stringify({
             groupId,
-            registration_code: code
+            registration_code: inputCode
           })
         });
 
-        const data = await res.json();
+        const data = await response.json();
 
         if (data.valid) {
-          success.style.display = "block";
-          error.style.display = "none";
-          details.style.display = "block";
+          successMessage.style.display = "block";
+          errorMessage.style.display = "none";
+          groupDetails.style.display = "block";
           if (expandButton) expandButton.style.display = "block";
         } else {
-          error.style.display = "block";
-          success.style.display = "none";
-          details.style.display = "none";
+          errorMessage.style.display = "block";
+          successMessage.style.display = "none";
+          groupDetails.style.display = "none";
         }
       } catch (err) {
         console.error("❌ Error verifying registration code:", err);
@@ -105,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Optional: Dropdown for group toggle (if needed)
+  // Optional: Expand dropdown button
   document.querySelectorAll(".dropdown-btn").forEach(button => {
     button.addEventListener("click", function () {
       const groupId = this.getAttribute("data-group");
@@ -115,5 +118,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+
 
 
