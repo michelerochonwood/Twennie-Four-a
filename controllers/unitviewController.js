@@ -121,19 +121,12 @@ viewArticle: async (req, res) => {
   // Add this before rendering the view
 let groupMembers = [];
 if (req.user?.membershipType === 'leader') {
-  const leader = await Leader.findById(req.user.id).populate({
-    path: 'groupId',
-    populate: {
-      path: 'members',
-      model: 'GroupMember',
-      select: 'name _id'
-    }
-  });
-
-  if (leader && leader.groupId && leader.groupId.members) {
-    groupMembers = leader.groupId.members;
+  const leader = await Leader.findById(req.user.id);
+  if (leader) {
+    groupMembers = await GroupMember.find({ leader: leader._id }).select('name _id');
   }
 }
+
 console.log("Current user:", req.user);
 console.log("Access decision: isOwner?", isOwner);
 console.log("Org match?", isOrgMatch);
