@@ -180,7 +180,7 @@ async function submitAssignedTag(event) {
   const unitId = document.getElementById('unitId').value;
   const unitType = document.getElementById('unitType').value;
   const instructions = document.getElementById('instructions').value;
-  const csrfToken = document.querySelector('input[name="_csrf"]').value;
+const csrfToken = getCsrfToken(); // ✅ Replaces the broken direct lookup
 
   const assignedTo = Array.from(document.querySelectorAll('input[name="assignedTo"]:checked'))
                           .map(cb => cb.value);
@@ -210,5 +210,17 @@ async function submitAssignedTag(event) {
   }
 }
 
+function getCsrfToken() {
+  // First try hidden input
+  const csrfInput = document.querySelector('input[name="_csrf"]');
+  if (csrfInput && csrfInput.value) return csrfInput.value;
+
+  // Try meta tag
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  if (meta) return meta.getAttribute('content');
+
+  // Fallback
+  return '';
+}
 
 </script>
