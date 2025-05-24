@@ -104,6 +104,12 @@ fetch("/member/group/verify-registration-code", {
         successMessage.style.display = "block";
         errorMessage.style.display = "none";
         groupDetails.style.display = "block";
+
+        const expandButton = document.querySelector(`.expand-members-btn[data-group="${groupId}"]`);
+if (expandButton) {
+  expandButton.style.display = "block";
+}
+
     } else {
         errorMessage.style.display = "block";
         successMessage.style.display = "none";
