@@ -85,18 +85,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const successMessage = document.getElementById(`success-${groupId}`);
             const groupDetails = document.getElementById(`group-details-${groupId}`);
 
-function getCsrfToken() {
-  const input = document.querySelector('input[name="_csrf"]');
-  if (input && input.value) return input.value;
-
-  const meta = document.querySelector('meta[name="csrf-token"]');
-  if (meta) return meta.getAttribute('content');
-
-  return '';
-}
 
 
-const csrfToken = getCsrfToken();
+
+const csrfToken = this.querySelector('input[name="_csrf"]').value;
+
+console.log("🔐 CSRF for group:", csrfToken);
 
 fetch("/member/group/verify-registration-code", {
   method: "POST",
