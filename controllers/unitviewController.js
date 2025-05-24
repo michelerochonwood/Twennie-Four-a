@@ -74,7 +74,7 @@ viewArticle: async (req, res) => {
     console.log("✅ Article found:", article);
 
     // 2. Resolve author
-    const authorId = article.author.id || article.author;
+    const authorId = article.author?.id || article.author;
     const author = await resolveAuthorById(authorId);
     if (!author) {
       console.error(`❌ Author with ID ${authorId} not found.`);
@@ -91,83 +91,76 @@ viewArticle: async (req, res) => {
 
     // 4. Determine access based on visibility
     let isAuthorizedToViewFullContent = false;
+    let isOrgMatch = false;
+    let isTeamMatch = false;
 
     if (article.visibility === 'all_members') {
       isAuthorizedToViewFullContent = true;
     } else {
-      const isOrgMatch =
+      isOrgMatch =
         article.visibility === 'organization_only' &&
-        req.user.organization &&
+        req.user?.organization &&
         author.organization &&
         req.user.organization === author.organization;
 
-      const isTeamMatch =
+      isTeamMatch =
         article.visibility === 'team_only' &&
-        req.user.groupId &&
+        req.user?.groupId &&
         author.groupId &&
         req.user.groupId.toString() === author.groupId.toString();
 
       isAuthorizedToViewFullContent = isOwner || isOrgMatch || isTeamMatch;
-
-      console.log("🔒 Access breakdown:");
-      console.log("• isOrgMatch:", isOrgMatch);
-      console.log("• isTeamMatch:", isTeamMatch);
     }
 
-    console.log("📌 Visibility:", article.visibility);
+    console.log("🔒 Access breakdown:");
+    console.log("• Org match:", isOrgMatch);
+    console.log("• Team match:", isTeamMatch);
     console.log("🔓 Authorized to view full content:", isAuthorizedToViewFullContent);
 
+    // 5. If the user is a leader, get their group members
+    let groupMembers = [];
+    if (req.user?.membershipType === 'leader') {
+      const leader = await Leader.findById(req.user.id);
+      if (leader) {
+        groupMembers = await GroupMember.find({ leader: leader._id }).select('name _id');
+      }
+    }
 
-  // Add this before rendering the view
-let groupMembers = [];
-if (req.user?.membershipType === 'leader') {
-  const leader = await Leader.findById(req.user.id);
-  if (leader) {
-    groupMembers = await GroupMember.find({ leader: leader._id }).select('name _id');
-  }
-}
-
-console.log("Current user:", req.user);
-console.log("Access decision: isOwner?", isOwner);
-console.log("Org match?", isOrgMatch);
-console.log("Team match?", isTeamMatch);
-console.log("Final decision:", isAuthorizedToViewFullContent);
-
-    // 5. Render the view
-res.render('unit_views/single_article', {
-  layout: 'unitviewlayout',
-  _id: article._id.toString(),
-  article_title: article.article_title,
-  short_summary: article.short_summary,
-  full_summary: article.full_summary,
-  article_content: article.article_content,
-  article_image: '/images/default-article.png',
-  author: {
-    name: author.name || 'Unknown Author',
-    image: author.image || '/images/default-avatar.png',
-  },
-  main_topic: article.main_topic,
-  secondary_topics: article.secondary_topics,
-  sub_topic: article.sub_topic,
-  isOwner,
-  isAuthorizedToViewFullContent,
-isAuthenticated: !!req.user,
-  isGroupMemberOrLeader:
-    req.user?.membershipType === 'leader' || req.user?.membershipType === 'group_member',
-  groupMembers, // Only defined if the user is a leader
-  csrfToken: req.csrfToken()
-});
-
+    // 6. Render the article view
+    return res.render('unit_views/single_article', {
+      layout: 'unitviewlayout',
+      _id: article._id.toString(),
+      article_title: article.article_title,
+      short_summary: article.short_summary,
+      full_summary: article.full_summary,
+      article_content: article.article_content,
+      article_image: '/images/default-article.png',
+      author: {
+        name: author.name || 'Unknown Author',
+        image: author.image || '/images/default-avatar.png',
+      },
+      main_topic: article.main_topic,
+      secondary_topics: article.secondary_topics,
+      sub_topic: article.sub_topic,
+      isOwner,
+      isAuthorizedToViewFullContent,
+      isAuthenticated: !!req.user,
+      isGroupMemberOrLeader:
+        req.user?.membershipType === 'leader' || req.user?.membershipType === 'group_member',
+      groupMembers, // for tag assignment if user is a leader
+      csrfToken: req.csrfToken(),
+    });
 
   } catch (err) {
     console.error('💥 Error fetching article:', err.stack || err.message);
-    res.status(500).render('unit_views/error', {
+    return res.status(500).render('unit_views/error', {
       layout: 'unitviewlayout',
       title: 'Error',
       errorMessage: 'An error occurred while fetching the article.',
     });
   }
 },
+
 
       
     
