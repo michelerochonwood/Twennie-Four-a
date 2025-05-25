@@ -86,12 +86,12 @@
       <input type="email" id="email" name="email" required>
     </div>
 
-<div class="form-field">
+<div class="form-field password-toggle-container">
   <label for="password">Password</label>
   <div class="password-wrapper">
     <input type="password" id="password" name="password" required>
     <span class="toggle-password" onclick="togglePasswordVisibility()">
-      👁️
+      <ion-icon id="toggleIcon" name="eye-outline"></ion-icon>
     </span>
   </div>
 </div>
@@ -126,8 +126,21 @@
       paidNote.classList.remove('hidden');
       redirectTarget.value = 'payment'; // request redirect on server
     }
+  },
+
+function togglePasswordVisibility() {
+  const input = document.getElementById("password");
+  const icon = document.getElementById("toggleIcon");
+  if (input.type === "password") {
+    input.type = "text";
+    icon.name = "eye-off-outline";
+  } else {
+    input.type = "password";
+    icon.name = "eye-outline";
   }
+}
 </script>
+
 
 <style>
   .hidden {
