@@ -435,7 +435,7 @@ req.session.save(err => {
 
 
 
-
+const progressRecords = await PromptSetProgress.find({ memberId: id }).populate('promptSetId');
 
 // Only process progress records if they exist
 if (progressRecords.length > 0) {
@@ -471,7 +471,7 @@ const completedRecords = await PromptSetCompletion.find({ memberId: id }).popula
 const completedIds = new Set(completedRecords.map(record => record.promptSetId._id.toString()));
 
 // ✅ Fetch progress records
-const progressRecords = await PromptSetProgress.find({ memberId: id }).populate('promptSetId');
+
 
 let currentPromptSets = [];
 
