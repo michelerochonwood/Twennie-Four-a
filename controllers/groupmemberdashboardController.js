@@ -351,7 +351,8 @@ module.exports = {
                         const headlineKey = `prompt_headline${currentPromptIndex}`;
                         const promptKey = `Prompt${currentPromptIndex}`;
                         // ✅ Fetch the leader first, before using it
-                        const leader = await Leader.findById(userData.groupId).select('groupLeaderName');
+                        const leader = await Leader.findOne({ _id: userData.groupId._id }).select('groupLeaderName organization');
+
 
                         if (!leader) {
                             console.error("❌ ERROR: Leader not found for groupId:", userData.groupId);
@@ -525,7 +526,7 @@ return res.render('groupmember_dashboard', {
   completedPromptSets: formattedCompletedSets,
   selectedTopics,
   leaderName: leader ? leader.groupLeaderName : "Group Leader",
-  organization: userData.organization
+  organization: leader?.organization || 'Unknown'
 });
 
         
