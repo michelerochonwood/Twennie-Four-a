@@ -249,44 +249,37 @@ await groupMember.save();
 
 
 
-    showCompleteMemberForm: async (req, res) => {
+showCompleteMemberForm: async (req, res) => {
+  try {
+    const { memberName, memberEmail, groupId, groupName } = req.query;
 
-        try {
-            const { memberName, memberEmail, groupId, groupName } = req.query;
-    
-            console.log(`🔎 Redirecting to complete registration for member: ${memberName}, Group ID: ${groupId}`);
-    
-            // Ensure all required parameters exist
-            if (!memberName || !memberEmail || !groupId || !groupName) {
-                console.error("❌ Missing required query parameters.");
-                return res.status(400).render("member_form_views/error", {
-                    layout: "mainlayout",
-                    title: "Error",
-                    errorMessage: "Invalid request. Missing member information.",
-                });
-            }
-    
-            const memberInfo = {
-                name: memberName,
-                email: memberEmail,
-                groupId,
-                groupName,
-            };
-    
-            // Render the complete member registration form
-            res.render("member_form_views/completemember", {
-                layout: "memberformlayout",
-                title: "Complete Group Membership",
-                memberInfo,
-            });
-        } catch (err) {
-            console.error("❌ Error redirecting to complete registration:", err.message);
-            res.status(500).render("member_form_views/error", {
-                layout: "mainlayout",
-                title: "Error",
-                errorMessage: "An error occurred while loading the complete registration form.",
-            });
-        }
-    },
+    console.log(`🔎 Redirecting to complete registration for member: ${memberName}, Group ID: ${groupId}`);
+
+    if (!memberName || !memberEmail || !groupId || !groupName) {
+      return res.status(400).render("member_form_views/error", {
+        layout: "mainlayout",
+        title: "Error",
+        errorMessage: "Invalid request. Missing member information.",
+      });
+    }
+
+    const memberInfo = { name: memberName, email: memberEmail, groupId, groupName };
+
+    res.render("member_form_views/completemember", {
+      layout: "memberformlayout",
+      title: "Complete Group Membership",
+      memberInfo,
+      csrfToken: req.csrfToken() // ✅ This line is required
+    });
+  } catch (err) {
+    console.error("❌ Error redirecting to complete registration:", err.message);
+    res.status(500).render("member_form_views/error", {
+      layout: "mainlayout",
+      title: "Error",
+      errorMessage: "An error occurred while loading the complete registration form.",
+    });
+  }
+}
+
     
 };
