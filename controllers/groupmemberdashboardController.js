@@ -506,6 +506,7 @@ const leader = await Leader.findOne({ _id: userData.groupId._id }).select('group
 
 console.log("✅ Final Leader Name Before Rendering:", leader ? leader.groupLeaderName : "Not Found");
 
+const groupMemberProfile = await GroupMemberProfile.findOne({ memberId: id });
 // ✅ Final render
 return res.render('groupmember_dashboard', {
   layout: 'dashboardlayout',
