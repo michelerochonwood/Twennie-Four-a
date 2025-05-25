@@ -969,6 +969,7 @@ html, body {
   .registration-complete {
     font-family: "Figtree";
     color:#262262;
+    font-weight: 800;
   }
   
   .dashboard-button {

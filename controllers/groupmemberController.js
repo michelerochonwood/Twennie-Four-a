@@ -214,7 +214,7 @@ await groupMember.save();
             req.session.user = {
                 id: groupMember._id,
                 username: groupMember.username,
-                membershipType: groupMember.membershipType,
+                membershipType: "groupmember", 
             };
     
             req.session.save(err => {
