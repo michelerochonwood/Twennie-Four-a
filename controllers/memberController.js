@@ -8,13 +8,13 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
 module.exports = {
-  showMemberForm: (req, res) => {
-    res.render('member_form_views/member_form', {
-      layout: 'memberformlayout',
-      title: 'Individual Membership Form',
-      csrfToken: res.locals.csrfToken,
-    });
-  },
+showMemberForm: (req, res) => {
+  res.render('member_form_views/member_form', {
+    layout: 'memberformlayout',
+    title: 'Individual Membership Form',
+    csrfToken: req.csrfToken(), // ✅ Generate token directly here
+  });
+},
 
   createMember: async (req, res) => {
     try {
@@ -74,11 +74,9 @@ module.exports = {
         profileImage: "/images/default-avatar.png",
         biography: "",
         goals: "",
-        topics: {
-          topic1: topic1 || "Default Topic 1",
-          topic2: topic2 || "Default Topic 2",
-          topic3: topic3 || "Default Topic 3"
-        }
+topics: (topic1 || topic2 || topic3)
+  ? { topic1: topic1 || "", topic2: topic2 || "", topic3: topic3 || "" }
+  : undefined,
       });
 
       await memberProfile.save();

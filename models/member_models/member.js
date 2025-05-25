@@ -13,7 +13,6 @@ const memberSchema = new mongoose.Schema({
   },
   organization: {
     type: String,
-    required: [true, 'Organization is required'],
     trim: true
   },
   industry: {
@@ -63,15 +62,12 @@ const memberSchema = new mongoose.Schema({
   topics: {
     topic1: {
       type: String,
-      required: [true, 'Topic 1 is required']
     },
     topic2: {
       type: String,
-      required: [true, 'Topic 2 is required']
     },
     topic3: {
       type: String,
-      required: [true, 'Topic 3 is required']
     }
   },
   profileImage: {
