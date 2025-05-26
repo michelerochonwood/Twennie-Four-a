@@ -71,9 +71,21 @@ module.exports = (passport) => {
     }));
 
     // ✅ Serialize/Deserialize (unchanged)
-    passport.serializeUser((user, done) => {
-        done(null, user._id);
-    });
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user =
+            (await Member.findById(id).lean()) ||
+            (await Leader.findById(id).lean()) ||
+            (await GroupMember.findById(id).lean());
+
+        if (!user) return done(null, false);
+
+        done(null, user); // plain object now
+    } catch (err) {
+        done(err, false);
+    }
+});
+
 
     passport.deserializeUser(async (id, done) => {
         try {
