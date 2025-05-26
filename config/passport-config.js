@@ -87,18 +87,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 
-    passport.deserializeUser(async (id, done) => {
-        try {
-            const user =
-                (await Member.findById(id)) ||
-                (await Leader.findById(id)) ||
-                (await GroupMember.findById(id));
 
-            done(null, user);
-        } catch (err) {
-            done(err, false);
-        }
-    });
 };
 
 
