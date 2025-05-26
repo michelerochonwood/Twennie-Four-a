@@ -5385,6 +5385,16 @@ margin-right: 5px; /* Space between icon and text */
   font-size: 1rem;
 }
 
+.inline-link {
+  color: #4e50a2;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.inline-link:hover {
+  color: #dc176a;
+}
+
 /* Responsive behavior */
 @media (max-width: 992px) {
   .teach-me-columns {
