@@ -5374,15 +5374,15 @@ margin-right: 5px; /* Space between icon and text */
   margin-bottom: 2rem;
 }
 
-.teach-me-section h3 {
-  font-size: 1.25rem;
+.teach-me-heading {
+  font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: #222;
+  color: #262262;
 }
 
 .teach-me-section p {
-  line-height: 1.6;
-  font-size: 1rem;
+  line-height: 1.2;
+  font-size: 0.8;
 }
 
 .inline-link {
