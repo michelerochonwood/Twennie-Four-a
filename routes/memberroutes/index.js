@@ -89,6 +89,12 @@ router.get('/register_success', (req, res) => {
     username,
     dashboardLink: '/dashboard/member'
   });
+
+  router.get('/check-username', async (req, res) => {
+  const { username } = req.query;
+  const user = await Member.findOne({ username });
+  res.json({ available: !user });
+});
 });
 
 module.exports = router;

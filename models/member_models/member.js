@@ -40,12 +40,13 @@ const memberSchema = new mongoose.Schema({
       'Other'
     ]
   },
-  username: {
-    type: String,
-    required: [true, 'Username is required'],
-    unique: true,
-    trim: true
-  },
+username: {
+  type: String,
+  required: true,
+  unique: true,
+  trim: true,
+  lowercase: true // optional, if you want usernames to be case-insensitive
+},
   email: {
     type: String,
     required: [true, 'Email is required'],
