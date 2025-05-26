@@ -88,7 +88,8 @@ const topicViewMappings = {
 
 // ✅ Utility: Check Profile Ownership
 const checkProfileOwnership = (req, profileOwnerId) => {
-    return req.user?.id?.toString() === profileOwnerId?.toString();
+    const userId = req.user?._id || req.user?.id;
+    return userId?.toString() === profileOwnerId?.toString();
 };
 
 function getAllTopics() {
