@@ -5305,3 +5305,93 @@ margin-right: 5px; /* Space between icon and text */
 }
 
 
+/*TEACH ME VIEW*/
+/* Container */
+.teach-me-container {
+  padding: 2rem;
+  background-color: #f9f9fb;
+  font-family: 'Figtree', sans-serif;
+  color: #333;
+}
+
+/* Two-column layout */
+.teach-me-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.teach-me-column {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Column headings */
+.column-heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #4e50a2;
+}
+
+/* Video frames */
+.video-frame {
+  margin-bottom: 1rem;
+}
+
+.video-frame iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  border: none;
+}
+
+/* Jump links list */
+.jump-links {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0 2rem 0;
+}
+
+.jump-links li {
+  margin: 0.4rem 0;
+}
+
+.jump-links a {
+  color: #4e50a2;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.jump-links a:hover {
+  text-decoration: none;
+}
+
+/* Content sections */
+.teach-me-section {
+  margin-bottom: 2rem;
+}
+
+.teach-me-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.teach-me-section p {
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Responsive behavior */
+@media (max-width: 992px) {
+  .teach-me-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .teach-me-column {
+    margin-bottom: 2rem;
+  }
+}
