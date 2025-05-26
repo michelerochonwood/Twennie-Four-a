@@ -10,8 +10,9 @@ module.exports = {
   submitPromptNotes: async (req, res) => {
     try {
       const { notes, promptSetId } = req.body;
-      const memberId = req.user?.id;
-
+      const memberId = req.user?._id || req.user?.id;
+console.log("🔐 req.user:", req.user);
+console.log("🧠 Member ID:", req.user?._id || req.user?.id);
       if (!memberId || !promptSetId) {
         return res.status(400).render('unit_views/error', {
           layout: 'unitviewlayout',
