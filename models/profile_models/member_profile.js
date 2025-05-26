@@ -29,11 +29,11 @@ const memberProfileSchema = new mongoose.Schema({
         type: String,
         maxlength: 1000
     },
-    topics: {
-        topic1: { type: String, required: true },
-        topic2: { type: String, required: true },
-        topic3: { type: String, required: true }
-    },
+topics: {
+  topic1: String,
+  topic2: String,
+  topic3: String
+},
     libraryUnits: [
         {
             type: mongoose.Schema.Types.ObjectId,
