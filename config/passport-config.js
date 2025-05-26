@@ -96,13 +96,13 @@ module.exports = (passport) => {
     return done(null, userId.toString());
   });
 
-  // ✅ Deserialize user from session
+  // ✅ Deserialize user from session (Mongoose docs preserved)
   passport.deserializeUser(async (id, done) => {
     try {
       const user =
-        (await Member.findById(id).lean()) ||
-        (await Leader.findById(id).lean()) ||
-        (await GroupMember.findById(id).lean());
+        (await Member.findById(id)) ||
+        (await Leader.findById(id)) ||
+        (await GroupMember.findById(id));
 
       if (!user) {
         console.warn("⚠️ deserializeUser: No user found with ID:", id);
@@ -118,6 +118,7 @@ module.exports = (passport) => {
   });
 
 };
+
 
 
 
