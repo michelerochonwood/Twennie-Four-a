@@ -5312,6 +5312,8 @@ margin-right: 5px; /* Space between icon and text */
   background-color: #f9f9fb;
   font-family: 'Figtree', sans-serif;
   color: #333;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 /* Two-column layout */
