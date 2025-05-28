@@ -383,6 +383,10 @@ html, body {
   transform: rotate(180deg);
 }
 
+.latest-expand-toggle:hover {
+  color: #dc176a;
+}
+
 .latest-unit-type-icon {
   width: 65px;
   height: 65px;
