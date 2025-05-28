@@ -383,8 +383,9 @@ html, body {
   transform: rotate(180deg);
 }
 
-.latest-expand-toggle:hover {
-  color: #dc176a;
+.latest-expand-toggle:hover .cls-1 {
+  fill: #dc176a;
+  transition: fill 0.3s ease;
 }
 
 .latest-unit-type-icon {
