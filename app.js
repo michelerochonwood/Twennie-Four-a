@@ -11,9 +11,9 @@ const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const cors = require('cors');
 const csrf = require('csurf');
-const MemberProfile = require('./models/member_models/member_profile');
-const LeaderProfile = require('./models/member_models/leader_profile');
-const GroupMemberProfile = require('./models/member_models/group_member_profile');
+const MemberProfile = require('./models/profile_models/member_profile');
+const LeaderProfile = require('./models/profile_models/leader_profile');
+const GroupMemberProfile = require('./models/profile_models/groupmember_profile');
 
 
 dotenv.config();
