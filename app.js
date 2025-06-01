@@ -11,6 +11,10 @@ const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const cors = require('cors');
 const csrf = require('csurf');
+const MemberProfile = require('./models/member_models/member_profile');
+const LeaderProfile = require('./models/member_models/leader_profile');
+const GroupMemberProfile = require('./models/member_models/group_member_profile');
+
 
 dotenv.config();
 
@@ -241,9 +245,30 @@ app.use(async (req, res, next) => {
   } else {
     res.locals.dashboardLink = "/dashboard";
   }
-  res.locals.user = req.user || null;
-  res.locals.isAuthenticated = req.isAuthenticated();
-  next();
+res.locals.user = req.user || null;
+res.locals.isAuthenticated = req.isAuthenticated();
+res.locals.userProfileImage = '/images/default-avatar.png'; // fallback
+
+try {
+  if (req.session?.user?.id) {
+    const { id, membershipType } = req.session.user;
+
+    if (membershipType === 'member') {
+      const profile = await MemberProfile.findOne({ memberId: id }).lean();
+      if (profile?.profileImage) res.locals.userProfileImage = profile.profileImage;
+    } else if (membershipType === 'leader') {
+      const profile = await LeaderProfile.findOne({ leaderId: id }).lean();
+      if (profile?.profileImage) res.locals.userProfileImage = profile.profileImage;
+    } else if (membershipType === 'groupmember') {
+      const profile = await GroupMemberProfile.findOne({ groupMemberId: id }).lean();
+      if (profile?.profileImage) res.locals.userProfileImage = profile.profileImage;
+    }
+  }
+} catch (err) {
+  console.error('❌ Error loading profile image:', err);
+}
+
+next();
 });
 
 // ✅ MongoDB connection

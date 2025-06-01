@@ -100,9 +100,18 @@
           <nav id="toggle-menu">           
             <ion-icon name="close-outline" id="close-menu"></ion-icon>
             <ul class="desktop-links">
-              {{#if user}}
-                    <li><a href="{{dashboardLink}}">Hi, {{user.username}}</a></li>                      
-              {{/if}}
+{{#if user}}
+  <li style="display: flex; align-items: center; gap: 10px;">
+    <a href="{{dashboardLink}}">Hi, {{user.username}}</a>
+    <img 
+      src="{{userProfileImage}}" 
+      alt="Profile" 
+      style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; display: inline-block; overflow: hidden;"
+    >
+  </li>
+{{/if}}
+
+
             </ul>
             <ul class="mobile-links">
                   {{#if user}}
