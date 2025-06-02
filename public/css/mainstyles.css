@@ -411,11 +411,11 @@ html, body {
 }
 
 .promo-wave-divider.top-wave {
-  margin-top: -80px; /* Pulls wave upward into previous section */
+  margin-top: -150px; /* Pulls wave upward into previous section */
 }
 
 .promo-wave-divider.bottom-wave {
-  margin-bottom: -80px; /* Pulls wave downward over next section */
+  margin-bottom: -100px; /* Pulls wave downward over next section */
   z-index: 2;
 }
 
