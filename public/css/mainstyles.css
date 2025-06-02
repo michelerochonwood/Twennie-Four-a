@@ -411,7 +411,7 @@ html, body {
 }
 
 .promo-wave-divider.top-wave {
-  margin-top: -300px; /* Pulls wave upward into previous section */
+  margin-top: -350px; /* Pulls wave upward into previous section */
 }
 
 .promo-wave-divider.bottom-wave {
@@ -446,6 +446,21 @@ html, body {
 .home-feature {
   text-align: center;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feature-heading {
+  height: 60px; /* Adjust as needed */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.feature-heading h3 {
+  margin: 0;
 }
 
 .feature-icon {
