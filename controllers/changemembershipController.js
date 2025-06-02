@@ -48,16 +48,22 @@ module.exports = {
 
       await CancelRecord.save();
 
-      // Deactivate account
-      if (user.membershipType === 'member') {
-        await Member.findByIdAndUpdate(user._id, { isActive: false });
-      } else if (user.membershipType === 'leader') {
-        await Leader.findByIdAndUpdate(user._id, { isActive: false });
-      } else if (user.membershipType === 'group_member') {
-        await GroupMember.findByIdAndUpdate(user._id, { isActive: false });
+      // Deactivate the user's record
+      switch (user.membershipType) {
+        case 'member':
+          await Member.findByIdAndUpdate(user._id, { isActive: false });
+          break;
+        case 'leader':
+          await Leader.findByIdAndUpdate(user._id, { isActive: false });
+          break;
+        case 'group_member':
+          await GroupMember.findByIdAndUpdate(user._id, { isActive: false });
+          break;
+        default:
+          console.warn('⚠️ Unknown membership type during cancellation:', user.membershipType);
       }
 
-      // Destroy session
+      // End session and redirect to cancel success
       req.session.destroy(() => {
         res.render('change_membership/cancel_success', {
           layout: 'memberformlayout',
