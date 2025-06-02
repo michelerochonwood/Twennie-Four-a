@@ -406,6 +406,17 @@ html, body {
   width: 100%;
   overflow: hidden;
   line-height: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.promo-wave-divider.top-wave {
+  margin-top: -80px; /* Pulls wave upward into previous section */
+}
+
+.promo-wave-divider.bottom-wave {
+  margin-bottom: -80px; /* Pulls wave downward over next section */
+  z-index: 2;
 }
 
 .promo-wave-divider svg {
@@ -417,6 +428,8 @@ html, body {
 .blue-wave-bg {
   background-color: #4e50a2;
   padding: 60px 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .home-features-container {
