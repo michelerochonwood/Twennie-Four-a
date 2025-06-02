@@ -310,7 +310,7 @@ app.use('/notes', require('./routes/notesroutes'));
 app.use('/reports', require('./routes/reportingroutes'));
 app.use('/latest', require('./routes/latestroutes'));
 app.use('/promptsetstart', require('./routes/promptsetstartroutes'));
-app.use('/change_membership', require('./routes/changemembership'));
+app.use('/change_membership', require('./routes/changemembershiproutes'));
 
 // ✅ CSRF Error handler
 app.use((err, req, res, next) => {
