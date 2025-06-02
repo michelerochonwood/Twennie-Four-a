@@ -15,7 +15,7 @@ module.exports = {
       });
     }
 
-    res.render('change_membership/change_membership', {
+    res.render('member_form_views/change_my_membership', {
       layout: 'memberformlayout',
       csrfToken: req.csrfToken(),
       user: req.user
@@ -65,7 +65,7 @@ module.exports = {
 
       // End session and redirect to cancel success
       req.session.destroy(() => {
-        res.render('change_membership/cancel_success', {
+        res.render('member_form_views/cancel_success', {
           layout: 'memberformlayout',
           title: 'Membership Cancelled'
         });
@@ -79,5 +79,25 @@ module.exports = {
         errorMessage: 'An error occurred while cancelling your membership. Please try again.'
       });
     }
+  },
+
+  changeSuccess: (req, res) => {
+    const username = req.session.user?.username || 'User';
+    const membershipType = req.session.user?.membershipType;
+
+    const dashboardLink =
+      membershipType === 'leader'
+        ? '/dashboard/leader'
+        : membershipType === 'group_member'
+          ? '/dashboard/group'
+          : '/dashboard/member';
+
+    res.render('member_form_views/change_success', {
+      layout: 'memberformlayout',
+      title: 'Membership Updated',
+      username,
+      dashboardLink
+    });
   }
 };
+
