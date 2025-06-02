@@ -79,20 +79,18 @@ const leaderSchema = new mongoose.Schema({
     min: [2, 'Group size must be at least 2 members'],
     max: [10, 'Group size must not exceed 10 members']
   },
-  topics: {
-    topic1: {
-      type: String,
-      required: [true, 'Topic 1 is required']
-    },
-    topic2: {
-      type: String,
-      required: [true, 'Topic 2 is required']
-    },
-    topic3: {
-      type: String,
-      required: [true, 'Topic 3 is required']
-    }
+topics: {
+  topic1: {
+    type: String
   },
+  topic2: {
+    type: String
+  },
+  topic3: {
+    type: String
+  }
+},
+
   profileImage: {
     type: String,
     default: '/images/default-avatar.png',

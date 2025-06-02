@@ -144,6 +144,28 @@ html, body {
     background-position: right 10px center;
     background-size: 10px;
   }
+
+
+  
+
+  /*CHANGE MY MEMBERSHIP STYLES*/
+
+    .group-member-instructions {
+    background: #f8f8ff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 2rem;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Figtree', sans-serif;
+  }
+
+  .group-member-instructions h3 {
+    color: #4e50a2;
+    margin-bottom: 1rem;
+  }
   
 /* INDIVIDUAL FORM */
 
