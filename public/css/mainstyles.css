@@ -402,6 +402,105 @@ html, body {
   opacity: 1;
 }
 
+.promo-wave-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.promo-wave-divider svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.blue-wave-bg {
+  background-color: #4e50a2;
+  padding: 60px 20px;
+}
+
+.home-features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.home-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+}
+
+.home-feature {
+  text-align: center;
+  color: white;
+}
+
+.feature-icon {
+  max-width: 100px;
+  margin-bottom: 20px;
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.home-feature.animate {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@media screen and (max-width: 1200px) {
+  .home-feature-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 0 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-feature-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1.5rem;
+    gap: 2rem;
+  }
+
+  .home-feature h3 {
+    font-size: 1.3rem;
+  }
+
+  .home-feature p {
+    font-size: 1rem;
+  }
+
+  .feature-icon {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home-feature-grid {
+    padding: 0 1rem;
+  }
+
+  .feature-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .home-feature h3 {
+    font-size: 1.2rem;
+  }
+
+  .home-feature p {
+    font-size: 0.95rem;
+  }
+}
+
+
+
 /* Full-width Animated Wave Background */
 .wave-background-container {
   position: absolute;
