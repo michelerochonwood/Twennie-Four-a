@@ -439,29 +439,37 @@ html, body {
 
 .home-feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto auto;
   gap: 40px;
-}
-
-.home-feature {
   text-align: center;
   color: white;
+}
+
+.home-feature-image {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
-.feature-heading {
-  height: 60px; /* Adjust as needed */
+.home-feature-heading {
   display: flex;
-  align-items: flex-start;
   justify-content: center;
-  margin-bottom: 10px;
+  align-items: flex-start;
 }
 
-.feature-heading h3 {
+.home-feature-heading h3 {
   margin: 0;
 }
+
+.home-feature-text {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding: 0 10px;
+}
+
 
 .feature-icon {
   width: 200px;
