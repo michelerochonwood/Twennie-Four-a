@@ -125,7 +125,7 @@ const videoSchema = new mongoose.Schema({
     updated_at: { type: Date, default: Date.now },
 });
 
-// Middleware to update `updated_at` on save
+// Middleware to update updated_at on save
 videoSchema.pre('save', function (next) {
     this.updated_at = Date.now();
     next();
@@ -133,6 +133,8 @@ videoSchema.pre('save', function (next) {
 
 const Video = mongoose.model('Video', videoSchema);
 module.exports = Video;
+
+
 
 
 

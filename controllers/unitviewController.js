@@ -15,38 +15,50 @@ const MemberProfile = require('../models/profile_models/member_profile');
 
 async function resolveAuthorById(authorId) {
   // 1. Check leader profile
-  let profile = await LeaderProfile.findOne({ leaderId: authorId }).select('profileImage name');
+  let profile = await LeaderProfile.findOne({ leaderId: authorId }).select('profileImage name organization');
   if (profile) {
+    const leader = await Leader.findById(authorId).select('groupName');
     return {
       name: profile.name || 'Leader',
-      image: profile.profileImage || '/images/default-avatar.png'
+      image: profile.profileImage || '/images/default-avatar.png',
+      organization: profile.organization || null,
+      groupId: leader?._id || null // treat the leader's own ID as their groupId
     };
   }
 
   // 2. Check group member profile
   profile = await GroupMemberProfile.findOne({ memberId: authorId }).select('profileImage name');
   if (profile) {
+    const member = await GroupMember.findById(authorId).select('groupId organization');
     return {
       name: profile.name || 'Group Member',
-      image: profile.profileImage || '/images/default-avatar.png'
+      image: profile.profileImage || '/images/default-avatar.png',
+      groupId: member?.groupId || null,
+      organization: member?.organization || null
     };
   }
 
-  // 3. Check member profile (optional)
+  // 3. Check individual member profile
   profile = await MemberProfile.findOne({ memberId: authorId }).select('profileImage name');
   if (profile) {
+    const member = await Member.findById(authorId).select('organization');
     return {
       name: profile.name || 'Member',
-      image: profile.profileImage || '/images/default-avatar.png'
+      image: profile.profileImage || '/images/default-avatar.png',
+      organization: member?.organization || null,
+      groupId: null
     };
   }
 
   // 4. Fallback
   return {
     name: 'Unknown Author',
-    image: '/images/default-avatar.png'
+    image: '/images/default-avatar.png',
+    organization: null,
+    groupId: null
   };
 }
+
 
 
 
@@ -298,17 +310,32 @@ viewInterview: async (req, res) => {
     const isOwner = req.user && req.user.id.toString() === authorId.toString();
     console.log(`👑 Is owner: ${isOwner}`);
 
-    // 4. Determine access based on membership level
+    // 4. Determine access based on visibility
     let isAuthorizedToViewFullContent = false;
+    let isOrgMatch = false;
+    let isTeamMatch = false;
 
-    const isGroupOrLeader =
-      req.user?.membershipType === 'groupmember' || req.user?.membershipType === 'leader';
+    if (interview.visibility === 'all_members') {
+      isAuthorizedToViewFullContent = true;
+    } else {
+      isOrgMatch =
+        interview.visibility === 'organization_only' &&
+        req.user?.organization &&
+        author.organization &&
+        req.user.organization === author.organization;
 
-    const isPaidOrContributor =
-      req.user?.accessLevel === 'paid_individual' || req.user?.accessLevel === 'contributor_individual';
+      isTeamMatch =
+        interview.visibility === 'team_only' &&
+        req.user?.groupId &&
+        author.groupId &&
+        req.user.groupId.toString() === author.groupId.toString();
 
-    isAuthorizedToViewFullContent = isOwner || isGroupOrLeader || isPaidOrContributor;
+      isAuthorizedToViewFullContent = isOwner || isOrgMatch || isTeamMatch;
+    }
 
+    console.log("🔒 Access breakdown:");
+    console.log("• Org match:", isOrgMatch);
+    console.log("• Team match:", isTeamMatch);
     console.log("🔓 Authorized to view full content:", isAuthorizedToViewFullContent);
 
     // 5. Render the view
@@ -318,7 +345,7 @@ viewInterview: async (req, res) => {
       interview_title: interview.interview_title,
       short_summary: interview.short_summary,
       full_summary: interview.full_summary,
-      interview_link: interview.video_link || '', // YouTube embed
+      interview_link: interview.video_link || '',
       interview_content: interview.transcript || "Transcript will be available soon.",
       author: {
         name: author.name || 'Unknown Author',
@@ -341,6 +368,7 @@ viewInterview: async (req, res) => {
     });
   }
 },
+
 
 
       
@@ -486,7 +514,6 @@ viewExercise: async (req, res) => {
     // 1. Fetch the exercise
     const exercise = await Exercise.findById(id);
     if (!exercise) {
-      console.warn(`❌ Exercise with ID ${id} not found.`);
       return res.status(404).render('unit_views/error', {
         layout: 'unitviewlayout',
         title: 'Exercise Not Found',
@@ -499,7 +526,6 @@ viewExercise: async (req, res) => {
     // 2. Get the author's ID
     const authorId = exercise.author.id || exercise.author;
     if (!authorId) {
-      console.error(`❌ Missing author ID for exercise ID: ${id}`);
       return res.status(500).render('unit_views/error', {
         layout: 'unitviewlayout',
         title: 'Error',
@@ -507,36 +533,40 @@ viewExercise: async (req, res) => {
       });
     }
 
-    // 3. Resolve author profile (image, name)
+    // 3. Resolve author profile (image, name, org, group)
     const creator = await resolveAuthorById(authorId);
     console.log("👤 Resolved creator:", creator);
 
     // 4. Is the current user the creator?
-    const isOwner = req.user && req.user.id.toString() === authorId.toString();
+    const isOwner = req.user && req.user._id.toString() === authorId.toString();
     console.log(`👑 Is owner: ${isOwner}`);
 
     // 5. Determine access based on visibility
     let isAuthorizedToViewFullContent = false;
+    let isOrgMatch = false;
+    let isTeamMatch = false;
 
     if (exercise.visibility === 'all_members') {
       isAuthorizedToViewFullContent = true;
     } else {
-      const isGroupMemberOrLeader =
-        await GroupMember.findById(req.user._id) || await Leader.findById(req.user._id);
+      isOrgMatch =
+        exercise.visibility === 'organization_only' &&
+        req.user?.organization &&
+        creator.organization &&
+        req.user.organization === creator.organization;
 
-      const isPayingIndividual =
-        req.user &&
-        req.user.membershipType === 'member' &&
-        ['contributor_individual', 'paid_individual'].includes(req.user.accessLevel);
+      isTeamMatch =
+        exercise.visibility === 'team_only' &&
+        req.user?.groupId &&
+        creator.groupId &&
+        req.user.groupId.toString() === creator.groupId.toString();
 
-      isAuthorizedToViewFullContent = isOwner || isGroupMemberOrLeader || isPayingIndividual;
-
-      console.log("🔒 Access breakdown:");
-      console.log("• isGroupMemberOrLeader:", !!isGroupMemberOrLeader);
-      console.log("• isPayingIndividual:", isPayingIndividual);
+      isAuthorizedToViewFullContent = isOwner || isOrgMatch || isTeamMatch;
     }
 
-    console.log("✅ Visibility:", exercise.visibility);
+    console.log("🔒 Access breakdown:");
+    console.log("• Org match:", isOrgMatch);
+    console.log("• Team match:", isTeamMatch);
     console.log("🔓 Authorized to view full content:", isAuthorizedToViewFullContent);
 
     // 6. Render the view
@@ -546,10 +576,11 @@ viewExercise: async (req, res) => {
       exercise_title: exercise.exercise_title,
       short_summary: exercise.short_summary,
       full_summary: exercise.full_summary,
+      time_required: exercise.time_required,
       file_format: exercise.file_format,
       document_uploads: Array.isArray(exercise.document_uploads)
         ? exercise.document_uploads
-        : [exercise.document_uploads], // Always an array
+        : [exercise.document_uploads],
       creator: {
         name: creator.name || 'Unknown Creator',
         image: creator.image || '/images/default-avatar.png',
@@ -558,8 +589,10 @@ viewExercise: async (req, res) => {
       secondary_topics: exercise.secondary_topics,
       sub_topic: exercise.sub_topic,
       isOwner,
-      isGroupMemberOrLeader: undefined, // You don’t use this in view; optional to remove
-      isAuthorizedToViewFullContent
+      isAuthorizedToViewFullContent,
+      isGroupMemberOrLeader:
+        req.user?.membershipType === 'leader' || req.user?.membershipType === 'group_member',
+      csrfToken: req.csrfToken()
     });
 
   } catch (err) {
@@ -572,6 +605,7 @@ viewExercise: async (req, res) => {
   }
 },
 
+
     
     
     
@@ -580,7 +614,7 @@ viewExercise: async (req, res) => {
 viewTemplate: async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(`Fetching template with ID: ${id}`);
+    console.log(`📄 Fetching template with ID: ${id}`);
 
     const template = await Template.findById(id);
     if (!template) {
@@ -601,37 +635,35 @@ viewTemplate: async (req, res) => {
       });
     }
 
-    const isOwner = req.user && req.user.id.toString() === authorId.toString();
+    const isOwner = req.user && req.user._id.toString() === authorId.toString();
 
-    // ✅ Add visibility access logic
+    // ✅ Standard visibility access check
     let isAuthorizedToViewFullContent = false;
+    let isOrgMatch = false;
+    let isTeamMatch = false;
 
     if (template.visibility === 'all_members') {
       isAuthorizedToViewFullContent = true;
     } else {
-      const isGroupMemberOrLeader =
-        await GroupMember.findById(req.user._id) || await Leader.findById(req.user._id);
-
-      const isPaidOrContributor =
-        req.user &&
-        req.user.membershipType === 'member' &&
-        ['paid_individual', 'contributor_individual'].includes(req.user.accessLevel);
-
-      const isOrgMatch =
+      isOrgMatch =
         template.visibility === 'organization_only' &&
-        req.user.organization &&
+        req.user?.organization &&
         author.organization &&
         req.user.organization === author.organization;
 
-      const isTeamMatch =
+      isTeamMatch =
         template.visibility === 'team_only' &&
-        req.user.groupId &&
+        req.user?.groupId &&
         author.groupId &&
         req.user.groupId.toString() === author.groupId.toString();
 
-      isAuthorizedToViewFullContent =
-        isOwner || isGroupMemberOrLeader || isPaidOrContributor || isOrgMatch || isTeamMatch;
+      isAuthorizedToViewFullContent = isOwner || isOrgMatch || isTeamMatch;
     }
+
+    console.log("🔒 Access breakdown:");
+    console.log("• Org match:", isOrgMatch);
+    console.log("• Team match:", isTeamMatch);
+    console.log("🔓 Authorized to view full content:", isAuthorizedToViewFullContent);
 
     res.render('unit_views/single_template', {
       layout: 'unitviewlayout',
@@ -639,7 +671,6 @@ viewTemplate: async (req, res) => {
       template_title: template.template_title,
       short_summary: template.short_summary,
       full_summary: template.full_summary,
-      // template_link: template.template_link, ← You can delete this if you're not using links anymore
       template_content: template.template_content,
       documentUploads: template.documentUploads,
       author: {
@@ -650,10 +681,14 @@ viewTemplate: async (req, res) => {
       secondary_topics: template.secondary_topics,
       sub_topic: template.sub_topic,
       isOwner,
-      isAuthorizedToViewFullContent
+      isAuthorizedToViewFullContent,
+      isGroupMemberOrLeader:
+        req.user?.membershipType === 'leader' || req.user?.membershipType === 'group_member',
+      csrfToken: req.csrfToken()
     });
+
   } catch (err) {
-    console.error('Error fetching template:', err.stack || err.message);
+    console.error('💥 Error fetching template:', err.stack || err.message);
     res.status(500).render('unit_views/error', {
       layout: 'unitviewlayout',
       title: 'Error',
@@ -661,5 +696,6 @@ viewTemplate: async (req, res) => {
     });
   }
 }
+
 
 };    

@@ -130,7 +130,7 @@ const articleSchema = new mongoose.Schema({
     updated_at: { type: Date, default: Date.now },
 });
 
-// Middleware to update `updated_at` on save
+// Middleware to update updated_at on save
 articleSchema.pre('save', function (next) {
     this.updated_at = Date.now();
     next();
@@ -140,6 +140,7 @@ articleSchema.pre('save', function (next) {
 const Article = mongoose.models.Article || mongoose.model('Article', articleSchema);
 
 module.exports = Article;
+
 
 
 
