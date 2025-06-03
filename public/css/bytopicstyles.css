@@ -67,6 +67,7 @@ html, body {
   grid-template-columns: repeat(5, 1fr);
   gap: 0 1.5rem;
   transition: all 0.3s ease-in-out;
+  margin-bottom: 200px;
 }
 
 /* Library Unit Cards */
