@@ -287,6 +287,29 @@ html, body {
   transform: rotate(180deg);
 }
 
+.bytopic-section-divider {
+  border: 2px dashed #dc176a;
+  margin: 2rem 0;
+}
+
+.bytopic-section-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #262262;
+  margin-top: 3rem;
+}
+
+.bytopic-empty-section-message {
+  background-color: #fdf3f7;
+  border-left: 4px solid #dc176a;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  color: #4a4a4a;
+  border-radius: 8px;
+  width: 60%;
+}
+
 
 
 /*LATEST VIEW*/
