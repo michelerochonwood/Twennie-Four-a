@@ -150,22 +150,23 @@ exports.getTopicView = async (req, res) => {
         console.log(`Found Exercises: ${exercises.length}`);
         console.log(`Found Templates: ${templates.length}`);
 
-        const allUnits = [
-            ...articles.map((unit) => ({ title: unit.article_title, ...unit, type: 'article' })),
-            ...videos.map((unit) => ({ title: unit.video_title, ...unit, type: 'video' })),
-            ...interviews.map((unit) => ({ title: unit.interview_title, ...unit, type: 'interview' })),
-            ...promptsets.map((unit) => ({
-                title: unit.promptset_title,
-                ...unit,
-                type: 'promptset',
-                targetAudience: unit.target_audience,
-                characteristics: unit.characteristics,
-                purpose: unit.purpose,
-                suggestedFrequency: unit.suggested_frequency,
-            })),
-            ...exercises.map((unit) => ({ title: unit.exercise_title, ...unit, type: 'exercise' })),
-            ...templates.map((unit) => ({ title: unit.template_title, ...unit, type: 'template' })),
-        ];
+const allUnits = [
+  ...articles.map((unit) => ({ title: unit.article_title, ...unit, type: 'article', authorId: unit.author?.id || unit.author })),
+  ...videos.map((unit) => ({ title: unit.video_title, ...unit, type: 'video', authorId: unit.author?.id || unit.author })),
+  ...interviews.map((unit) => ({ title: unit.interview_title, ...unit, type: 'interview', authorId: unit.author?.id || unit.author })),
+  ...promptsets.map((unit) => ({
+    title: unit.promptset_title,
+    ...unit,
+    type: 'promptset',
+    authorId: unit.author?.id || unit.author,
+    targetAudience: unit.target_audience,
+    characteristics: unit.characteristics,
+    purpose: unit.purpose,
+    suggestedFrequency: unit.suggested_frequency,
+  })),
+  ...exercises.map((unit) => ({ title: unit.exercise_title, ...unit, type: 'exercise', authorId: unit.author?.id || unit.author })),
+  ...templates.map((unit) => ({ title: unit.template_title, ...unit, type: 'template', authorId: unit.author?.id || unit.author })),
+];
 
         console.log(`Total Processed Units: ${allUnits.length}`);
 
@@ -187,7 +188,8 @@ const author = authorId
 const userId = req.session.user?.id;
 const userType = req.session.user?.membershipType;
 
-const myLibraryUnits = libraryUnits.filter(unit => String(unit.author?.id || unit.author) === String(userId));
+const myLibraryUnits = libraryUnits.filter(unit => String(unit.authorId) === String(userId));
+
 
 const groupLibraryUnits = libraryUnits.filter(unit => unit.visibility === 'team_only');
 
