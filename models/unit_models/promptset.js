@@ -177,7 +177,7 @@ const promptSetSchema = new mongoose.Schema({
   time: { type: Boolean, default: false },
   permission: { type: Boolean, required: true },
   short_summary: { type: String, required: true, maxlength: 300 },
-  full_summary: { type: String, required: true, maxlength: 600 },
+  full_summary: { type: String, required: true, maxlength: 1000 },
 
   // NEW badge subdocument
   badge: {
