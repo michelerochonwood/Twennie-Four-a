@@ -36,7 +36,7 @@
         name="profileImage" 
         accept="image/*"
       >
-      <p class="form-hint">Your new image will be uploaded to Cloudinary when saved.</p>
+      <p class="form-hint">Your new image will be uploaded when saved. Please choose a file no larger than 2MB.</p>
     </div>
 
     <!-- Name -->
@@ -65,13 +65,12 @@
 
     <!-- Organization -->
     <div class="form-field">
-      <label for="organization">Organization</label>
+      <label for="organization">Organization (if you would prefer to remain anonymous, write "anonymous")</label>
       <input 
         type="text" 
         id="organization" 
         name="organization" 
         value="{{profile.organization}}" 
-        required
       >
     </div>
 
@@ -95,6 +94,7 @@
 
     <!-- Topics (Dropdowns) -->
     <div class="form-field">
+      <p>Having a top three topics helps you navigate to your favorite subjects more quickly.</p>
       <label for="topic1">Topic 1</label>
       <select id="topic1" name="topics[topic1]">
         {{#each allTopics}}
