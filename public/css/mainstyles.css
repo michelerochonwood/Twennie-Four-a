@@ -411,7 +411,7 @@ html, body {
 }
 
 .promo-wave-divider.top-wave {
-  margin-top: -450px; /* Pulls wave upward into previous section */
+  margin-top: -380px; /* Pulls wave upward into previous section */
 }
 
 .promo-wave-divider.bottom-wave {
