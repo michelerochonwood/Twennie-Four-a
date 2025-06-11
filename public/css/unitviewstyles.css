@@ -724,6 +724,7 @@ html, body {
 
 .single_video-duration-image {
   margin: 0 auto;
+  text-align: center;
 }
 
 .single_video-author-image {
