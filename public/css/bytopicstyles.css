@@ -356,7 +356,6 @@ html, body {
 .latest-library-unit-card {
   background-color: #d0cfcf;
   border-radius: 10px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;

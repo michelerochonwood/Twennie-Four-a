@@ -722,6 +722,10 @@ html, body {
   margin-bottom: 20px;
 }
 
+.single_video-duration-image {
+  margin: 0 auto;
+}
+
 .single_video-author-image {
   width: 100px;
   height: 100px;
