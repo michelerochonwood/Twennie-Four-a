@@ -366,7 +366,7 @@ html, body {
 }
 
 .latest-library-unit-card.active {
-  height: 700px;
+  height: 900px;
 }
 
 .latest-library-units-grid > .latest-library-unit-card:not(.active) {
