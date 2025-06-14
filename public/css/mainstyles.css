@@ -3489,6 +3489,7 @@ margin-right: 5px; /* Space between icon and text */
 }
 
 /* Container Section */
+/* Container Section */
 .promo-contribution-section {
   width: 100vw;
   min-height: 100vh;
@@ -3511,25 +3512,28 @@ margin-right: 5px; /* Space between icon and text */
   margin-top: 100px;
 }
 
-/* Grid Layout for 9 Cards */
+/* One-row 9-column Grid */
 .promo-contribution-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, auto);
-  gap: 40px;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-areas:
+    "article video interview promptset exercise template microcourse microstudy peercoaching";
+  gap: 30px;
   margin-top: 60px;
   justify-items: center;
-  align-items: center;
+  align-items: end;
   position: relative;
 }
 
-/* Wrapper for each card and its popup */
-.promo-unit-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.promo-unit-card[data-target="expand-top-left"]       { grid-area: article; }
+.promo-unit-card[data-target="expand-top-center"]     { grid-area: video; }
+.promo-unit-card[data-target="expand-top-right"]      { grid-area: interview; }
+.promo-unit-card[data-target="expand-left-center"]    { grid-area: promptset; }
+.promo-unit-card[data-target="expand-right-center"]   { grid-area: exercise; }
+.promo-unit-card[data-target="expand-top-template"]   { grid-area: template; }
+.promo-unit-card[data-target="expand-bottom-left"]    { grid-area: microcourse; }
+.promo-unit-card[data-target="expand-bottom-center"]  { grid-area: microstudy; }
+.promo-unit-card[data-target="expand-bottom-right"]   { grid-area: peercoaching; }
 
 /* Card Styles */
 .promo-unit-card {
@@ -3555,7 +3559,7 @@ margin-right: 5px; /* Space between icon and text */
   height: auto;
 }
 
-/* Arrow on top of each card */
+/* Arrow on top of card */
 .promo-unit-card::before {
   content: "";
   position: absolute;
@@ -3569,7 +3573,7 @@ margin-right: 5px; /* Space between icon and text */
   border-bottom: 10px solid rgb(230, 230, 230);
 }
 
-/* Popups above each card */
+/* Expandable Popup directly above each card */
 .promo-expandable-info {
   position: absolute;
   bottom: 100%;
@@ -3613,6 +3617,7 @@ margin-right: 5px; /* Space between icon and text */
 .promo-expand-btn:hover {
   background-color: #4a4ab2;
 }
+
 
 
 
