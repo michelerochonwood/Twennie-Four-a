@@ -3502,7 +3502,6 @@ margin-right: 5px; /* Space between icon and text */
   flex-direction: column;
   justify-content: center; /* Centers content vertically */
   align-items: center; /* Centers content horizontally */
-  margin-top: 150px;
 }
 
 /* Title & Button */
