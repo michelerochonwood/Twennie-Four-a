@@ -3636,6 +3636,10 @@ margin-right: 5px; /* Space between icon and text */
   color:#444;
 }
 
+.promo-expand-text {
+  color:#444;
+}
+
 .promo-expand-btn {
   background-color: #262262;
   font-family: "Figtree", sans-serif;
