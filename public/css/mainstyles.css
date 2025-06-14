@@ -3491,6 +3491,7 @@ margin-right: 5px; /* Space between icon and text */
 /* Container Section */
 /* Container Section */
 /* Container Section */
+/* Container Section */
 .promo-contribution-section {
   width: 100vw;
   min-height: 100vh;
@@ -3500,12 +3501,14 @@ margin-right: 5px; /* Space between icon and text */
   align-items: center;
   background-size: cover;
   background-position: center;
-  padding: 60px 20px 100px 20px; /* add left/right padding */
+  padding-bottom: 100px;
 }
 
 .promo-contribution-container {
   text-align: center;
   width: 100%;
+  padding: 0 30px; /* Margin on left and right sides of the grid */
+  box-sizing: border-box;
 }
 
 .promo-contribution-title {
@@ -3514,59 +3517,21 @@ margin-right: 5px; /* Space between icon and text */
   margin-top: 100px;
 }
 
-
 /* One-row 9-column Grid */
 .promo-contribution-grid {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(9, auto);
+  gap: 10px; /* Very small gap between cards */
   margin-top: 60px;
-  justify-items: center;
+  justify-content: center;
   align-items: end;
   position: relative;
-  padding: 0 20px; /* ensures left/right gap */
-}
-
-.promo-unit-card[data-target="expand-top-left"]       { grid-area: article; }
-.promo-unit-card[data-target="expand-top-center"]     { grid-area: video; }
-.promo-unit-card[data-target="expand-top-right"]      { grid-area: interview; }
-.promo-unit-card[data-target="expand-left-center"]    { grid-area: promptset; }
-.promo-unit-card[data-target="expand-right-center"]   { grid-area: exercise; }
-.promo-unit-card[data-target="expand-top-template"]   { grid-area: template; }
-.promo-unit-card[data-target="expand-bottom-left"]    { grid-area: microcourse; }
-.promo-unit-card[data-target="expand-bottom-center"]  { grid-area: microstudy; }
-.promo-unit-card[data-target="expand-bottom-right"]   { grid-area: peercoaching; }
-
-/* Unit Card and Popup Wrapper */
-.promo-unit-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-/* Popups above each card */
-.promo-expandable-info {
-  position: relative;
-  background-color: white;
-  padding: 12px;
-  border-radius: 10px;
-  width: 180px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-bottom: 10px;
-  text-align: center;
-  z-index: 1;
-  display: none;
-}
-
-.promo-unit-wrapper.active .promo-expandable-info {
-  display: block;
 }
 
 /* Card Styles */
 .promo-unit-card {
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   background-color: rgb(230, 230, 230);
   border-radius: 10px;
   display: flex;
@@ -3577,7 +3542,6 @@ margin-right: 5px; /* Space between icon and text */
   position: relative;
   transition: transform 0.2s ease;
 }
-
 
 .promo-unit-card:hover {
   transform: scale(1.05);
@@ -3605,8 +3569,9 @@ margin-right: 5px; /* Space between icon and text */
 /* Expandable Popup directly above each card */
 .promo-expandable-info {
   position: absolute;
-  bottom: 100%;
-  margin-bottom: 20px;
+  top: -180px; /* Moves the popup directly above the card */
+  left: 50%;
+  transform: translateX(-50%);
   background-color: white;
   padding: 15px;
   border-radius: 10px;
@@ -3638,38 +3603,6 @@ margin-right: 5px; /* Space between icon and text */
   font-weight: 800;
   font-size: 0.75rem;
   padding: 8px 12px;
-  border-radius: 99px;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.promo-expand-btn:hover {
-  background-color: #4a4ab2;
-}
-
-
-/* Popup Content Styles */
-.promo-expand-title,
-.promo-expand-title-white {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #4a4ab2;
-  margin-bottom: 8px;
-}
-
-.promo-expand-text,
-.promo-expand-text-white {
-  font-size: 0.85rem;
-  color: #444;
-  margin-bottom: 10px;
-}
-
-.promo-expand-btn {
-  background-color: #262262;
-  color: white;
-  font-weight: 800;
-  font-size: 0.75rem;
-  padding: 6px 10px;
   border-radius: 99px;
   text-decoration: none;
   display: inline-block;
