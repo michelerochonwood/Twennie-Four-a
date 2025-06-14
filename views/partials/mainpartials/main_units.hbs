@@ -115,45 +115,20 @@
         const targetId = this.getAttribute("data-target");
         if (!targetId) return;
 
-        const targetSection = document.getElementById(targetId);
-        const rect = this.getBoundingClientRect();
-
-        // Close all other expandable sections
-        document.querySelectorAll(".promo-expandable-info").forEach(section => {
-          section.style.display = "none";
+        // Hide all popups
+        document.querySelectorAll(".promo-expandable-info").forEach(popup => {
+          popup.style.display = "none";
         });
 
-        // Show and position this section
-        targetSection.style.display = "block";
-        targetSection.style.top = `${rect.top + window.scrollY}px`;
-        targetSection.style.left = `${rect.left + window.scrollX}px`;
-
-        const transforms = {
-          // Top row – slightly closer vertically
-          "top-left": "translate(-100%, -100%)",
-          "top-center": "translate(-50%, -90%)",
-          "top-template": "translate(30%, -200%)", // Keep dramatic upward for center tile
-          "top-right": "translate(100%, -90%)",
-
-          // Middle row – horizontally aligned beside the grid
-          "left-center": "translate(-105%, 0%)",
-          "right-center": "translate(105%, 0%)",
-
-          // Bottom row – bring slightly *up* and align beside where possible
-          "bottom-left": "translate(-105%, 60%)",
-          "bottom-center": "translate(-50%, 80%)",
-          "bottom-right": "translate(105%, 60%)"
-        };
-
-        for (const className in transforms) {
-          if (this.classList.contains(className)) {
-            targetSection.style.transform = transforms[className];
-            break;
-          }
+        // Show only the relevant popup
+        const targetPopup = document.getElementById(targetId);
+        if (targetPopup) {
+          targetPopup.style.display = "block";
         }
       });
     });
   });
 </script>
+
 
 
