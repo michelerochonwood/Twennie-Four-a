@@ -3634,7 +3634,7 @@ margin-right: 5px; /* Space between icon and text */
 }
 
 .promo-expand-btn {
-  background-color: rgb(230, 230, 230);
+  background-color: #262262;
   font-family: "Figtree", sans-serif;
   border-radius: 99px;
   padding: 10px 15px;
@@ -3646,6 +3646,11 @@ margin-right: 5px; /* Space between icon and text */
   text-align: center;
   cursor: pointer;
   margin-top: auto; 
+  color: white;
+}
+
+.promo-expand-btn:hover {
+  background-color: #4a4ab2;
 }
 
 
