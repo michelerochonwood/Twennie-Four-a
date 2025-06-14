@@ -3493,7 +3493,7 @@ margin-right: 5px; /* Space between icon and text */
 /* Promo Contribution Section */
 
 .promo-contribution-section {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1287.08 530'%3E%3Cpath fill='%234e50a2' d='M686.33,42.93S289.97,97.45,0,0v460.94c261.52,108.28,686.33,42.93,686.33,42.93,354.29-32.93,600.74,12.98,600.74,12.98V55.91s-210.07-46.71-600.74-12.98Z'/%3E%3C/svg%3E");
+  background-color: #4a4ab2;
   background-repeat: no-repeat;
   background-size: cover; /* Ensures it stretches to fill the viewport */
   background-position: center center; /* Centers the blue wave */
