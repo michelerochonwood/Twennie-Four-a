@@ -1,126 +1,128 @@
-
-
 <section class="promo-contribution-section">
-
   <div class="promo-contribution-container">
     <h2 class="promo-contribution-title" style="color:#262262">how you will learn on Twennie</h2><br><br>
-    <p style="width: 37%; text-align: center; margin: 0 auto; margin-bottom: 200px">To give you options in your learning, Twennie is organized in these graduated units. If you only want a brief introduction to a concept, find it in articles and videos. If you want to fully integrate a concept into your operations, all units will take you there, small increments at a time.</p>
+    <p style="width: 37%; text-align: center; margin: 0 auto; margin-bottom: 200px">
+      To give you options in your learning, Twennie is organized in these graduated units. If you only want a brief introduction to a concept, find it in articles and videos. If you want to fully integrate a concept into your operations, all units will take you there, small increments at a time.
+    </p>
 
     <div id="promo-contributionGrid" class="promo-contribution-grid">
-      <!-- Top Row -->
-      <div class="promo-unit-card top-left" data-target="expand-top-left">
-        <img src="https://www.twennie.com/icons/article.svg" alt="Article" class="promo-unit-icon" style="width: 60px;">
+
+      <!-- Each card and popup are wrapped together for better structure -->
+      <div class="promo-unit-wrapper">
+        <div id="expand-top-left" class="promo-expandable-info">
+          <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie article</h3>
+          <p class="promo-expand-text">If you want a quick introduction to a concept, read an article.</p>
+          <a href="/sample_article" class="promo-expand-btn">read an article</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-top-left">
+          <img src="https://www.twennie.com/icons/article.svg" alt="Article" class="promo-unit-icon">
+        </div>
       </div>
 
-      <div class="promo-unit-card top-center" data-target="expand-top-center">
-        <img src="https://www.twennie.com/icons/video.svg" alt="Video" class="promo-unit-icon" style="width: 50px;">
+      <div class="promo-unit-wrapper">
+        <div id="expand-top-center" class="promo-expandable-info">
+          <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie video</h3>
+          <p class="promo-expand-text">If you want to dive a little deeper into a topic than an article, watch a video.</p>
+          <a href="/sample_video" class="promo-expand-btn">watch a video</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-top-center">
+          <img src="https://www.twennie.com/icons/video.svg" alt="Video" class="promo-unit-icon">
+        </div>
       </div>
 
-      <div class="promo-unit-card top-right" data-target="expand-top-right">
-        <img src="https://www.twennie.com/icons/interview.svg" alt="Interview" class="promo-unit-icon" style="width: 75px;">
+      <div class="promo-unit-wrapper">
+        <div id="expand-top-right" class="promo-expandable-info">
+          <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie interview</h3>
+          <p class="promo-expand-text">If you're skeptical about a method or exercise or concept, a Twennie interview lets you hear from real professionals who have used it successfully.</p>
+          <a href="https://www.twennie.com/unitform/form_interview" class="promo-expand-btn">watch an interview</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-top-right">
+          <img src="https://www.twennie.com/icons/interview.svg" alt="Interview" class="promo-unit-icon">
+        </div>
       </div>
 
-      <!-- Middle Row -->
-      <div class="promo-unit-card left-center" data-target="expand-left-center">
-        <img src="https://www.twennie.com/icons/promptset.svg" alt="Prompt Set" class="promo-unit-icon">
+      <div class="promo-unit-wrapper">
+        <div id="expand-left-center" class="promo-expandable-info">
+          <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie prompt set</h3>
+          <p class="promo-expand-text">When you want to turn concepts into better habits and behavior for your team, use a prompt set.</p>
+          <a href="/sample_promptset" class="promo-expand-btn">see a prompt set</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-left-center">
+          <img src="https://www.twennie.com/icons/promptset.svg" alt="Prompt Set" class="promo-unit-icon">
+        </div>
       </div>
 
-      <div class="promo-unit-card top-template" data-target="expand-top-template">
-        <img src="https://www.twennie.com/icons/template.svg" alt="Template" class="promo-unit-icon" style="width: 80px;">
+      <div class="promo-unit-wrapper">
+        <div id="expand-right-center" class="promo-expandable-info">
+          <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie exercise</h3>
+          <p class="promo-expand-text">When you want to introduce new concepts to the team and test them out, use an exercise.</p>
+          <a href="/sample_exercise" class="promo-expand-btn">try an exercise</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-right-center">
+          <img src="https://www.twennie.com/icons/exercise.svg" alt="Exercise" class="promo-unit-icon">
+        </div>
       </div>
 
-      <div class="promo-unit-card right-center" data-target="expand-right-center">
-        <img src="https://www.twennie.com/icons/exercise.svg" alt="Exercise" class="promo-unit-icon" style="width: 75px;">
+      <div class="promo-unit-wrapper">
+        <div id="expand-top-template" class="promo-expandable-info">
+          <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie template</h3>
+          <p class="promo-expand-text">When you're serious about implementing concepts you've learned on Twennie, templates help you plan and formalize the change.</p>
+          <a href="/sample_template" class="promo-expand-btn">use a template</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-top-template">
+          <img src="https://www.twennie.com/icons/template.svg" alt="Template" class="promo-unit-icon">
+        </div>
       </div>
 
-      <!-- Bottom Row -->
-      <div class="promo-unit-card bottom-left" data-target="expand-bottom-left">
-        <img src="https://www.twennie.com/icons/microcourse.svg" alt="Micro Course" class="promo-unit-icon" style="width: 120px;">
+      <div class="promo-unit-wrapper">
+        <div id="expand-bottom-left" class="promo-expandable-info">
+          <h3 class="promo-expand-title-white" style="color: #4a4ab2">a Twennie micro course</h3>
+          <p class="promo-expand-text-white">Microcourses will combine Twennie units into full learning experiences combining at least of the units you see here.</p>
+          <a href="https://www.twennie.com/microcourses" class="promo-expand-btn">learn about microcourses</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-bottom-left">
+          <img src="https://www.twennie.com/icons/microcourse.svg" alt="Micro Course" class="promo-unit-icon">
+        </div>
       </div>
 
-      <div class="promo-unit-card bottom-center" data-target="expand-bottom-center">
-        <img src="https://www.twennie.com/icons/microstudy.svg" alt="Micro Study" class="promo-unit-icon" style="width: 110px;">
+      <div class="promo-unit-wrapper">
+        <div id="expand-bottom-center" class="promo-expandable-info">
+          <h3 class="promo-expand-title-white" style="color: #4a4ab2">a Twennie micro study</h3>
+          <p class="promo-expand-text-white">Microstudies will show how concepts were put to the test in the offices of Twennie's members, and what they produced.</p>
+          <a href="https://www.twennie.com/microstudies" class="promo-expand-btn">learn about microstudies</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-bottom-center">
+          <img src="https://www.twennie.com/icons/microstudy.svg" alt="Micro Study" class="promo-unit-icon">
+        </div>
       </div>
 
-      <div class="promo-unit-card bottom-right" data-target="expand-bottom-right">
-        <img src="https://www.twennie.com/icons/peercoaching.svg" alt="Peer Coaching" class="promo-unit-icon" style="width: 110px;">
+      <div class="promo-unit-wrapper">
+        <div id="expand-bottom-right" class="promo-expandable-info">
+          <h3 class="promo-expand-title-white" style="color: #4a4ab2">peer coaching through Twennie</h3>
+          <p class="promo-expand-text-white">Peer coaching will help Twennie learners to strategically apply what they've learned on Twennie.</p>
+          <a href="/peercoaching" class="promo-expand-btn">learn about peer coaching</a>
+        </div>
+        <div class="promo-unit-card" data-target="expand-bottom-right">
+          <img src="https://www.twennie.com/icons/peercoaching.svg" alt="Peer Coaching" class="promo-unit-icon">
+        </div>
       </div>
+
     </div>
-  </div>
-
-  <!-- Expandable Info Sections -->
-  <div id="expand-top-left" class="promo-expandable-info">
-    <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie article</h3>
-    <p class="promo-expand-text">If you want a quick introduction to a concept, read an article.</p>
-    <a href="/sample_article" class="promo-expand-btn">read an article</a>
-  </div>
-
-  <div id="expand-top-center" class="promo-expandable-info">
-    <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie video</h3>
-    <p class="promo-expand-text">If you want to dive a little deeper into a topic than an article, watch a video.</p>
-    <a href="/sample_video" class="promo-expand-btn">watch a video</a>
-  </div>
-
-  <div id="expand-top-template" class="promo-expandable-info">
-    <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie template</h3>
-    <p class="promo-expand-text">When you're serious about implementing concepts you've learned on Twennie, templates help you plan and formalize the change.</p>
-    <a href="/sample_template" class="promo-expand-btn">use a template</a>
-  </div>
-
-  <div id="expand-top-right" class="promo-expandable-info">
-    <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie interview</h3>
-    <p class="promo-expand-text">If you're skeptical about a method or exercise or concept, a Twennie interview lets you hear from real professionals who have used it successfully.</p>
-    <a href="https://www.twennie.com/unitform/form_interview" class="promo-expand-btn">watch an interview</a>
-  </div>
-
-  <div id="expand-left-center" class="promo-expandable-info">
-    <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie prompt set</h3>
-    <p class="promo-expand-text">When you want to turn concepts into better habits and behavior for your team, use a prompt set.</p>
-    <a href="/sample_promptset" class="promo-expand-btn">see a prompt set</a>
-  </div>
-
-  <div id="expand-right-center" class="promo-expandable-info">
-    <h3 class="promo-expand-title" style="color: #4a4ab2">a Twennie exercise</h3>
-    <p class="promo-expand-text">When you want to introduce new concepts to the team and test them out, use an exercise.</p>
-    <a href="/sample_exercise" class="promo-expand-btn">try an exercise</a>
-  </div>
-
-  <div id="expand-bottom-left" class="promo-expandable-info">
-    <h3 class="promo-expand-title-white" style="color: #4a4ab2">a Twennie micro course</h3>
-    <p class="promo-expand-text-white" >Microcourses will combine Twennie units into full learning experiences combining at least of the units you see here.</p>
-    <a href="https://www.twennie.com/microcourses" class="promo-expand-btn">learn about microcourses</a>
-  </div>
-
-  <div id="expand-bottom-center" class="promo-expandable-info">
-    <h3 class="promo-expand-title-white" style="color: #4a4ab2">a Twennie micro study</h3>
-    <p class="promo-expand-text-white">Microstudies will show how concepts were put to the test in the offices of Twennie's members, and what they produced.</p>
-    <a href="https://www.twennie.com/microstudies" class="promo-expand-btn">learn about microstudies</a>
-  </div>
-
-  <div id="expand-bottom-right" class="promo-expandable-info">
-    <h3 class="promo-expand-title-white" style="color: #4a4ab2">peer coaching through Twennie</h3>
-    <p class="promo-expand-text-white">Peer coaching will help Twennie learners to strategically apply what they've learned on Twennie.</p>
-    <a href="/peercoaching" class="promo-expand-btn">learn about peer coaching</a>
   </div>
 </section>
 
-
-<!-- JS: Expandable Grid Logic -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const unitCards = document.querySelectorAll(".promo-unit-card");
+    const cards = document.querySelectorAll(".promo-unit-card");
 
-    unitCards.forEach(card => {
+    cards.forEach(card => {
       card.addEventListener("click", function () {
         const targetId = this.getAttribute("data-target");
-        if (!targetId) return;
 
-        // Hide all popups
         document.querySelectorAll(".promo-expandable-info").forEach(popup => {
           popup.style.display = "none";
         });
 
-        // Show only the relevant popup
         const targetPopup = document.getElementById(targetId);
         if (targetPopup) {
           targetPopup.style.display = "block";
@@ -129,6 +131,7 @@
     });
   });
 </script>
+
 
 
 
