@@ -3488,8 +3488,6 @@ margin-right: 5px; /* Space between icon and text */
   background-color:#4a4ab2;
 }
 
-/* HOW TO CONTRIBUTE PAGE */
-
 /* Container Section */
 .promo-contribution-section {
   width: 100vw;
@@ -3513,16 +3511,19 @@ margin-right: 5px; /* Space between icon and text */
   margin-top: 100px;
 }
 
-/* Horizontal Row Layout */
-.promo-contribution-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
+/* Grid Layout for 9 Cards */
+.promo-contribution-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 40px;
   margin-top: 60px;
+  justify-items: center;
+  align-items: center;
   position: relative;
 }
 
+/* Wrapper for each card and its popup */
 .promo-unit-wrapper {
   position: relative;
   display: flex;
@@ -3530,7 +3531,7 @@ margin-right: 5px; /* Space between icon and text */
   align-items: center;
 }
 
-/* Cards */
+/* Card Styles */
 .promo-unit-card {
   width: 150px;
   height: 150px;
@@ -3554,7 +3555,7 @@ margin-right: 5px; /* Space between icon and text */
   height: auto;
 }
 
-/* Arrow on top of card */
+/* Arrow on top of each card */
 .promo-unit-card::before {
   content: "";
   position: absolute;
@@ -3568,9 +3569,11 @@ margin-right: 5px; /* Space between icon and text */
   border-bottom: 10px solid rgb(230, 230, 230);
 }
 
-/* Expandable Popup */
+/* Popups above each card */
 .promo-expandable-info {
   position: absolute;
+  bottom: 100%;
+  margin-bottom: 20px;
   background-color: white;
   padding: 15px;
   border-radius: 10px;
@@ -3610,6 +3613,7 @@ margin-right: 5px; /* Space between icon and text */
 .promo-expand-btn:hover {
   background-color: #4a4ab2;
 }
+
 
 
 
