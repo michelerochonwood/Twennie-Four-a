@@ -3490,175 +3490,127 @@ margin-right: 5px; /* Space between icon and text */
 
 /* HOW TO CONTRIBUTE PAGE */
 
-/* Promo Contribution Section */
-
+/* Container Section */
 .promo-contribution-section {
-  background-repeat: no-repeat;
-  background-size: cover; /* Ensures it stretches to fill the viewport */
-  background-position: center center; /* Centers the blue wave */
-  width: 100vw; /* Ensures it stretches to full width */
-  min-height: 100vh; /* Ensures it fills the full height of the viewport */
+  width: 100vw;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centers content vertically */
-  align-items: center; /* Centers content horizontally */
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  padding-bottom: 100px;
 }
 
-/* Title & Button */
-.promo-contribution-title {
-  color: white;
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin-top: 100px;
+.promo-contribution-container {
   text-align: center;
 }
 
-.promo-contributor-benefits {
-  color: white;
-  width: 50%;
-  margin: 0 auto;
-  font-size: 1rem;
-  margin-bottom: 250px;
+.promo-contribution-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-top: 100px;
 }
 
-.promo-contribute-btn:hover {
-  background-color: #4a4ab2;
-}
-
-/* Grid Layout */
-.promo-contribution-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 200px);
-  grid-template-rows: repeat(3, 200px);
-  gap: 15px;
+/* Horizontal Row Layout */
+.promo-contribution-row {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  width: 80%;
-  margin: auto;
+  gap: 30px;
+  margin-top: 60px;
   position: relative;
-  margin-bottom: 400px;
 }
 
-/* Grid Items */
+.promo-unit-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Cards */
 .promo-unit-card {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   background-color: rgb(230, 230, 230);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  text-decoration: none;
-  color: inherit;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transform: translateY(50px);
-  animation: slideIn 0.6s ease-out forwards;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease;
 }
 
-/* Center SVGs Inside Squares */
-.promo-svg-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+.promo-unit-card:hover {
+  transform: scale(1.05);
 }
 
-/* Icons */
 .promo-unit-icon {
-  width: 100px;
+  width: 75%;
   height: auto;
 }
 
-/* CSS Arrows as Shapes */
-.promo-unit-card::after {
+/* Arrow on top of card */
+.promo-unit-card::before {
   content: "";
   position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-style: solid;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid rgb(230, 230, 230);
 }
 
-/* Top Arrows */
-.top-left::after, .top-center::after, .top-right::after {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 0 15px 20px 15px;
-  border-color: transparent transparent rgb(230, 230, 230) transparent;
-}
-
-/* Left & Right Arrows */
-.left-center::after {
-  right: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  border-width: 15px 20px 15px 0;
-  border-color: transparent rgb(230, 230, 230) transparent transparent;
-}
-
-.right-center::after {
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  border-width: 15px 0 15px 20px;
-  border-color: transparent transparent transparent rgb(230, 230, 230);
-}
-
-/* Bottom Arrows */
-.bottom-left::after, .bottom-center::after, .bottom-right::after {
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 20px 15px 0 15px;
-  border-color: rgb(230, 230, 230) transparent transparent transparent;
-}
-
-/* Expandable Info */
+/* Expandable Popup */
 .promo-expandable-info {
   position: absolute;
-  color: white;
+  background-color: white;
   padding: 15px;
   border-radius: 10px;
   width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: none;
   text-align: center;
+  z-index: 10;
 }
 
-/* Slide In Animation */
-@keyframes slideIn {
-  to { opacity: 1; transform: translateY(0); }
+.promo-expand-title,
+.promo-expand-title-white {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4a4ab2;
+  margin-bottom: 10px;
 }
 
+.promo-expand-text,
 .promo-expand-text-white {
-  color:#444;
-}
-
-.promo-expand-text {
-  color:#444;
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 10px;
 }
 
 .promo-expand-btn {
   background-color: #262262;
-  font-family: "Figtree", sans-serif;
-  border-radius: 99px;
-  padding: 10px 15px;
-  font-weight: 800;
-  text-decoration: none;
-  font-size: 0.7rem;
-  border: none;
-  width: 100%; /* Match the width of the single topic link */
-  text-align: center;
-  cursor: pointer;
-  margin-top: auto; 
   color: white;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 8px 12px;
+  border-radius: 99px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .promo-expand-btn:hover {
   background-color: #4a4ab2;
 }
+
 
 
 /* Promo Microstudy Section (No Background) */
