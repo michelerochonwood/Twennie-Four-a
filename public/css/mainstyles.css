@@ -3491,7 +3491,6 @@ margin-right: 5px; /* Space between icon and text */
 /* Container Section */
 /* Container Section */
 /* Container Section */
-/* Container Section */
 .promo-contribution-section {
   width: 100vw;
   min-height: 100vh;
@@ -3514,6 +3513,7 @@ margin-right: 5px; /* Space between icon and text */
   font-weight: 800;
   margin-top: 100px;
 }
+
 
 /* One-row 9-column Grid */
 .promo-contribution-grid {
@@ -3578,6 +3578,7 @@ margin-right: 5px; /* Space between icon and text */
   transition: transform 0.2s ease;
 }
 
+
 .promo-unit-card:hover {
   transform: scale(1.05);
 }
@@ -3600,6 +3601,52 @@ margin-right: 5px; /* Space between icon and text */
   border-right: 10px solid transparent;
   border-bottom: 10px solid rgb(230, 230, 230);
 }
+
+/* Expandable Popup directly above each card */
+.promo-expandable-info {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+  text-align: center;
+  z-index: 10;
+}
+
+.promo-expand-title,
+.promo-expand-title-white {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4a4ab2;
+  margin-bottom: 10px;
+}
+
+.promo-expand-text,
+.promo-expand-text-white {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.promo-expand-btn {
+  background-color: #262262;
+  color: white;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 8px 12px;
+  border-radius: 99px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.promo-expand-btn:hover {
+  background-color: #4a4ab2;
+}
+
 
 /* Popup Content Styles */
 .promo-expand-title,
@@ -3631,10 +3678,6 @@ margin-right: 5px; /* Space between icon and text */
 .promo-expand-btn:hover {
   background-color: #4a4ab2;
 }
-
-
-
-
 
 
 
