@@ -3569,7 +3569,7 @@ margin-right: 5px; /* Space between icon and text */
 /* Expandable Popup directly above each card */
 .promo-expandable-info {
   position: absolute;
-  top: -180px; /* Moves the popup directly above the card */
+  top: -200px; /* Moves the popup directly above the card */
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
