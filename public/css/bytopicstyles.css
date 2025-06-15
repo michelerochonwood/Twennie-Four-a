@@ -206,7 +206,7 @@ html, body {
 .bytopic-library-unit-card.active .bytopic-hidden-content {
   /* display: flex; */
   display: block;
-  max-height: 1250px;
+  max-height: 1500px;
   opacity: 1;
   /* margin: 2rem 0; */
 }
