@@ -62,24 +62,32 @@
                   <div class="bytopic-unit-review-container">
                     {{#if ../../loggedIn}}
 
-                      {{!-- Full access: contributor, paid, group_member, leader --}}
-                      {{#if (or (eq ../../accessLevel "paid")
-                                 (eq ../../accessLevel "contributor")
-                                 (eq ../../membershipType "group_member")
-                                 (eq ../../membershipType "leader"))}}
+                      {{!-- Leaders and Group Members get full access --}}
+                      {{#if (or (eq ../../membershipType "leader") (eq ../../membershipType "group_member"))}}
 
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
                         </a>
 
-                      {{!-- Free member: allow only article and video --}}
-                      {{else if (or (eq type "article") (eq type "video"))}}
+                      {{!-- Members with paid or contributor access --}}
+                      {{else if (and (eq ../../membershipType "member")
+                                     (or (eq ../../accessLevel "paid_individual")
+                                         (eq ../../accessLevel "contributor_individual")))}}
 
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
                         </a>
 
-                      {{!-- Free member trying to access restricted unit --}}
+                      {{!-- Free individual members – allow only articles and videos --}}
+                      {{else if (and (eq ../../membershipType "member")
+                                     (eq ../../accessLevel "free_individual")
+                                     (or (eq type "article") (eq type "video")))}}
+
+                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
+                          review this unit
+                        </a>
+
+                      {{!-- Free member, restricted unit --}}
                       {{else}}
                         <div class="bytopic-unit-review-btn disabled" title="This unit is not available with your current membership.">
                           not available with your membership
@@ -116,6 +124,7 @@
     if (arrow) arrow.classList.toggle('open');
   }
 </script>
+
 
 
 
