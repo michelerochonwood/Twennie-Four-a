@@ -98,12 +98,13 @@ html, body {
 
   background-color: #d0cfcf;
   border-radius: 10px;
-  overflow: hidden;
+  overflow: visible;
   transition: all 0.3s ease-in-out;
   position: relative;
 
   margin-bottom: 1rem;
   min-height: 350px;
+  margin-bottom: 1.5rem;
 }
 
 .bytopic-library-unit-card.active .bytopic-expand-toggle {
