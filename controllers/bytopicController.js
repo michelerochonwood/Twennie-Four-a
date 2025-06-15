@@ -222,7 +222,7 @@ const sectionedUnits = [
 
 
 
-const user = req.session.user;
+const user = req.user; 
 
 res.render('bytopic_views/bytopic_view', {
   layout: 'bytopiclayout',
