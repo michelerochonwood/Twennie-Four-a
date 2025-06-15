@@ -90,6 +90,7 @@ html, body {
   align-items: center;
   position: relative;
   margin-bottom: 1.5rem;
+  height: 400px;
 }
 
 .bytopic-library-unit-card.active {
