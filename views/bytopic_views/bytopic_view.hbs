@@ -25,7 +25,6 @@
 
               <!-- Card Content -->
               <div class="bytopic-card-content">
-
                 <!-- Always-visible content -->
                 <div class="bytopic-visible-content">
                   <div class="bytopic-unit-type-icon-container">
@@ -45,65 +44,54 @@
                 </div>
 
                 <!-- Expandable content -->
-<div class="bytopic-hidden-content">
-  <div class="bytopic-author-label">AUTHOR</div>
-  <div class="bytopic-author-image-container">
-    <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
-  </div>
-  <div class="bytopic-author-name-container">
-    <span class="bytopic-author-name">{{this.authorName}}</span>
-  </div>
-  <div class="bytopic-unit-summary-container">
-    <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
-  </div>
+                <div class="bytopic-hidden-content">
+                  <div class="bytopic-author-label">AUTHOR</div>
+                  <div class="bytopic-author-image-container">
+                    <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
+                  </div>
+                  <div class="bytopic-author-name-container">
+                    <span class="bytopic-author-name">{{this.authorName}}</span>
+                  </div>
+                  <div class="bytopic-unit-summary-container">
+                    <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
+                  </div>
 
-  {{#if (eq type "promptset")}}
-    <div class="bytopic-detail-value-purpose">
-      <strong>Purpose:</strong><br>
-      {{this.purpose}}
-    </div>
-  {{/if}}
-</div>
+                  {{#if (eq type "promptset")}}
+                    <div class="bytopic-detail-value-purpose">
+                      <strong>Purpose:</strong><br>
+                      {{this.purpose}}
+                    </div>
+                  {{/if}}
 
-
-
-                  <!-- ACCESS CONTROL BUTTON -->
+                  <!-- ACCESS CONTROL BUTTON (now inside the hidden content) -->
                   <div class="bytopic-unit-review-container">
                     {{#if ../../loggedIn}}
 
-                      {{!-- Leaders and Group Members get full access --}}
                       {{#if (or (eq ../../membershipType "leader") (eq ../../membershipType "group_member"))}}
-
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
                         </a>
 
-                      {{!-- Members with paid or contributor access --}}
                       {{else if (and (eq ../../membershipType "member")
                                      (or (eq ../../accessLevel "paid_individual")
                                          (eq ../../accessLevel "contributor_individual")))}}
-
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
                         </a>
 
-                      {{!-- Free individual members – allow only articles and videos --}}
                       {{else if (and (eq ../../membershipType "member")
                                      (eq ../../accessLevel "free_individual")
                                      (or (eq type "article") (eq type "video")))}}
-
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
                         </a>
 
-                      {{!-- Free member, restricted unit --}}
                       {{else}}
                         <div class="bytopic-unit-review-btn disabled" title="This unit is not available with your current membership.">
                           not available with your membership
                         </div>
                       {{/if}}
 
-                    {{!-- Not logged in --}}
                     {{else}}
                       <div class="bytopic-unit-review-btn disabled" title="Please log in to access this unit.">
                         login required
@@ -133,6 +121,7 @@
     if (arrow) arrow.classList.toggle('open');
   }
 </script>
+
 
 
 
