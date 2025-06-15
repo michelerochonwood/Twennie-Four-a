@@ -62,7 +62,7 @@
                   <div class="bytopic-unit-review-container">
                     {{#if ../../loggedIn}}
 
-                      {{!-- Full access: leaders, group members, paid, contributor --}}
+                      {{!-- Full access members --}}
                       {{#if (or (eq ../../accessLevel "paid")
                                  (eq ../../accessLevel "contributor")
                                  (eq ../../membershipType "group_member")
@@ -72,18 +72,23 @@
                           review this unit
                         </a>
 
-                      {{!-- Free members: allow only article and video --}}
+                      {{!-- Free members: only articles and videos --}}
                       {{else if (or (eq type "article") (eq type "video"))}}
 
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
                         </a>
 
+                      {{!-- Free member, restricted unit --}}
+                      {{else}}
+                        <a class="bytopic-unit-review-btn disabled" style="pointer-events: none;" title="Access restricted to full members.">
+                          login required
+                        </a>
                       {{/if}}
 
                     {{!-- Not logged in --}}
                     {{else}}
-                      <a class="bytopic-unit-review-btn disabled" style="pointer-events: none;" title="Login required">
+                      <a class="bytopic-unit-review-btn disabled" style="pointer-events: none;" title="Please log in to access this unit.">
                         login required
                       </a>
                     {{/if}}
