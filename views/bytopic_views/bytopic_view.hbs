@@ -14,43 +14,50 @@
         <div class="bytopic-library-units-grid">
           {{#each this.units}}
             <div class="bytopic-library-unit-card">
+              
+              <!-- SVG Header -->
               <div class="bytopic-card-svg-header">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198.89 17.83">
                   <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
                   <path class="cls-1" d="M0,9.74s30.57,13.88,92.83,1.88c0,0,68.2-13.17,106.06,6.21V0H0v9.74Z"/>
                 </svg>
               </div>
-              <div class="bytopic-card-content">
-                <div class="bytopic-duration-image-container">
-                  <img src="{{getDurationImage this.type}}" onerror="this.onerror=null; this.src='/images/placeholder.svg'" alt="duration" class="bytopic-duration-image">
+
+              <!-- Core Content -->
+              <div class="bytopic-unit-type-icon-container">
+                <img src="{{getUnitTypeIcon this.type}}" alt="Unit Type Icon" class="bytopic-unit-type-icon">
+              </div>
+
+              <div class="bytopic-unit-title-container">
+                <h2 class="bytopic-unit-title">{{this.title}}</h2>
+              </div>
+
+              <!-- Expand Toggle -->
+              <div class="bytopic-expand-toggle" onclick="toggleCard(this)">
+                <svg class="bytopic-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
+                  <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
+                  <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
+                </svg>
+              </div>
+
+              <!-- Hidden Content -->
+              <div class="bytopic-hidden-content">
+                <div class="bytopic-author-label">AUTHOR</div>
+                <div class="bytopic-author-image-container">
+                  <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
                 </div>
-                <div class="bytopic-unit-type-icon-container">
-                  <img src="{{getUnitTypeIcon this.type}}" alt="Unit Type Icon" class="bytopic-unit-type-icon">
+                <div class="bytopic-author-name-container">
+                  <span class="bytopic-author-name">{{this.authorName}}</span>
                 </div>
-                <div class="bytopic-unit-title-container">
-                  <h2 class="bytopic-unit-title">{{this.title}}</h2>
+
+                <div class="bytopic-unit-summary-container">
+                  <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
                 </div>
-                <div class="bytopic-expand-toggle" onclick="toggleCard(this)">
-                  <svg class="bytopic-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
-                    <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
-                    <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-                  </svg>
-                </div>
-                <div class="bytopic-hidden-content">
-                  <div class="bytopic-author-label">AUTHOR</div>
-                  <div class="bytopic-author-image-container">
-                    <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
-                  </div>
-                  <div class="bytopic-author-name-container">
-                    <span class="bytopic-author-name">{{this.authorName}}</span>
-                  </div>
-                  <div class="bytopic-unit-summary-container">
-                    <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
-                  </div>
-                  <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
-                  <div class="bytopic-unit-review-container">
-                    <a href="https://www.twennie.com/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
-                  </div>
+
+                <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
+
+                <div class="bytopic-unit-review-container">
+                  <a href="https://www.twennie.com/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
                 </div>
               </div>
             </div>
@@ -67,32 +74,16 @@
   </div>
 </div>
 
-
-
-
-
-
-
-<script>
-function toggleCard(element) {
-  let card = element.closest('.bytopic-library-unit-card');
-  card.classList.toggle('active');
-  let arrow = element;
-  arrow.classList.toggle('open');
-}
-</script>
-
-
-
-
-
-
+<!-- Simplified Toggle Script -->
 <script>
   function toggleCard(element) {
-  let card = element.closest('.bytopic-library-unit-card');
-  card.classList.toggle('active');
-  
-  let arrow = element.querySelector('.bytopic-arrow-icon');
-  arrow.classList.toggle('open');
-}
+    const card = element.closest('.bytopic-library-unit-card');
+    const arrow = element.querySelector('.bytopic-arrow-icon');
+
+    card.classList.toggle('active');
+
+    if (arrow) {
+      arrow.classList.toggle('open');
+    }
+  }
 </script>
