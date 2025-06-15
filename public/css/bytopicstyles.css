@@ -294,6 +294,61 @@ html, body {
 }
 
 
+/* === Responsive: Large tablets and below (≤ 1200px) === */
+@media screen and (max-width: 1200px) {
+  .bytopic-container {
+    padding: 0 4%;
+  }
+
+  .bytopic-short-summary,
+  .bytopic-long-summary {
+    width: 100%;
+  }
+
+  .bytopic-library-units-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* === Responsive: Small tablets and below (≤ 900px) === */
+@media screen and (max-width: 900px) {
+  .bytopic-container {
+    padding: 0 2rem;
+  }
+
+  .bytopic-library-units-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bytopic-card-content {
+    margin-top: 3rem;
+  }
+}
+
+/* === Responsive: Mobile screens (≤ 600px) === */
+@media screen and (max-width: 600px) {
+  .bytopic-container {
+    padding: 0 1rem;
+  }
+
+  .bytopic-library-units-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bytopic-card-content {
+    margin-top: 2.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .bytopic-unit-title {
+    font-size: 0.85rem;
+  }
+
+  .bytopic-unit-review-btn {
+    font-size: 0.75rem;
+    padding: 8px 14px;
+  }
+}
 
 
 
