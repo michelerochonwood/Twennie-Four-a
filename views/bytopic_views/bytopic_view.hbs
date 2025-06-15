@@ -25,7 +25,6 @@
 
               <!-- Card Content -->
               <div class="bytopic-card-content">
-
                 <!-- Always-visible content -->
                 <div class="bytopic-visible-content">
                   <div class="bytopic-unit-type-icon-container">
@@ -58,13 +57,13 @@
                   </div>
                   <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
 
+                  <!-- ACCESS CONTROL BUTTON -->
                   <div class="bytopic-unit-review-container">
                     {{#if ../../loggedIn}}
-
                       {{#if (or (eq ../../accessLevel "paid")
                                  (eq ../../accessLevel "contributor")
-                                 (eq (toLowerCase ../../membershipType) "group_member")
-                                 (eq (toLowerCase ../../membershipType) "leader"))}}
+                                 (eq ../../membershipType "group_member")
+                                 (eq ../../membershipType "leader"))}}
 
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
@@ -83,13 +82,10 @@
                         </button>
 
                       {{/if}}
-
                     {{else}}
-
                       <a class="bytopic-unit-review-btn disabled" style="pointer-events: none;" title="Login required">
                         login required
                       </a>
-
                     {{/if}}
                   </div>
                 </div>
@@ -106,6 +102,7 @@
   </div>
 </div>
 
+<!-- Expand Toggle Script -->
 <script>
   function toggleCard(element) {
     const card = element.closest('.bytopic-library-unit-card');
@@ -114,6 +111,7 @@
     if (arrow) arrow.classList.toggle('open');
   }
 </script>
+
 
 
 
