@@ -235,6 +235,7 @@ html, body {
   text-decoration: none;
   border-radius: 1rem;
   transition: background-color 0.3s ease;
+  margin-bottom: 30px;
 }
 
 .bytopic-unit-review-btn:hover {
