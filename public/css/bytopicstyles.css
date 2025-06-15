@@ -101,7 +101,7 @@ html, body {
   margin-bottom: 1rem;
   min-height: 350px;
   margin-bottom: 1.5rem;
-  height: 900px;
+  height: fit-content;
 }
 
 .bytopic-library-unit-card.active .bytopic-expand-toggle {
@@ -111,12 +111,13 @@ html, body {
 
 /* Prevent other cards in the row from expanding */
 .bytopic-library-units-grid > .bytopic-library-unit-card:not(.active) {
-  height: 250px;
+  max-height: 250px;
+    overflow: hidden;
 }
 
 /* Ensure only the clicked card expands */
 .bytopic-library-unit-card.active {
-  height: 800px;
+  height: fit-content;
 }
 
 /* SVG Header Styling */
@@ -367,7 +368,7 @@ html, body {
 }
 
 .latest-library-unit-card.active {
-  height: 900px;
+  height: fit-content;
 }
 
 .latest-library-units-grid > .latest-library-unit-card:not(.active) {
