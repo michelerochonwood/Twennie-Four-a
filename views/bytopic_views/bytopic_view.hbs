@@ -41,7 +41,7 @@
                   </svg>
                 </div>
 
-                <!-- Hidden Content (visible only in active card) -->
+                <!-- Hidden Content -->
                 <div class="bytopic-hidden-content">
                   <div class="bytopic-author-label">AUTHOR</div>
 
@@ -61,9 +61,27 @@
 
                   <div class="bytopic-unit-review-container">
                     {{#if ../loggedIn}}
-                      <a href="https://www.twennie.com/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
-                        review this unit
-                      </a>
+
+                      {{!-- If user is paid, contributor, group member, or leader --}}
+                      {{#if (or (eq ../accessLevel "paid") (eq ../accessLevel "contributor") (eq ../membershipType "group_member") (eq ../membershipType "leader"))}}
+                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
+                          review this unit
+                        </a>
+
+                      {{!-- Free members: only allow videos and articles --}}
+                      {{else if (or (eq type "article") (eq type "video"))}}
+                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
+                          review this unit
+                        </a>
+
+                      {{!-- Free members trying to access restricted units --}}
+                      {{else}}
+                        <button class="bytopic-unit-review-btn" disabled title="Upgrade your membership to access this unit.">
+                          upgrade required
+                        </button>
+                      {{/if}}
+
+                    {{!-- Not logged in --}}
                     {{else}}
                       <button class="bytopic-unit-review-btn" disabled title="Please log in to access this unit.">
                         login required
@@ -99,5 +117,6 @@
     }
   }
 </script>
+
 
 

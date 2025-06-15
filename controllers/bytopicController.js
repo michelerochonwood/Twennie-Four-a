@@ -222,13 +222,17 @@ const sectionedUnits = [
 
 
 
+const user = req.session.user;
+
 res.render('bytopic_views/bytopic_view', {
   layout: 'bytopiclayout',
   title: topic.title,
   shortSummary: topic.shortSummary,
   longSummary: topic.longSummary,
   sectionedUnits,
-  loggedIn: !!req.session.user // this line enables the login check
+  loggedIn: !!user,
+  accessLevel: user?.accessLevel || null,
+  membershipType: user?.membershipType || null
 });
 
     } catch (error) {
