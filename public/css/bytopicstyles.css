@@ -105,7 +105,6 @@ html, body {
   margin-bottom: 1rem;
   min-height: 350px;
   margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
 }
 
 .bytopic-library-unit-card.active .bytopic-expand-toggle {
@@ -202,7 +201,7 @@ html, body {
 
 /* Show when active */
 .bytopic-library-unit-card.active .bytopic-hidden-content {
-  max-height: 2000px; /* Arbitrary large value */
+  max-height: 3000px; /* Arbitrary large value */
   opacity: 1;
 }
 
