@@ -23,41 +23,47 @@
                 </svg>
               </div>
 
-              <!-- Core Content -->
-              <div class="bytopic-unit-type-icon-container">
-                <img src="{{getUnitTypeIcon this.type}}" alt="Unit Type Icon" class="bytopic-unit-type-icon">
-              </div>
-
-              <div class="bytopic-unit-title-container">
-                <h2 class="bytopic-unit-title">{{this.title}}</h2>
-              </div>
-
-              <!-- Expand Toggle -->
-              <div class="bytopic-expand-toggle" onclick="toggleCard(this)">
-                <svg class="bytopic-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
-                  <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
-                  <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
-                </svg>
-              </div>
-
-              <!-- Hidden Content -->
-              <div class="bytopic-hidden-content">
-                <div class="bytopic-author-label">AUTHOR</div>
-                <div class="bytopic-author-image-container">
-                  <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
-                </div>
-                <div class="bytopic-author-name-container">
-                  <span class="bytopic-author-name">{{this.authorName}}</span>
+              <!-- Card Content -->
+              <div class="bytopic-card-content">
+                <div class="bytopic-unit-type-icon-container">
+                  <img src="{{getUnitTypeIcon this.type}}" alt="Unit Type Icon" class="bytopic-unit-type-icon">
                 </div>
 
-                <div class="bytopic-unit-summary-container">
-                  <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
+                <div class="bytopic-unit-title-container">
+                  <h2 class="bytopic-unit-title">{{this.title}}</h2>
                 </div>
 
-                <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
+                <!-- Expand Toggle -->
+                <div class="bytopic-expand-toggle" onclick="toggleCard(this)">
+                  <svg class="bytopic-arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.65 100.99">
+                    <defs><style>.cls-1 { fill: #4e50a2; }</style></defs>
+                    <polygon class="cls-1" points="0 0 161.57 100.99 331.65 0 0 0"/>
+                  </svg>
+                </div>
 
-                <div class="bytopic-unit-review-container">
-                  <a href="https://www.twennie.com/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
+                <!-- Hidden Content (Initially Hidden) -->
+                <div class="bytopic-hidden-content">
+                  <div class="bytopic-author-label">AUTHOR</div>
+
+                  <div class="bytopic-author-image-container">
+                    <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
+                  </div>
+
+                  <div class="bytopic-author-name-container">
+                    <span class="bytopic-author-name">{{this.authorName}}</span>
+                  </div>
+
+                  <div class="bytopic-unit-summary-container">
+                    <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
+                  </div>
+
+                  <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
+
+                  <div class="bytopic-unit-review-container">
+                    <a href="https://www.twennie.com/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
+                      review this unit
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -74,7 +80,7 @@
   </div>
 </div>
 
-<!-- Simplified Toggle Script -->
+<!-- Expand Toggle Script -->
 <script>
   function toggleCard(element) {
     const card = element.closest('.bytopic-library-unit-card');
@@ -87,3 +93,4 @@
     }
   }
 </script>
+

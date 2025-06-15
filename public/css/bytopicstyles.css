@@ -36,7 +36,7 @@ html, body {
 /* BY TOPIC PAGE */
 
 
-/* === CONTAINER AND LAYOUT === */
+/* === CONTAINER AND PAGE LAYOUT === */
 
 .bytopic-container {
   padding: 0 8%;
@@ -66,6 +66,9 @@ html, body {
   line-height: 1.2;
 }
 
+
+/* === GRID OF CARDS === */
+
 .bytopic-library-units-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -74,27 +77,27 @@ html, body {
 }
 
 
-/* === UNIT CARDS === */
+/* === LIBRARY UNIT CARD === */
 
 .bytopic-library-unit-card {
+  background-color: #d0cfcf;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 250px;
+  transition: height 0.4s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #d0cfcf;
-  border-radius: 10px;
-  margin-bottom: 1.5rem;
-  transition: all 0.3s ease-in-out;
   position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.bytopic-library-unit-card.active {
+  height: auto;
 }
 
 
-/* === COLLAPSED STATE === */
-.bytopic-library-units-grid > .bytopic-library-unit-card:not(.active) .bytopic-hidden-content {
-  display: none;
-}
-
-
-/* === SVG HEADER === */
+/* === HEADER WAVE SVG === */
 
 .bytopic-card-svg-header {
   width: 100%;
@@ -105,10 +108,20 @@ html, body {
 }
 
 
-/* === UNIT TYPE ICON === */
+/* === CARD CONTENT LAYOUT === */
+
+.bytopic-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 4rem; /* offset from SVG header */
+}
+
+
+/* === ICON AND TITLE === */
 
 .bytopic-unit-type-icon-container {
-  margin-top: 4rem;
   margin-bottom: 5px;
 }
 
@@ -117,38 +130,42 @@ html, body {
   height: auto;
 }
 
-
-/* === TITLE AND TOGGLE === */
-
 .bytopic-unit-title {
   font-size: clamp(0.8rem, 5vw, 0.95rem);
   font-weight: bold;
   color: #4a4ab2;
   margin: 10px;
+  text-align: center;
 }
+
+
+/* === TOGGLE EXPAND ARROW === */
 
 .bytopic-expand-toggle {
   margin-top: auto;
   margin-bottom: 10px;
   cursor: pointer;
   width: 40px;
-  transition: transform 0.3s ease;
   text-align: center;
-}
-
-.bytopic-expand-toggle.open,
-.bytopic-arrow-icon.open {
-  transform: rotate(180deg);
+  transition: transform 0.3s ease;
 }
 
 .bytopic-arrow-icon {
   transition: transform 0.3s ease-in-out;
 }
 
+.bytopic-arrow-icon.open {
+  transform: rotate(180deg);
+}
 
-/* === EXPANDED CONTENT === */
+
+/* === HIDDEN CONTENT AREA === */
 
 .bytopic-hidden-content {
+  display: none;
+}
+
+.bytopic-library-unit-card.active .bytopic-hidden-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -156,16 +173,19 @@ html, body {
   margin-top: 1rem;
 }
 
+
+/* === HIDDEN CONTENT STYLES === */
+
+.bytopic-author-label {
+  font-weight: 800;
+  font-size: 0.7rem;
+}
+
 .bytopic-author-image {
   width: 65px;
   height: 65px;
   border-radius: 50%;
   border: 2px solid #4e50a2;
-}
-
-.bytopic-author-label {
-  font-weight: 800;
-  font-size: 0.7rem;
 }
 
 .bytopic-author-name {
@@ -199,7 +219,7 @@ html, body {
 }
 
 
-/* === REVIEW BUTTON === */
+/* === REVIEW THIS UNIT BUTTON === */
 
 .bytopic-unit-review-container {
   margin-top: 1.25rem;
@@ -222,7 +242,7 @@ html, body {
 }
 
 
-/* === SECTION HEADERS === */
+/* === SECTION HEADINGS === */
 
 .bytopic-section-title {
   font-size: 1.1rem;
@@ -249,6 +269,7 @@ html, body {
   border-radius: 8px;
   width: 60%;
 }
+
 
 
 
