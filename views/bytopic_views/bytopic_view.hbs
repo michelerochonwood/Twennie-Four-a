@@ -14,7 +14,7 @@
         <div class="bytopic-library-units-grid">
           {{#each this.units}}
             <div class="bytopic-library-unit-card">
-              
+
               <!-- SVG Header -->
               <div class="bytopic-card-svg-header">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 198.89 17.83">
@@ -41,7 +41,7 @@
                   </svg>
                 </div>
 
-                <!-- Hidden Content (Initially Hidden) -->
+                <!-- Hidden Content (visible only in active card) -->
                 <div class="bytopic-hidden-content">
                   <div class="bytopic-author-label">AUTHOR</div>
 
@@ -60,9 +60,15 @@
                   <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
 
                   <div class="bytopic-unit-review-container">
-                    <a href="https://www.twennie.com/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
-                      review this unit
-                    </a>
+                    {{#if ../loggedIn}}
+                      <a href="https://www.twennie.com/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
+                        review this unit
+                      </a>
+                    {{else}}
+                      <button class="bytopic-unit-review-btn" disabled title="Please log in to access this unit.">
+                        login required
+                      </button>
+                    {{/if}}
                   </div>
                 </div>
               </div>
@@ -93,4 +99,5 @@
     }
   }
 </script>
+
 
