@@ -64,19 +64,17 @@
                   <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
 
                   <div class="bytopic-unit-review-container">
-                    {{#if ../loggedIn}}
-                      {{#if (or (eq ../accessLevel "paid") (eq ../accessLevel "contributor") (eq ../membershipType "group_member") (eq ../membershipType "leader"))}}
-                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
-                      {{else if (or (eq type "article") (eq type "video"))}}
-                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
-                      {{else}}
-                        <button class="bytopic-unit-review-btn" disabled title="Upgrade your membership to access this unit.">upgrade required</button>
-                      {{/if}}
-                    {{else}}
-                      <a class="bytopic-unit-review-btn disabled" title="Login required" style="pointer-events: none;">
-  login required
-</a>
-                    {{/if}}
+{{#if ../../loggedIn}}
+  {{#if (or (eq ../../accessLevel "paid") (eq ../../accessLevel "contributor") (eq ../../membershipType "group_member") (eq ../../membershipType "leader"))}}
+    <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
+  {{else if (or (eq type "article") (eq type "video"))}}
+    <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
+  {{else}}
+    <button class="bytopic-unit-review-btn" disabled title="Upgrade your membership to access this unit.">upgrade required</button>
+  {{/if}}
+{{else}}
+  <a class="bytopic-unit-review-btn disabled" title="Login required" style="pointer-events: none;">login required</a>
+{{/if}}
                   </div>
                 </div>
               </div>
