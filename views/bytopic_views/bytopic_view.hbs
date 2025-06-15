@@ -62,7 +62,7 @@
                   <div class="bytopic-unit-review-container">
                     {{#if ../../loggedIn}}
 
-                      {{!-- Full access members --}}
+                      {{!-- Full access: contributor, paid, group_member, leader --}}
                       {{#if (or (eq ../../accessLevel "paid")
                                  (eq ../../accessLevel "contributor")
                                  (eq ../../membershipType "group_member")
@@ -72,25 +72,25 @@
                           review this unit
                         </a>
 
-                      {{!-- Free members: only articles and videos --}}
+                      {{!-- Free member: allow only article and video --}}
                       {{else if (or (eq type "article") (eq type "video"))}}
 
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
                         </a>
 
-                      {{!-- Free member, restricted unit --}}
+                      {{!-- Free member trying to access restricted unit --}}
                       {{else}}
-                        <a class="bytopic-unit-review-btn disabled" style="pointer-events: none;" title="Access restricted to full members.">
-                          login required
-                        </a>
+                        <div class="bytopic-unit-review-btn disabled" title="This unit is not available with your current membership.">
+                          not available with your membership
+                        </div>
                       {{/if}}
 
                     {{!-- Not logged in --}}
                     {{else}}
-                      <a class="bytopic-unit-review-btn disabled" style="pointer-events: none;" title="Please log in to access this unit.">
+                      <div class="bytopic-unit-review-btn disabled" title="Please log in to access this unit.">
                         login required
-                      </a>
+                      </div>
                     {{/if}}
                   </div>
                 </div>
@@ -116,6 +116,7 @@
     if (arrow) arrow.classList.toggle('open');
   }
 </script>
+
 
 
 
