@@ -23,14 +23,18 @@
                 </svg>
               </div>
 
-              <!-- Card Content -->
+              <!-- Main Card Content -->
               <div class="bytopic-card-content">
-                <div class="bytopic-unit-type-icon-container">
-                  <img src="{{getUnitTypeIcon this.type}}" alt="Unit Type Icon" class="bytopic-unit-type-icon">
-                </div>
 
-                <div class="bytopic-unit-title-container">
-                  <h2 class="bytopic-unit-title">{{this.title}}</h2>
+                <!-- Top Content Always Visible -->
+                <div class="bytopic-visible-content">
+                  <div class="bytopic-unit-type-icon-container">
+                    <img src="{{getUnitTypeIcon this.type}}" alt="Unit Type Icon" class="bytopic-unit-type-icon">
+                  </div>
+
+                  <div class="bytopic-unit-title-container">
+                    <h2 class="bytopic-unit-title">{{this.title}}</h2>
+                  </div>
                 </div>
 
                 <!-- Expand Toggle -->
@@ -41,7 +45,7 @@
                   </svg>
                 </div>
 
-                <!-- Hidden Content -->
+                <!-- Hidden Expandable Content -->
                 <div class="bytopic-hidden-content">
                   <div class="bytopic-author-label">AUTHOR</div>
 
@@ -61,31 +65,15 @@
 
                   <div class="bytopic-unit-review-container">
                     {{#if ../loggedIn}}
-
-                      {{!-- If user is paid, contributor, group member, or leader --}}
                       {{#if (or (eq ../accessLevel "paid") (eq ../accessLevel "contributor") (eq ../membershipType "group_member") (eq ../membershipType "leader"))}}
-                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
-                          review this unit
-                        </a>
-
-                      {{!-- Free members: only allow videos and articles --}}
+                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
                       {{else if (or (eq type "article") (eq type "video"))}}
-                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
-                          review this unit
-                        </a>
-
-                      {{!-- Free members trying to access restricted units --}}
+                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
                       {{else}}
-                        <button class="bytopic-unit-review-btn" disabled title="Upgrade your membership to access this unit.">
-                          upgrade required
-                        </button>
+                        <button class="bytopic-unit-review-btn" disabled title="Upgrade your membership to access this unit.">upgrade required</button>
                       {{/if}}
-
-                    {{!-- Not logged in --}}
                     {{else}}
-                      <button class="bytopic-unit-review-btn" disabled title="Please log in to access this unit.">
-                        login required
-                      </button>
+                      <button class="bytopic-unit-review-btn" disabled title="Please log in to access this unit.">login required</button>
                     {{/if}}
                   </div>
                 </div>
@@ -95,9 +83,7 @@
         </div>
       {{else}}
         <div class="bytopic-empty-section-message">
-          {{#if this.emptyMessage}}
-            <p>{{this.emptyMessage}}</p>
-          {{/if}}
+          {{#if this.emptyMessage}}<p>{{this.emptyMessage}}</p>{{/if}}
         </div>
       {{/if}}
     {{/each}}
@@ -109,14 +95,11 @@
   function toggleCard(element) {
     const card = element.closest('.bytopic-library-unit-card');
     const arrow = element.querySelector('.bytopic-arrow-icon');
-
     card.classList.toggle('active');
-
-    if (arrow) {
-      arrow.classList.toggle('open');
-    }
+    if (arrow) arrow.classList.toggle('open');
   }
 </script>
+
 
 
 

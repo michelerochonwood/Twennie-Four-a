@@ -82,8 +82,8 @@ html, body {
 .bytopic-library-unit-card {
   background-color: #d0cfcf;
   border-radius: 10px;
-  overflow: hidden;
   height: 250px;
+  overflow: hidden;
   transition: height 0.4s ease;
   display: flex;
   flex-direction: column;
@@ -108,14 +108,25 @@ html, body {
 }
 
 
-/* === CARD CONTENT LAYOUT === */
+/* === CARD CONTENT === */
 
 .bytopic-card-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 4rem; /* offset from SVG header */
+  height: 100%;
+  padding-bottom: 2.5rem; /* space for toggle */
+  margin-top: 4rem;
+  position: relative;
+}
+
+.bytopic-visible-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
 }
 
 
@@ -142,12 +153,15 @@ html, body {
 /* === TOGGLE EXPAND ARROW === */
 
 .bytopic-expand-toggle {
-  margin-top: auto;
-  margin-bottom: 10px;
-  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 40px;
+  cursor: pointer;
   text-align: center;
   transition: transform 0.3s ease;
+  z-index: 2;
 }
 
 .bytopic-arrow-icon {
@@ -174,7 +188,7 @@ html, body {
 }
 
 
-/* === HIDDEN CONTENT STYLES === */
+/* === EXPANDED SECTION STYLES === */
 
 .bytopic-author-label {
   font-weight: 800;
@@ -219,7 +233,7 @@ html, body {
 }
 
 
-/* === REVIEW THIS UNIT BUTTON === */
+/* === REVIEW BUTTON === */
 
 .bytopic-unit-review-container {
   margin-top: 1.25rem;
@@ -235,7 +249,6 @@ html, body {
   text-decoration: none;
   border-radius: 1rem;
   transition: background-color 0.3s ease;
-  margin-bottom: 30px;
 }
 
 .bytopic-unit-review-btn:hover {
@@ -270,6 +283,7 @@ html, body {
   border-radius: 8px;
   width: 60%;
 }
+
 
 
 
