@@ -45,18 +45,30 @@
                 </div>
 
                 <!-- Expandable content -->
-                <div class="bytopic-hidden-content">
-                  <div class="bytopic-author-label">AUTHOR</div>
-                  <div class="bytopic-author-image-container">
-                    <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
-                  </div>
-                  <div class="bytopic-author-name-container">
-                    <span class="bytopic-author-name">{{this.authorName}}</span>
-                  </div>
-                  <div class="bytopic-unit-summary-container">
-                    <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
-                  </div>
-                  <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
+<div class="bytopic-hidden-content">
+  <div class="bytopic-author-label">AUTHOR</div>
+  <div class="bytopic-author-image-container">
+    <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
+  </div>
+  <div class="bytopic-author-name-container">
+    <span class="bytopic-author-name">{{this.authorName}}</span>
+  </div>
+  <div class="bytopic-unit-summary-container">
+    <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
+  </div>
+
+  {{#if (eq type "promptset")}}
+    <div class="bytopic-detail-value-purpose">
+      <strong>Purpose of this prompt set:</strong><br>
+      {{this.purpose}}
+    </div>
+  {{else}}
+    {{#if this.purpose}}
+      <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
+    {{/if}}
+  {{/if}}
+</div>
+
 
                   <!-- ACCESS CONTROL BUTTON -->
                   <div class="bytopic-unit-review-container">
