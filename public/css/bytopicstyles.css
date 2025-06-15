@@ -80,8 +80,9 @@ html, body {
 .bytopic-library-unit-card {
   background-color: #d0cfcf;
   border-radius: 10px;
-  overflow: visible;
-  transition: all 0.3s ease;
+  height: 350px; /* fixed height for all inactive cards */
+  overflow: hidden;
+  transition: height 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,7 +91,7 @@ html, body {
 }
 
 .bytopic-library-unit-card.active {
-  height: 2000px;
+  height: 2000px; /* only active card grows */
 }
 
 /* === HEADER WAVE SVG === */
@@ -290,6 +291,7 @@ html, body {
   border-radius: 8px;
   width: 60%;
 }
+
 
 
 
