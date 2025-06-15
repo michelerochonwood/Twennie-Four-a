@@ -23,15 +23,14 @@
                 </svg>
               </div>
 
-              <!-- Main Card Content -->
+              <!-- Card Content -->
               <div class="bytopic-card-content">
 
-                <!-- Top Content Always Visible -->
+                <!-- Always-visible content -->
                 <div class="bytopic-visible-content">
                   <div class="bytopic-unit-type-icon-container">
                     <img src="{{getUnitTypeIcon this.type}}" alt="Unit Type Icon" class="bytopic-unit-type-icon">
                   </div>
-
                   <div class="bytopic-unit-title-container">
                     <h2 class="bytopic-unit-title">{{this.title}}</h2>
                   </div>
@@ -45,36 +44,53 @@
                   </svg>
                 </div>
 
-                <!-- Hidden Expandable Content -->
+                <!-- Expandable content -->
                 <div class="bytopic-hidden-content">
                   <div class="bytopic-author-label">AUTHOR</div>
-
                   <div class="bytopic-author-image-container">
                     <img src="{{authorImage}}" alt="Author Image" class="bytopic-author-image">
                   </div>
-
                   <div class="bytopic-author-name-container">
                     <span class="bytopic-author-name">{{this.authorName}}</span>
                   </div>
-
                   <div class="bytopic-unit-summary-container">
                     <p class="bytopic-unit-long-summary">{{this.full_summary}}</p>
                   </div>
-
                   <div class="bytopic-detail-value-purpose">{{this.purpose}}</div>
 
                   <div class="bytopic-unit-review-container">
-{{#if ../../loggedIn}}
-  {{#if (or (eq ../../accessLevel "paid") (eq ../../accessLevel "contributor") (eq ../../membershipType "group_member") (eq ../../membershipType "leader"))}}
-    <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
-  {{else if (or (eq type "article") (eq type "video"))}}
-    <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">review this unit</a>
-  {{else}}
-    <button class="bytopic-unit-review-btn" disabled title="Upgrade your membership to access this unit.">upgrade required</button>
-  {{/if}}
-{{else}}
-  <a class="bytopic-unit-review-btn disabled" title="Login required" style="pointer-events: none;">login required</a>
-{{/if}}
+                    {{#if ../../loggedIn}}
+
+                      {{#if (or (eq ../../accessLevel "paid")
+                                 (eq ../../accessLevel "contributor")
+                                 (eq (toLowerCase ../../membershipType) "group_member")
+                                 (eq (toLowerCase ../../membershipType) "leader"))}}
+
+                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
+                          review this unit
+                        </a>
+
+                      {{else if (or (eq type "article") (eq type "video"))}}
+
+                        <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
+                          review this unit
+                        </a>
+
+                      {{else}}
+
+                        <button class="bytopic-unit-review-btn" disabled title="Upgrade your membership to access this unit.">
+                          upgrade required
+                        </button>
+
+                      {{/if}}
+
+                    {{else}}
+
+                      <a class="bytopic-unit-review-btn disabled" style="pointer-events: none;" title="Login required">
+                        login required
+                      </a>
+
+                    {{/if}}
                   </div>
                 </div>
               </div>
@@ -90,7 +106,6 @@
   </div>
 </div>
 
-<!-- Expand Toggle Script -->
 <script>
   function toggleCard(element) {
     const card = element.closest('.bytopic-library-unit-card');
@@ -99,6 +114,7 @@
     if (arrow) arrow.classList.toggle('open');
   }
 </script>
+
 
 
 
