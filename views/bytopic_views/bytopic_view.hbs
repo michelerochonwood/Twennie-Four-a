@@ -25,6 +25,7 @@
 
               <!-- Card Content -->
               <div class="bytopic-card-content">
+
                 <!-- Always-visible content -->
                 <div class="bytopic-visible-content">
                   <div class="bytopic-unit-type-icon-container">
@@ -60,6 +61,8 @@
                   <!-- ACCESS CONTROL BUTTON -->
                   <div class="bytopic-unit-review-container">
                     {{#if ../../loggedIn}}
+
+                      {{!-- Full access: leaders, group members, paid, contributor --}}
                       {{#if (or (eq ../../accessLevel "paid")
                                  (eq ../../accessLevel "contributor")
                                  (eq ../../membershipType "group_member")
@@ -69,19 +72,16 @@
                           review this unit
                         </a>
 
+                      {{!-- Free members: allow only article and video --}}
                       {{else if (or (eq type "article") (eq type "video"))}}
 
                         <a href="/unitviews/{{capitalize type}}s/view/{{_id}}" class="bytopic-unit-review-btn">
                           review this unit
                         </a>
 
-                      {{else}}
-
-                        <button class="bytopic-unit-review-btn" disabled title="Upgrade your membership to access this unit.">
-                          upgrade required
-                        </button>
-
                       {{/if}}
+
+                    {{!-- Not logged in --}}
                     {{else}}
                       <a class="bytopic-unit-review-btn disabled" style="pointer-events: none;" title="Login required">
                         login required
@@ -111,6 +111,7 @@
     if (arrow) arrow.classList.toggle('open');
   }
 </script>
+
 
 
 
