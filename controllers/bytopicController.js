@@ -227,7 +227,8 @@ res.render('bytopic_views/bytopic_view', {
   title: topic.title,
   shortSummary: topic.shortSummary,
   longSummary: topic.longSummary,
-  sectionedUnits
+  sectionedUnits,
+  loggedIn: !!req.session.user // this line enables the login check
 });
 
     } catch (error) {
