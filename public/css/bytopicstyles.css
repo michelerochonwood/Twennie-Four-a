@@ -34,6 +34,11 @@ html, body {
 
 
 /* BY TOPIC PAGE */
+
+.bytopic-library-unit-card {
+  max-height: none; /* allow full expansion because these cards are constantly cutting off content */
+}
+
 .bytopic-container {
   padding: 0 8%;
   box-sizing: border-box;
@@ -90,14 +95,13 @@ html, body {
   flex-direction: column;
   align-items: center;
   position: relative;
-  /* justify-content: space-between; */
+
   background-color: #d0cfcf;
   border-radius: 10px;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
   position: relative;
-  /* min-height: 250px; */
-  /* margin-bottom: 100px; */
+
   margin-bottom: 1rem;
   min-height: 350px;
   margin-bottom: 1.5rem;
@@ -115,10 +119,7 @@ html, body {
     overflow: hidden;
 }
 
-/* Ensure only the clicked card expands */
-.bytopic-library-unit-card.active {
-  height: fit-content;
-}
+
 
 /* SVG Header Styling */
 .bytopic-card-svg-header {
@@ -192,22 +193,17 @@ html, body {
 
 /* Initially Hidden Content */
 .bytopic-hidden-content {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  display: block;
+  max-height: 0;
   opacity: 0;
-  margin-top: 1rem;
   overflow: hidden;
-  height: auto;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
 }
 
 /* Show when active */
 .bytopic-library-unit-card.active .bytopic-hidden-content {
-  /* display: flex; */
+  max-height: 2000px; /* Arbitrary large value */
   opacity: 1;
-  overflow: visible;
 }
 
 /* Reduce hidden content size by 25% */
