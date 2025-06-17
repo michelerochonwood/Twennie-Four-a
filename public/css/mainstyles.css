@@ -2052,7 +2052,7 @@ html, body {
 .membership-price {
   font-family: 'Figtree', sans-serif;
   font-weight: 600;
-  color: orange;
+  color: green;
   font-size: 1.5rem;
   text-align: center;
   margin-top: auto; /* Pushes price to bottom if other content is shorter */
