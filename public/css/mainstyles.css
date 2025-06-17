@@ -2128,17 +2128,19 @@ html, body {
 
 
 .membership-image-container {
-  height: 160px; /* consistent space for all images */
+  width: 100%;
+  height: 160px; /* equal vertical space for all Blueys */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .membership-character-image {
-  width: 140px;
+  max-width: 100px;   /* cap the width */
+  max-height: 140px;  /* cap the height */
   height: auto;
-  max-height: 140px; /* cap tall images */
-  object-fit: contain; /* scales inside without distortion */
+  width: auto;
+  object-fit: contain;
   display: block;
   margin: 0 auto;
   transition: transform 0.3s ease-in-out;
